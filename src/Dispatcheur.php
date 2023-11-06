@@ -1,38 +1,46 @@
 <?php
 declare(strict_types=1);
+
 namespace iutnc\touiteur;
-require 'vendor/autoload.php';
-class Dispatcheur{
+
+require_once 'vendor/autoload.php';
+
+class Dispatcheur {
+
     private string $action;
-    private string $html;
-    function __construct(){
-        if (isset($_GET["action"])) $this->action = $_GET["action"];
-        else $this->action = "";
+    private string $html = "";
+
+    function __construct() {
+        if (isset($_GET["action"]))
+            $this->action = $_GET["action"];
+        else
+            $this->action = "";
     }
 
-    function run(){
-        $html="";
-        switch ($this->action){
+    function run() : void {
+        switch ($this->action) {
             default : 
-                $html = "coucou";
+                $this->html = "coucou";
         }
-        $this->renderer($html);
-
+        $this->renderer();
     }
 
-    function renderer(string $html) : void {
-        echo '
+    function renderer() : void {
+        echo <<<BEGINHTML
         <!DOCTYPE html>
-            <html lang="fr">
+        <html lang="fr">
             <meta charset="UTF-8">
             <title>Page Title</title>
             <meta name="viewport" content="width=device-width,initial-scale=1">
             <link rel="stylesheet" href="">
+
             <style>
             </style>
+
             <body>
-                '. $html .'
+                $this->html
             </body>
-            </html>';
+        </html>
+        BEGINHTML;
     }
 }
