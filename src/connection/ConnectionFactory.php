@@ -12,7 +12,7 @@ class ConnectionFactory {
         self::$tab = parse_ini_file($file);
     }
 
-    public static function makeConnection() : PDO {
+    public static function makeConnection() : mixed {
         $driver=self::$tab["driver"];
         $username=self::$tab["username"];
         $mdp=self::$tab["mdp"];
