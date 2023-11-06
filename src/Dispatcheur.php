@@ -23,11 +23,13 @@ class Dispatcheur {
             case "signin" : 
                 $this->html = (new SigninAction())->execute();
                 break;
-            default : 
-                $this->html = "coucou";
-                break;
+
             case "touit" :
                 $this->html = (new TouitAction())->execute();
+                break;
+
+            default : 
+                $this->html = "coucou";
                 break;
         }
         $this->renderer();
