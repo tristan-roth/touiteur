@@ -30,12 +30,19 @@ class SigninAction extends Action {
 
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
-            $mdp = password_hash($_POST["mdp"],1);
-            $email = @filter_var($_POST["nom"],FILTER_SANITIZE_EMAIL);
-            $data = $connexion->query("select email, passwd from user");       
+            $mdp = $_POST["mdp"];
+            $nom = @filter_var($_POST["nom"],FILTER_SANITIZE_STRING);
+            $data = $connexion->query("select utilisateur, passwd from user where utilisateur = '$nom'");
+            if ($data->rowCount()===0){
+                $html.= "<p>ce nom d'utilisateur n'existe pas. <a href=\"?action=signup\">Créez un compte</a> pour continuer</p>";
+            }    
             while ($res=$data->fetch()){
-                $html .= "<p>nom : {$res['email']}, mdp : {$res['passwd']}";
-            }
+                if (password_verify($mdp, $res['passwd'])) {
+                    echo "ca marche";
+                    session_start();
+                    $_SESSION["login"] = "$nom";
+                   }
+            } 
         }
         return $html;
     }
