@@ -1,14 +1,16 @@
 <?php
-namespace iutnc\touiter\action;
+namespace iutnc\touiteur\action;
 require_once "vendor/autoload.php";
-use iutnc\touiter\action\Action as Action;
+use iutnc\touiteur\action\Action as Action;
+use iutnc\touiteur\connect\ConnectionFactory;
 class SigninAction extends Action{
     public function __construct(){
         parent();
     }
 
-    static function execute() : boolean{
+    public function execute() : boolean{
         $method = $_SERVER["REQUEST_METHOD"];
+        $html="";
         if ($method === "GET"){
             $html = $html . "<h3>connexion : </h3>
             <form action id = signin method = \"POST\">
@@ -24,11 +26,8 @@ class SigninAction extends Action{
             $connexion = ConnectionFactory::makeConnection();
             echo $email . "   " . $mdp;
     
-                $data = $connexion->query("select email, passwd from db where email = $email and passwd = $mdp");
-                if ($data->rowCount()===1)
-                    return true;
-                else return false;
-        
+                $data = $connexion->query("select email, passwd from db where email = $email and passwd = $mdp");        
         }
+        return $html;
     }
 }
