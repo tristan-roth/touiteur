@@ -10,7 +10,7 @@ class SigninAction extends Action{
     static function execute() : boolean{
         $method = $_SERVER["REQUEST_METHOD"];
         if ($method === "GET"){
-            $html = $html . "<h3>connexion : </h3>
+            $html = this->$html . "<h3>connexion : </h3>
             <form action id = signin method = \"POST\">
             <input type = \"text\" id = \"mail\" name = \"mail\" placeholder = \"votre mail\">
             <input type = \"text\" id = \"mdp\" name = \"mdp\" placeholder = \"votre mot de passe\">
