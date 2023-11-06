@@ -20,7 +20,7 @@ class SigninAction extends Action {
             $html = <<<HTML
             <h3>connexion : </h3>
             <form action id=signin method ="POST">
-                <input type="text" id="mail" name="mail" placeholder ="votre mail">
+                <input type="text" id="nom" name="nom" placeholder ="votre mail">
                 <input type="text" id="mdp" name="mdp" placeholder ="votre mot de passe">
                 <button type="submit">Valider</button>
             </form>
@@ -31,10 +31,11 @@ class SigninAction extends Action {
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
             $mdp = password_hash($_POST["mdp"],1);
-            $email = filter_var($_POST["mail"],FILTER_SANITIZE_EMAIL);
-            echo $email . "   " . $mdp;
-    
-            $data = $connexion->query("select email, passwd from db where email = $email and passwd = $mdp");        
+            $email = @filter_var($_POST["nom"],FILTER_SANITIZE_STRING);
+            $data = $connexion->query("select email, passwd from user");       
+            while ($res=$data->fetch()){
+                $html .= "<p>email : {$res['email']}, mdp : {$res['passwd']}"; 
+            } 
         }
         return $html;
     }
