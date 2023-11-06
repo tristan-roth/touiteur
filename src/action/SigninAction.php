@@ -31,10 +31,10 @@ class SigninAction extends Action {
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
             $mdp = password_hash($_POST["mdp"],1);
-            $email = @filter_var($_POST["mail"],FILTER_SANITIZE_EMAIL);
+            $email = @filter_var($_POST["nom"],FILTER_SANITIZE_EMAIL);
             $data = $connexion->query("select email, passwd from user");       
             while ($res=$data->fetch()){
-                $html .= "<p>email : {$res['email']}, mdp : {$res['passwd']}"; 
+                $html .= "<p>nom : {$res['email']}, mdp : {$res['passwd']}";
             }
         }
         return $html;
