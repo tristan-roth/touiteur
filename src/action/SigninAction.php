@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace iutnc\touiteur\action;
 
 use iutnc\touiteur\action\Action;
-use iutnc\touiteur\connect\ConnectionFactory;
+use iutnc\touiteur\connection\ConnectionFactory;
 
 class SigninAction extends Action {
 
-    public function __construct(){
+    public function __construct() {
         parent::__construct();
     }
 
