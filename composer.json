@@ -1,0 +1,15 @@
+{
+    "name": "iutnc/touiteur",
+    "authors": [
+        {
+            "name": "LaheurteR",
+            "email": "97089676+LaheurteR@users.noreply.github.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "iutnc\\touiteur\\": "./src/"
+        }
+    }
+}
