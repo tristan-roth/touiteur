@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace iutnc\touiteur;
 require_once 'vendor/autoload.php';
 use iutnc\touiteur\action\SigninAction;
+use iutnc\touiteur\action\TouitAction;
 
 class Dispatcheur {
 
@@ -24,6 +25,10 @@ class Dispatcheur {
                 break;
             default : 
                 $this->html = "coucou";
+                break;
+            case "touit" :
+                $this->html = (new TouitAction())->execute();
+                break;
         }
         $this->renderer();
     }
@@ -42,6 +47,7 @@ class Dispatcheur {
 
             <body>
                 <a href="?action=signin">se connecter</a>
+                <a href="?action=touit">touiter</a>
                 $this->html
             </body>
         </html>
