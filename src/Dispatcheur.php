@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace iutnc\touiteur;
 
 require_once 'vendor/autoload.php';
+use iutnc\touiteur\action\SigninAction as SigninAction;
 
 class Dispatcheur {
 
@@ -19,6 +20,8 @@ class Dispatcheur {
 
     function run() : void {
         switch ($this->action) {
+            case "signin" : 
+                (new SigninAction)->execute();
             default : 
                 $this->html = "coucou";
         }
@@ -38,6 +41,7 @@ class Dispatcheur {
             </style>
 
             <body>
+                <a href="?action=signin">se connecter</a>
                 $this->html
             </body>
         </html>
