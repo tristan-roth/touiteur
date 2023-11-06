@@ -20,7 +20,8 @@ class Dispatcheur {
     function run() : void {
         switch ($this->action) {
             case "signin" : 
-                (new SigninAction())->execute();
+                $this->html = (new SigninAction())->execute();
+                break;
             default : 
                 $this->html = "coucou";
         }
