@@ -22,7 +22,7 @@ class SigninAction extends Action {
             <h3>connexion : </h3>
             <form action id=signin method ="POST">
                 <input type="text" id="nom" name="nom" placeholder="votre nom d'utilisateur">
-                <input type="text" id="mdp" name="mdp" placeholder="votre mot de passe">
+                <input type="text" id="mdp" name="passwd" placeholder="votre mot de passe">
                 <button type="submit">Valider</button>
             </form>
             HTML;
