@@ -20,8 +20,8 @@ class SigninAction extends Action {
             $html = <<<HTML
             <h3>connexion : </h3>
             <form action id=signin method ="POST">
-                <input type="text" id="nom" name="nom" placeholder ="votre mail">
-                <input type="text" id="mdp" name="mdp" placeholder ="votre mot de passe">
+                <input type="text" id="nom" name="nom" placeholder="votre nom d'utilisateur">
+                <input type="text" id="mdp" name="mdp" placeholder="votre mot de passe">
                 <button type="submit">Valider</button>
             </form>
             HTML;
@@ -35,6 +35,7 @@ class SigninAction extends Action {
             $data = $connexion->query("select utilisateur, passwd from user where utilisateur = '$nom'");
             if ($data->rowCount()===0){
                 $html.= "<p>ce nom d'utilisateur n'existe pas. <a href=\"?action=signup\">Créez un compte</a> pour continuer</p>";
+<<<<<<< Updated upstream
             }    
             while ($res=$data->fetch()){
                 if (password_verify($mdp, $res['passwd'])) {
@@ -42,6 +43,20 @@ class SigninAction extends Action {
                     session_start();
                     $_SESSION["login"] = "$nom";
                    }
+=======
+            }
+            else{
+                while ($res=$data->fetch()){
+                    if (password_verify($mdp, $res['passwd'])) {
+                        session_start();
+                        $_SESSION["login"] = "$nom";
+                        $html.="<h1>Vous êtes maintenant connectés</h1>";
+                    }
+                    else{
+                        $html.="<h1>Les informations ne correspondent pas</h1>";
+                    }
+                }
+>>>>>>> Stashed changes
             } 
         }
         return $html;

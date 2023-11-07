@@ -5,6 +5,7 @@ namespace iutnc\touiteur;
 require_once 'vendor/autoload.php';
 use iutnc\touiteur\action\SigninAction;
 use iutnc\touiteur\action\TouitAction;
+use iutnc\touiteur\action\SignupAction;
 
 class Dispatcheur {
 
@@ -21,11 +22,25 @@ class Dispatcheur {
     function run() : void {
         switch ($this->action) {
             case "signin" : 
-                $this->html = (new SigninAction())->execute();
+                $this->html.= (new SigninAction())->execute();
+                break;
+
+<<<<<<< Updated upstream
+            case "touit" :
+                $this->html = (new TouitAction())->execute();
+=======
+            case "signup" :
+                $this->html.= (new SignupAction())->execute();
                 break;
 
             case "touit" :
-                $this->html = (new TouitAction())->execute();
+                if (isset($_SESSION["login"])){
+                    $this->html.= (new TouitAction())->execute();
+                }
+                else{
+                    $this->html.="<h1>Veuillez vous connecter pour touiter</h1>" . (new SigninAction())->execute();
+                }
+>>>>>>> Stashed changes
                 break;
 
             default : 
@@ -46,10 +61,12 @@ class Dispatcheur {
 
             <style>
             </style>
-
+            <header>
+            </header>
             <body>
                 <a href="?action=signin">se connecter</a>
                 <a href="?action=touit">touiter</a>
+                <a href="?action=signup">s'inscrire</a>
                 $this->html
             </body>
         </html>
