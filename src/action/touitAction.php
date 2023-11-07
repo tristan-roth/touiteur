@@ -5,6 +5,7 @@ namespace iutnc\touiteur\action;
 
 use iutnc\touiteur\action\Action;
 use iutnc\touiteur\connection\ConnectionFactory;
+use iutnc\touiteur\action\AfficheListeTouites;
 
 class TouitAction extends Action{
 
@@ -55,15 +56,19 @@ class TouitAction extends Action{
             $id = $res['id']+1;
             if (!isset($file))
                 $file = "null";
+
             if ($_POST["touit"] != "") {
                 $data = $connexion->prepare("insert into touit(id, message, dateTouit, rating, image, utilisateur) values (?,?, sysdate(), ?, ?, ?)");
                 $message = $_POST["touit"];
                 $data->execute(array($id, $message, 0, $file, $_SESSION["login"]));
                 $data->closeCursor();
+                $html.= (new \iutnc\touiteur\action\AfficheListeTouites())->execute();
             }
             else{
                 $html.="<p>Vous ne pouvez pas envoyer un touit vide</p>";
             }
+
+
         }
         return $html;
     }

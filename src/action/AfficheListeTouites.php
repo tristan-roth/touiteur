@@ -18,7 +18,7 @@ class AfficheListeTouites extends Action {
                 $html .= "<img src='upload/".$res['image']."' width='300px' ><br>";
             
             $html .= <<<HTML
-                <form action="noter_touite.php" method="post">
+                <form action="index.php" method="post">
                     <input type="submit" name="action" value="like">
                     <input type="submit" name="action" value="dislike">
                 </form>
