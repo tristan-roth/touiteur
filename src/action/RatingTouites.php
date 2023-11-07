@@ -23,7 +23,7 @@ class RatingTouites extends Action {
             header("Location: accueil.php");
             exit;
         }
-
+        unset($connexion);
         return "fqidhfonaqdifji";
     }
 }

@@ -44,7 +44,7 @@ class AfficheTouite extends Action{
                 </form>
             HTML;
         }
-
+        unset($connexion);
         return $html;
     }
 }

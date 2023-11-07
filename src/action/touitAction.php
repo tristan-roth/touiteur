@@ -105,11 +105,12 @@ class TouitAction extends Action
                     $data->execute([$id_touit, $id_uti]);
                     $html .= (new AfficheListeTouites())->execute();
                 } else {
-                    $html .= "<p>Vous ne pouvez pas envoyer un touit vide</p>";
-                    return $html .= $this->execute();
+                    $html .= "<h2>Vous ne pouvez pas envoyer un touit vide</h2>";
+                    return $html .= (new AfficheListeTouites)->execute();
                 }
             }
         }
+        unset($connexion);
         return $html;
     }
 }
