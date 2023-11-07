@@ -81,7 +81,7 @@ class Dispatcheur {
                 <a href="index.php">Accueil</a>
                 <a href="?action=touit">touiter</a>
                 $copaco
-                <a href="?action=detail">$this->html</a> 
+                $this->html
             </body>
         </html>
         BEGINHTML;
