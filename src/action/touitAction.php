@@ -50,15 +50,13 @@ class TouitAction extends Action{
                     $file = $uniqueName.".".$extension;
                     move_uploaded_file($tmpName, 'upload/'.$file);
                 }
-                else{
-                    echo "Erreur frérot";
-                }
             }
 
             $dataId = $connexion->query("select max(id) as id from touit");
             $res = $dataId->fetch();
             $id = $res['id']+1;
-
+            if (!isset($file))
+                $file = "null";
             $data = $connexion->prepare("insert into touit(id, message, dateTouit, rating, image, utilisateur) values (?,?, sysdate(), ?, ?, ?)");
             $message = $_POST["touit"];
             $data->execute(array($id, $message, 0, $file, $_SESSION["login"]));
