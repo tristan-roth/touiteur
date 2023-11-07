@@ -15,16 +15,16 @@ class AfficheListeTouites extends Action {
         $id = 0;
         while ($res=$data->fetch()){
             $message = htmlspecialchars($res['message_text']);
-            $html = '<a href="?action=detail&id='.$id.'">';
+            $html .= '<a href="?action=detail&id='.$id.'">';
             $id++;
             $html .= "<p>$message</p>";
-            if ($res['image'] !== "null"){
+            if ($res['image'] !== null){
                 $element = explode(".",$res['image']);
                 switch($element[count($element)-1]){
                     case "mp4" :
                         $html.='<video controls width="250">
                         <source src="upload/'.$res['image'].'" type="video/mp4" />
-                        <a href=""upload/'.$res['image'].'"></a>
+                        <a href="upload/'.$res['image'].'"></a>
                         </video>';
                         $html .= "</a>";
                         break;
