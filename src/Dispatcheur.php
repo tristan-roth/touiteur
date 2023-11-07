@@ -64,8 +64,8 @@ class Dispatcheur {
         if (isset($_SESSION["login"])){
             $copaco = '<a href="?action=deconnecter">se déconnecter</a>';
         }
-        else $copaco = '<a href="?action=signin">se connecter</a>
-                        <a href="?action=signup">s\'inscrire</a>';
+        else $copaco = '<a href="?action=signin">Sign In</a>
+                        <a href="?action=signup">Sign Up</a>';
         echo <<<BEGINHTML
         <!DOCTYPE html>
         <html lang="fr">
@@ -76,12 +76,28 @@ class Dispatcheur {
             <meta name="viewport" content="width=device-width,initial-scale=1">
             <link rel="stylesheet" type='text/css' href="CSS/style.css">
         </head>
-            <header>
-            </header>
             <body>
-                <a href="index.php">Accueil</a>
-                <a href="?action=touit">touiter</a>
-                $copaco
+                <header>
+                    <nav class="menu-gauche">
+                        $copaco
+                    </nav>
+                    <h1><a href="index.php">Touiteur</a></h1>
+                    <nav class="menu-droite">
+                            <a href="?action=deconnecter">Se déconnecter</a>
+                    </nav>
+                </header>
+                
+        <main class="contenu">
+            <section class="touites">
+            </section>
+            <section class="publier-touite">
+                    <form action="?action=touit" method="POST" enctype="multipart/form-data">
+                        <input type="text" name="touit" placeholder="Votre touite" autocomplete="off">
+                        <input type="file" name="image" accept="image/*">
+                        <button type="submit">Touiter</button>
+                    </form>
+            </section>
+        </main>
                 $this->html
             </body>
         </html>
