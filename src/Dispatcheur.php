@@ -9,6 +9,7 @@ use iutnc\touiteur\action\SigninAction;
 use iutnc\touiteur\action\TouitAction;
 use iutnc\touiteur\action\SignupAction;
 use iutnc\touiteur\action\DeconnexionAction;
+use iutnc\touiteur\action\AfficheTouite;
 
 class Dispatcheur {
 
@@ -44,7 +45,7 @@ class Dispatcheur {
                 break;
 
             case "detail" :
-                $this->html.= (new AfficheTouite())->execute();
+                //$this->html.= (new AfficheTouite())->execute();
                 break;
 
             case "deconnecter" :
@@ -81,7 +82,7 @@ class Dispatcheur {
                 <a href="index.php">Accueil</a>
                 <a href="?action=touit">touiter</a>
                 $copaco
-                <a href="?action=detail">$this->html</a> 
+                $this->html
             </body>
         </html>
         BEGINHTML;
