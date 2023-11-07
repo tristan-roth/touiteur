@@ -23,8 +23,7 @@ class AfficheListeTouites extends Action {
                       
                       
                         Download the
-                        <a href=""upload/'.$res['image'].'">MP4</a>
-                        video.
+                        <a href=""upload/'.$res['image'].'"></a>
                         </video>';
                         break;
                     default :
