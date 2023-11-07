@@ -22,7 +22,9 @@ class SignupAction extends Action
             $html = <<<HTML
 <h3>Inscription : </h3>
 <form action id=signup method ="POST">
-    <input type="text" id="nom" name="nom" placeholder="votre nom d'utilisateur">
+    <input type="text" id="nom" name="nom" placeholder="votre nom">
+    <input type="text" id="prenom" name="prenom" placeholder="votre prénom">
+    <input type="text" id="uti" name="uti" placeholder="votre nom d'utilisateur">
     <input type="text" id="mdp" name="mdp" placeholder="votre mot de passe">
     <button type="submit">Valider</button>
 </form>
@@ -38,11 +40,17 @@ HTML;
                 $mdpHash = password_hash($_POST["mdp"], PASSWORD_DEFAULT, [
                     "cost" => 12,
                 ]);
+                $uti = @filter_var($_POST["uti"], FILTER_SANITIZE_STRING);
                 $nom = @filter_var($_POST["nom"], FILTER_SANITIZE_STRING);
+                $prenom = @filter_var($_POST["prenom"], FILTER_SANITIZE_STRING);
+                if ($uti==="" ||$nom==="" ||$prenom==="" ){
+                    $html.="<h2>Remplissez tous les champs</h2>";
+                }
+                else{
                 $data = $connexion->prepare(
-                    "select utilisateur, passwd from utilisateur where utilisateur = ?"
+                    "select utilisateur from utilisateur where utilisateur = ?"
                 );
-                $data->bindParam(1,$nom);
+                $data->bindParam(1,$uti);
                 $data->execute();
                 if ($data->rowCount() !== 0) {
                     $html .=
@@ -50,16 +58,17 @@ HTML;
                 } else {
                     try {
                         $data=$connexion->prepare(
-                            "insert into utilisateur (utilisateur,passwd,nbSuivis,nbSuiveurs) values (?,?,0,0)"
+                            "insert into utilisateur (utilisateur,passwd,nom,prenom,nbSuivis,nbSuiveurs) values (?,?,?,?,0,0)"
                         );
-                        $data->execute(array($nom,$mdpHash,));
-                        $_SESSION["login"] = $nom;
+                        $data->execute(array($uti,$mdpHash,$nom,$prenom));
+                        $_SESSION["login"] = $uti;
                         $html .= "<p>Votre compte a été créé, voys y êtes maintenant connectés</p>";
                     } catch (SQLException) {
                         $html .= "<p>une erreur est survenue</p>";
                     }
                 }
             }
+        }
         }
         return $html;
     }
