@@ -63,9 +63,22 @@ class Dispatcheur {
     function renderer() : void {
         if (isset($_SESSION["login"])){
             $copaco = '<a href="?action=deconnecter">se déconnecter</a>';
+
+            $petitMenu=<<<BEGIN
+                    <form action="?action=touit" method="POST" enctype="multipart/form-data">
+                        <input type="text" name="touit" placeholder="Votre touite" autocomplete="off">
+                        <input type="file" name="image" accept="image/*">
+                        <button type="submit">Touiter</button>
+                    </form>
+                    BEGIN;
         }
         else {$copaco = '<a href="?action=signin">Sign In</a>
                         <a href="?action=signup">Sign Up</a>';
+            $petitMenu =<<<BEGIN
+                    <form action="?action=touit" method="GET" enctype="multipart/form-data">
+                        <button type="submit">Touiter</button>
+                    </form>
+                    BEGIN;
         }
 
         echo <<<BEGINHTML
@@ -92,11 +105,7 @@ class Dispatcheur {
             <section class="touites">
             </section>
             <section class="publier-touite">
-                    <form action="?action=touit" method="POST" enctype="multipart/form-data">
-                        <input type="text" name="touit" placeholder="Votre touite" autocomplete="off">
-                        <input type="file" name="image" accept="image/*">
-                        <button type="submit">Touiter</button>
-                    </form>
+                    $petitMenu
             </section>
         </main>
                 $this->html

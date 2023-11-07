@@ -41,6 +41,7 @@ class AfficheListeTouites extends Action {
             HTML;
          }
         }
+        unset($connexion);
         return $html;
     }
 }
