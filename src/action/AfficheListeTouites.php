@@ -9,7 +9,7 @@ class AfficheListeTouites extends Action {
     {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $data = $connexion->query("select message_text, images.image_path as image from touits inner join images on touits.id_image = images.id_image
+        $data = $connexion->query("select message_text, images.image_path as image from touits left join images on touits.id_image = images.id_image
                                      order by touits.id_touit desc");
         $html ='';
         $id = 0;

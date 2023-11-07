@@ -64,8 +64,10 @@ class Dispatcheur {
         if (isset($_SESSION["login"])){
             $copaco = '<a href="?action=deconnecter">se déconnecter</a>';
         }
-        else $copaco = '<a href="?action=signin">Sign In</a>
+        else {$copaco = '<a href="?action=signin">Sign In</a>
                         <a href="?action=signup">Sign Up</a>';
+        }
+
         echo <<<BEGINHTML
         <!DOCTYPE html>
         <html lang="fr">
@@ -83,7 +85,6 @@ class Dispatcheur {
                     </nav>
                     <h1><a href="index.php">Touiteur</a></h1>
                     <nav class="menu-droite">
-                            <a href="?action=deconnecter">Se déconnecter</a>
                     </nav>
                 </header>
                 
