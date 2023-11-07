@@ -45,7 +45,7 @@ class Dispatcheur {
                 break;
 
             case "detail" :
-                //$this->html.= (new AfficheTouite())->execute();
+                $this->html.= (new AfficheTouite())->execute();
                 break;
 
             case "deconnecter" :

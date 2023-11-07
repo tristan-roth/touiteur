@@ -10,12 +10,16 @@ class AfficheTouite extends Action{
     {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $data = $connexion->query("select message_text, date_touit, rating_touit, images.images_path, users.id_user as image from touits 
+        $data = $connexion->query("select message_text, date_touit, rating, images.image_path as image, touitsutilisateur.id_utilisateur as id_user from touits 
                                     inner join images on touits.id_image = images.id_image
-                                    inner join users on touits.id_user = users.id_user
+                                    inner join touitsutilisateur on touits.id_touit = touitsutilisateur.id_touit
                                     order by touits.id_touit desc");
         $html = "";
+        var_dump($data);
+        var_dump($data->fetch());
         while ($res=$data->fetch()){
+            echo 'coucou';
+            var_dump($res['id_user']);
             $message = htmlspecialchars($res['message_text']);
             $html .= "<p>$message</p>";
             if ($res['image'] !== "null"){

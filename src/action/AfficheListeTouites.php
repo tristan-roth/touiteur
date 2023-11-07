@@ -11,9 +11,12 @@ class AfficheListeTouites extends Action {
         $connexion = ConnectionFactory::makeConnection();
         $data = $connexion->query("select message_text, images.image_path as image from touits inner join images on touits.id_image = images.id_image
                                      order by touits.id_touit desc");
-        $html = "";
+        $html ='';
+        $id = 0;
         while ($res=$data->fetch()){
             $message = htmlspecialchars($res['message_text']);
+            $html = '<a href="?action=detail&id='.$id.'">';
+            $id++;
             $html .= "<p>$message</p>";
             if ($res['image'] !== "null"){
                 $element = explode(".",$res['image']);
@@ -23,9 +26,11 @@ class AfficheListeTouites extends Action {
                         <source src="upload/'.$res['image'].'" type="video/mp4" />
                         <a href=""upload/'.$res['image'].'"></a>
                         </video>';
+                        $html .= "</a>";
                         break;
                     default :
                         $html .= "<img src='upload/".$res['image']."' width='300px' ><br>";
+                        $html .= "</a>";
                 }
             
             
