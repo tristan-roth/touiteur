@@ -25,7 +25,7 @@ class SignupAction extends Action
     <input type="text" id="nom" name="nom" placeholder="votre nom">
     <input type="text" id="prenom" name="prenom" placeholder="votre prénom">
     <input type="text" id="uti" name="uti" placeholder="votre nom d'utilisateur">
-    <input type="text" id="mdp" name="mdp" placeholder="votre mot de passe">
+    <input type="password" id="mdp" name="mdp" placeholder="votre mot de passe">
     <button type="submit">Valider</button>
 </form>
 HTML;

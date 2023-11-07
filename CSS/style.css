@@ -80,6 +80,10 @@ img, video {
     margin: 10px auto;
 }
 
+button #follow{
+    text-align: right;
+}
+
 /* Style des boutons like et dislike */
 form input[type="submit"] {
     background-color: #1da1f2;

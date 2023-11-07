@@ -15,8 +15,7 @@ class AfficheTouite extends Action{
                                     left join images on touits.id_image = images.id_image
                                     inner join touitsutilisateur on touits.id_touit = touitsutilisateur.id_touit
                                     inner join utilisateur on touitsutilisateur.id_utilisateur = utilisateur.id_utilisateur
-                                    where touits.id_touit = $id
-                                    order by touits.id_touit desc");
+                                    where touits.id_touit = $id");
         $html = "";
         while ($res=$data->fetch()){
             $message = htmlspecialchars($res['message_text']);
