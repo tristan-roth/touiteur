@@ -33,7 +33,7 @@ class Dispatcheur {
                 break;
 
             case "touit" :
-                if (isset($_SESSION["login"])){
+                if (session_id()){
                     $this->html.= (new TouitAction())->execute();
                 }
                 else{
@@ -42,8 +42,8 @@ class Dispatcheur {
                 break;
 
             default : 
-                //$this->html = (new AfficheListeTouites())->execute();
-                
+                $this->html = (new AfficheListeTouites())->execute();
+
                 break;
         }
         $this->renderer();
@@ -63,10 +63,10 @@ class Dispatcheur {
             <header>
             </header>
             <body>
+                <a href="index.php">Accueil</a>
                 <a href="?action=signin">se connecter</a>
-                <a href="?action=touit">touiter</a>
                 <a href="?action=signup">s'inscrire</a>
-                <a href="index.php">Acceuil</a>
+                <a href="?action=touit">touiter</a>
                 $this->html
             </body>
         </html>
