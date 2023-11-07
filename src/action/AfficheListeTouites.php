@@ -35,8 +35,8 @@ class AfficheListeTouites extends Action {
                     <input type="submit" name="action" value="dislike">
                 </form>
             HTML;
+         }
         }
-    }
         return $html;
     }
 }
