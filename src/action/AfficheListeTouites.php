@@ -9,17 +9,16 @@ class AfficheListeTouites extends Action {
     {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $data = $connexion->query("select id, message from touit");
+        $data = $connexion->query("select message, image from touit");
         $html = "";
         while ($res=$data->fetch()){
-            $touiteId = $res['id'];
             $message = htmlspecialchars($res['message']);
-
             $html .= "<p>$message</p>";
-
+            if ($res['image'] != "null")
+                $html .= "<img src='upload/".$res['image']."' width='300px' ><br>";
+            var_dump($res['image']);
             $html .= <<<HTML
                 <form action="index.php" method="post">
-                    <input type="hidden" name="touiteId" value="$touiteId">
                     <input type="submit" name="action" value="like">
                     <input type="submit" name="action" value="dislike">
                 </form>
