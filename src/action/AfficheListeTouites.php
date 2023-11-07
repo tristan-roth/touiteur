@@ -16,7 +16,7 @@ class AfficheListeTouites extends Action {
             $html .= "<p>$message</p>";
             if ($res['image'] != "null")
                 $html .= "<img src='upload/".$res['image']."' width='300px' ><br>";
-            var_dump($res['image']);
+            
             $html .= <<<HTML
                 <form action="noter_touite.php" method="post">
                     <input type="submit" name="action" value="like">

@@ -31,9 +31,7 @@ class TouitAction extends Action{
             $connexion = ConnectionFactory::makeConnection();
 
             //recupérer un fichier
-            echo "coucou";
             if (isset($_FILES['image'])) {
-                echo "coucou";
                 $tmpName = $_FILES['image']['tmp_name'];
                 $name = $_FILES['image']['name'];
                 $size = $_FILES['image']['size'];
@@ -57,10 +55,15 @@ class TouitAction extends Action{
             $id = $res['id']+1;
             if (!isset($file))
                 $file = "null";
-            $data = $connexion->prepare("insert into touit(id, message, dateTouit, rating, image, utilisateur) values (?,?, sysdate(), ?, ?, ?)");
-            $message = $_POST["touit"];
-            $data->execute(array($id, $message, 0, $file, $_SESSION["login"]));
-            $data->closeCursor();
+            if ($_POST["touit"] != "") {
+                $data = $connexion->prepare("insert into touit(id, message, dateTouit, rating, image, utilisateur) values (?,?, sysdate(), ?, ?, ?)");
+                $message = $_POST["touit"];
+                $data->execute(array($id, $message, 0, $file, $_SESSION["login"]));
+                $data->closeCursor();
+            }
+            else{
+                $html.="<p>Vous ne pouvez pas envoyer un touit vide</p>";
+            }
         }
         return $html;
     }
