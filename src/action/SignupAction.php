@@ -62,7 +62,7 @@ HTML;
                         );
                         $data->execute(array($uti,$mdpHash,$nom,$prenom));
                         $_SESSION["login"] = $uti;
-                        $html .= "<p>Votre compte a été créé, voys y êtes maintenant connectés</p>";
+                        $html .= "<p>Votre compte a été créé, vous y êtes maintenant connectés</p>";
                     } catch (SQLException) {
                         $html .= "<p>une erreur est survenue</p>";
                     }

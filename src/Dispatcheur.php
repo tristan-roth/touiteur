@@ -75,7 +75,7 @@ class Dispatcheur {
         else {$copaco = '<a href="?action=signin">Sign In</a>
                         <a href="?action=signup">Sign Up</a>';
             $petitMenu =<<<BEGIN
-                    <form action="?action=touit" method="GET" enctype="multipart/form-data">
+                    <form action="?action=signin" method="GET" enctype="multipart/form-data">
                         <button type="submit">Touiter</button>
                     </form>
                     BEGIN;
