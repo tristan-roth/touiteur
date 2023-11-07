@@ -8,6 +8,7 @@ use iutnc\touiteur\action\AfficheListeTouites;
 use iutnc\touiteur\action\SigninAction;
 use iutnc\touiteur\action\TouitAction;
 use iutnc\touiteur\action\SignupAction;
+use iutnc\touiteur\action\DeconnexionAction;
 
 class Dispatcheur {
 
@@ -23,6 +24,7 @@ class Dispatcheur {
     }
 
     function run() : void {
+        if (!isset($_SESSION)) session_start();
         switch ($this->action) {
             case "signin" : 
                 $this->html.= (new SigninAction())->execute();
@@ -33,7 +35,7 @@ class Dispatcheur {
                 break;
 
             case "touit" :
-                if (isset($_SESSION["login"])){
+                if(isset($_SESSION["login"])){
                     $this->html.= (new TouitAction())->execute();
                 }
                 else{
@@ -41,15 +43,24 @@ class Dispatcheur {
                 }
                 break;
 
+            case "deconnecter" :
+                $this->html.=(new DeconnexionAction)->execute();
+                break;
+
             default : 
-                //$this->html = (new AfficheListeTouites())->execute();
-                
+                $this->html .= (new AfficheListeTouites())->execute();
+
                 break;
         }
         $this->renderer();
     }
 
     function renderer() : void {
+        if (isset($_SESSION["login"])){
+            $copaco = '<a href="?action=deconnecter">se déconnecter</a>';
+        }
+        else $copaco = '<a href="?action=signin">se connecter</a>
+                        <a href="?action=signup">s\'inscrire</a>';
         echo <<<BEGINHTML
         <!DOCTYPE html>
         <html lang="fr">
@@ -63,10 +74,9 @@ class Dispatcheur {
             <header>
             </header>
             <body>
-                <a href="?action=signin">se connecter</a>
+                <a href="index.php">Accueil</a>
                 <a href="?action=touit">touiter</a>
-                <a href="?action=signup">s'inscrire</a>
-                <a href="index.php">Acceuil</a>
+                $copaco
                 $this->html
             </body>
         </html>
