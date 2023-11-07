@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace iutnc\touiteur;
 require_once 'vendor/autoload.php';
+
+use iutnc\touiteur\action\AfficheListeTouites;
 use iutnc\touiteur\action\SigninAction;
 use iutnc\touiteur\action\TouitAction;
 use iutnc\touiteur\action\SignupAction;
@@ -10,13 +12,14 @@ use iutnc\touiteur\action\SignupAction;
 class Dispatcheur {
 
     private string $action;
-    private string $html = "";
+    private string $html;
 
     function __construct() {
         if (isset($_GET["action"]))
             $this->action = $_GET["action"];
         else
             $this->action = "";
+        $this->html = "";
     }
 
     function run() : void {
@@ -25,10 +28,6 @@ class Dispatcheur {
                 $this->html.= (new SigninAction())->execute();
                 break;
 
-<<<<<<< Updated upstream
-            case "touit" :
-                $this->html = (new TouitAction())->execute();
-=======
             case "signup" :
                 $this->html.= (new SignupAction())->execute();
                 break;
@@ -40,11 +39,11 @@ class Dispatcheur {
                 else{
                     $this->html.="<h1>Veuillez vous connecter pour touiter</h1>" . (new SigninAction())->execute();
                 }
->>>>>>> Stashed changes
                 break;
 
             default : 
-                $this->html = "coucou";
+                //$this->html = (new AfficheListeTouites())->execute();
+                
                 break;
         }
         $this->renderer();
@@ -67,6 +66,7 @@ class Dispatcheur {
                 <a href="?action=signin">se connecter</a>
                 <a href="?action=touit">touiter</a>
                 <a href="?action=signup">s'inscrire</a>
+                <a href="index.php">Acceuil</a>
                 $this->html
             </body>
         </html>

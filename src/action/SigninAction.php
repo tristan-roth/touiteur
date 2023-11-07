@@ -35,15 +35,6 @@ class SigninAction extends Action {
             $data = $connexion->query("select utilisateur, passwd from user where utilisateur = '$nom'");
             if ($data->rowCount()===0){
                 $html.= "<p>ce nom d'utilisateur n'existe pas. <a href=\"?action=signup\">Créez un compte</a> pour continuer</p>";
-<<<<<<< Updated upstream
-            }    
-            while ($res=$data->fetch()){
-                if (password_verify($mdp, $res['passwd'])) {
-                    echo "ca marche";
-                    session_start();
-                    $_SESSION["login"] = "$nom";
-                   }
-=======
             }
             else{
                 while ($res=$data->fetch()){
@@ -56,7 +47,6 @@ class SigninAction extends Action {
                         $html.="<h1>Les informations ne correspondent pas</h1>";
                     }
                 }
->>>>>>> Stashed changes
             } 
         }
         return $html;
