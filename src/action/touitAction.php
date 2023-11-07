@@ -31,11 +31,13 @@ class TouitAction extends Action{
             $connexion = ConnectionFactory::makeConnection();
 
             //recupérer un fichier
-            if (isset($_FILES['file'])) {
-                $tmpName = $_FILES['file']['tmp_name'];
-                $name = $_FILES['file']['name'];
-                $size = $_FILES['file']['size'];
-                $error = $_FILES['file']['error'];
+            echo "coucou";
+            if (isset($_FILES['image'])) {
+                echo "coucou";
+                $tmpName = $_FILES['image']['tmp_name'];
+                $name = $_FILES['image']['name'];
+                $size = $_FILES['image']['size'];
+                $error = $_FILES['image']['error'];
 
                 $tabExtension = explode('.', $name);
                 $extension = strtolower(end($tabExtension));
@@ -46,19 +48,21 @@ class TouitAction extends Action{
                     $uniqueName = uniqid('', true);
                     //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
                     $file = $uniqueName.".".$extension;
-                    //move_uploaded_file($tmpName, 'upload/'.$file);
+                    move_uploaded_file($tmpName, 'upload/'.$file);
                 }
                 else{
                     echo "Erreur frérot";
                 }
             }
 
-            $dataId = $connexion->query("select max(id)+1 from touit");
-            $id = $dataId->fetch();
+            $dataId = $connexion->query("select max(id) as id from touit");
+            $res = $dataId->fetch();
+            $id = $res['id']+1;
 
-            $data = $connexion->prepare("insert into touit(id, message, dateTouit, rating, image, utilisateur) values (?,?, ?, ?, ?, ?)");
+            $data = $connexion->prepare("insert into touit(id, message, dateTouit, rating, image, utilisateur) values (?,?, sysdate(), ?, ?, ?)");
             $message = $_POST["touit"];
-            $data->execute(array($id, $message, sydate(), 0, $file, $_SESSION["login"]));
+            $data->execute(array($id, $message, 0, $file, $_SESSION["login"]));
+            $data->closeCursor();
         }
         return $html;
     }
