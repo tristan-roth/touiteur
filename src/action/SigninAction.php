@@ -39,9 +39,8 @@ class SigninAction extends Action {
             else{
                 while ($res=$data->fetch()){
                     if (password_verify($mdp, $res['passwd'])) {
-                        session_start();
                         $_SESSION["login"] = $nom;
-                        $html.="<h1>Vous êtes maintenant connecté</h1>";
+                        $html="<h1>Vous êtes maintenant connecté</h1>";
                     }
                     else{
                         $html.="<h1>Les informations ne correspondent pas</h1>";
