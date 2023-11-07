@@ -31,8 +31,6 @@ HTML;
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
             $mdp = $_POST["mdp"];
-            var_dump($mdp);
-            echo strlen($mdp);
             if (!$this->checkPasswordStrength($mdp, 8)) {
                 $html .=
                     "<h2>Votre mot de passe doit comporter au moins 8 caractères, un chiffre, un caractère spécial, une majuscule, une minuscule</h2>";
@@ -46,7 +44,6 @@ HTML;
                 );
                 $data->bindParam(1,$nom);
                 $data->execute();
-                var_dump($data);
                 if ($data->rowCount() !== 0) {
                     $html .=
                         "<p>ce nom d'utilisateur est déjà pris. <a href=\"?action=signin\">Connectez vous</a> pour continuer</p>";
