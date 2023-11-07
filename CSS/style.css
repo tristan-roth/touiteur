@@ -1,0 +1,143 @@
+
+/* Style général de la page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #1da1f2;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Style du menu de navigation */
+nav {
+    background-color: #1da1f2;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 10px;
+}
+
+/* Style des formulaires */
+form {
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    margin: 10px;
+    text-align: center;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+input[type="file"] {
+    width: 100%;
+    margin-top: 10px;
+}
+
+button {
+    background-color: #1da1f2;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0c90e6;
+}
+
+/* Style des messages */
+p {
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin: 10px;
+}
+
+/* Style des images et vidéos */
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+}
+
+/* Style des boutons like et dislike */
+form input[type="submit"] {
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0c90e6;
+}
+
+/* Style de la barre de déconnexion */
+a[href="?action=deconnecter"] {
+    background-color: #ff4500;
+    color: white;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 3px;
+    margin: 10px;
+    display: inline-block;
+}
+
+/* Style des liens d'accueil et de touiter */
+a[href="?action=signin"], a[href="?action=signup"] {
+    background-color: #1da1f2;
+    color: white;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 3px;
+    margin: 10px;
+    display: inline-block;
+}
+
+/* Style pour la liste de touites */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin: 10px;
+    padding: 10px;
+}
+
+/* Style pour le bouton d'accueil */
+a[href="index.php"] {
+    background-color: #1da1f2;
+    color: white;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 3px;
+    margin: 10px;
+    display: inline-block;
+}
+

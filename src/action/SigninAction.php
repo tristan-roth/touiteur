@@ -31,7 +31,7 @@ class SigninAction extends Action {
 
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
-            $mdp = $_POST["mdp"];
+            $mdp = $_POST["passwd"];
             $nom = @filter_var($_POST["nom"],FILTER_SANITIZE_STRING);
             $data = $connexion->prepare("select utilisateur, passwd from utilisateur where utilisateur = ?");
             $data->bindParam(1,$nom);
