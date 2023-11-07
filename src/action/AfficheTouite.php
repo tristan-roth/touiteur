@@ -11,7 +11,7 @@ class AfficheTouite extends Action{
         $id = $_GET['id'];
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $data = $connexion->query("select message_text, date_touit, rating, images.image_path as image, utilisateur.utilisateur as id_user from touits 
+        $data = $connexion->query("select message_text, date_touit, rating, images.image_path as image, utilisateur.utilisateur as id_user, utilisateur.id_utilisateur as userr from touits 
                                     left join images on touits.id_image = images.id_image
                                     inner join touitsutilisateur on touits.id_touit = touitsutilisateur.id_touit
                                     inner join utilisateur on touitsutilisateur.id_utilisateur = utilisateur.id_utilisateur
@@ -36,7 +36,8 @@ class AfficheTouite extends Action{
             }
             $html .= "<p>date : ".$res['date_touit']."</p>";
             $html .= "<p>rating : ".$res['rating']."</p>";
-            $html .= "<p>Auteur : ".$res['id_user']."</p>";
+            $html .= "<a href='?action=auteur&user=".$res['userr']."'>";
+            $html .= "<p>Auteur : ".$res['id_user']."</p></a>";
             $html .= <<<HTML
                 <form action="index.php" method="post">
                     <input type="submit" name="action" value="like">

@@ -5,6 +5,7 @@ namespace iutnc\touiteur;
 require_once 'vendor/autoload.php';
 
 use iutnc\touiteur\action\AfficheListeTouites;
+use iutnc\touiteur\action\AfficheTouiteUtilisateur;
 use iutnc\touiteur\action\SigninAction;
 use iutnc\touiteur\action\TouitAction;
 use iutnc\touiteur\action\SignupAction;
@@ -46,6 +47,10 @@ class Dispatcheur {
 
             case "detail" :
                 $this->html.= (new AfficheTouite())->execute();
+                break;
+
+            case "auteur" :
+                $this->html.= (new AfficheTouiteUtilisateur())->execute();
                 break;
 
             case "deconnecter" :
