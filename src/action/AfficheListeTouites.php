@@ -9,7 +9,8 @@ class AfficheListeTouites extends Action {
     {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $data = $connexion->query("select message_text, image from touits order by id_touit desc");
+        $data = $connexion->query("select message_text, images.image_path as image from touits inner join images on touits.id_image = images.id_image
+                                     order by touits.id_touit desc");
         $html = "";
         while ($res=$data->fetch()){
             $message = htmlspecialchars($res['message_text']);
@@ -20,9 +21,6 @@ class AfficheListeTouites extends Action {
                     case "mp4" :
                         $html.='<video controls width="250">
                         <source src="upload/'.$res['image'].'" type="video/mp4" />
-                      
-                      
-                        Download the
                         <a href=""upload/'.$res['image'].'"></a>
                         </video>';
                         break;
