@@ -52,7 +52,6 @@ HTML;
                 );
                 $data->bindParam(1,$uti);
                 $data->execute();
-                var_dump($data);
                 if ($data->rowCount() !== 0) {
                     $html .=
                         "<p>ce nom d'utilisateur est déjà pris. <a href=\"?action=signin\">Connectez vous</a> pour continuer</p>";
