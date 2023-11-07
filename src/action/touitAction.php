@@ -7,12 +7,14 @@ use iutnc\touiteur\action\Action;
 use iutnc\touiteur\connection\ConnectionFactory;
 use iutnc\touiteur\action\AfficheListeTouites;
 
-class TouitAction extends Action{
-
-    public function __construct() {
+class TouitAction extends Action
+{
+    public function __construct()
+    {
         parent::__construct();
     }
-    public function execute(): string{
+    public function execute(): string
+    {
         $method = $_SERVER["REQUEST_METHOD"];
         $html = "";
         if ($method === "GET") {
@@ -35,42 +37,78 @@ class TouitAction extends Action{
             $connexion = ConnectionFactory::makeConnection();
 
             //recupérer un fichier
-            if (isset($_FILES['image'])) {
-                var_dump($_FILES['image']);
-                $tmpName = $_FILES['image']['tmp_name'];
-                $name = $_FILES['image']['name'];
-                $size = $_FILES['image']['size'];
-                $error = $_FILES['image']['error'];
+            if (isset($_FILES["image"])) {
+                $tmpName = $_FILES["image"]["tmp_name"];
+                $name = $_FILES["image"]["name"];
+                $size = $_FILES["image"]["size"];
+                $error = $_FILES["image"]["error"];
 
-                $tabExtension = explode('.', $name);
+                $tabExtension = explode(".", $name);
                 $extension = strtolower(end($tabExtension));
-                $extensions = ['jpg', 'png', 'jpeg', 'gif', 'mp4'];
+                $extensions = ["jpg", "png", "jpeg", "gif", "mp4"];
                 $maxSize = 100000000;
 
-                if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
-                    $uniqueName = uniqid('', true);
+                if (
+                    in_array($extension, $extensions) &&
+                    $size <= $maxSize &&
+                    $error == 0
+                ) {
+                    $uniqueName = uniqid("", true);
                     //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
-                    $file = $uniqueName.".".$extension;
-                    move_uploaded_file($tmpName, 'upload/'.$file);
+                    $file = $uniqueName . "." . $extension;
+                    move_uploaded_file($tmpName, "upload/" . $file);
+                }
+
+                if ($_POST["touit"] != "") {
+                    $data = $connexion->query(
+                        "select max(id_touit) as id_touit from touits "
+                    );
+                    $res = $data->fetch();
+                    $id_touit = $res["id_touit"]+1;
+                    if ($id_touit === null) {
+                        $id_touit = 0;
+                    }
+
+                    if (!isset($file)) {
+                        $id_image = null;
+                    } else {
+                        $data = $connexion->query(
+                            "select max(id_image) as id_image from images "
+                        );
+                        $res = $data->fetch();
+                        $id_image = $res["id_image"];
+                        if ($id_image === null) $id_image = 0;
+                        else $id_image +=1;
+                        $data = $connexion->prepare(
+                            "insert into images values (?, null, ?)"
+                        );
+                        $data->execute(array($id_image,$file));
+                    }
+
+                    $data = $connexion->prepare(
+                        "insert into touits values (?,?, sysdate(), 0, ?)"
+                    );
+                    $message = $_POST["touit"];
+                    $nom_uti = $_SESSION["login"];
+                    $data->execute([$id_touit, $message, $id_image]);
+
+                    $data = $connexion->prepare(
+                        "select id_utilisateur from utilisateur where utilisateur = ?"
+                    );
+                    $data->execute([$nom_uti]);
+                    $res = $data->fetch();
+                    $id_uti = $res["id_utilisateur"];
+
+                    $data=$connexion->prepare(
+                        "insert into touitsutilisateur values (?,?)"
+                    );
+                    $data->execute([$id_touit, $id_uti]);
+                    $html .= (new AfficheListeTouites())->execute();
+                } else {
+                    $html .= "<p>Vous ne pouvez pas envoyer un touit vide</p>";
+                    return $html .= $this->execute();
                 }
             }
-            if (!isset($file))
-                $file = "null";
-
-            if ($_POST["touit"] != "") {
-                $data = $connexion->prepare("insert into touits(message_text, date_Touit, rating, image) values (?, sysdate(), ?, ?)");
-                $message = $_POST["touit"];
-                var_dump($file);
-                $data->execute(array($message, 0, $file));
-                $data->closeCursor();
-                $html.= (new AfficheListeTouites())->execute();
-            }
-            else{
-                $html.="<p>Vous ne pouvez pas envoyer un touit vide</p>";
-                return $html.=$this->execute();
-            }
-
-
         }
         return $html;
     }
