@@ -9,13 +9,27 @@ class AfficheListeTouites extends Action {
     {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $data = $connexion->query("select message, image from touit order by id desc");
+        $data = $connexion->query("select message_text, image from touits order by id_touit desc");
         $html = "";
         while ($res=$data->fetch()){
-            $message = htmlspecialchars($res['message']);
+            $message = htmlspecialchars($res['message_text']);
             $html .= "<p>$message</p>";
-            if ($res['image'] != "null")
-                $html .= "<img src='upload/".$res['image']."' width='300px' ><br>";
+            if ($res['image'] !== "null"){
+                $element = explode(".",$res['image']);
+                switch($element[count($element)-1]){
+                    case "mp4" :
+                        $html.='<video controls width="250">
+                        <source src="upload/'.$res['image'].'" type="video/mp4" />
+                      
+                      
+                        Download the
+                        <a href=""upload/'.$res['image'].'"></a>
+                        </video>';
+                        break;
+                    default :
+                        $html .= "<img src='upload/".$res['image']."' width='300px' ><br>";
+                }
+            
             
             $html .= <<<HTML
                 <form action="index.php" method="post">
@@ -24,7 +38,7 @@ class AfficheListeTouites extends Action {
                 </form>
             HTML;
          }
-
+        }
         return $html;
     }
 }

@@ -33,6 +33,7 @@ class TouitAction extends Action{
 
             //recupérer un fichier
             if (isset($_FILES['image'])) {
+                var_dump($_FILES['image']);
                 $tmpName = $_FILES['image']['tmp_name'];
                 $name = $_FILES['image']['name'];
                 $size = $_FILES['image']['size'];
@@ -41,7 +42,7 @@ class TouitAction extends Action{
                 $tabExtension = explode('.', $name);
                 $extension = strtolower(end($tabExtension));
                 $extensions = ['jpg', 'png', 'jpeg', 'gif', 'mp4'];
-                $maxSize = 400000;
+                $maxSize = 100000000;
 
                 if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
                     $uniqueName = uniqid('', true);
@@ -50,22 +51,20 @@ class TouitAction extends Action{
                     move_uploaded_file($tmpName, 'upload/'.$file);
                 }
             }
-
-            $dataId = $connexion->query("select max(id) as id from touit");
-            $res = $dataId->fetch();
-            $id = $res['id']+1;
             if (!isset($file))
                 $file = "null";
 
             if ($_POST["touit"] != "") {
-                $data = $connexion->prepare("insert into touit(id, message, dateTouit, rating, image, utilisateur) values (?,?, sysdate(), ?, ?, ?)");
+                $data = $connexion->prepare("insert into touits(message_text, date_Touit, rating, image) values (?, sysdate(), ?, ?)");
                 $message = $_POST["touit"];
-                $data->execute(array($id, $message, 0, $file, $_SESSION["login"]));
+                var_dump($file);
+                $data->execute(array($message, 0, $file));
                 $data->closeCursor();
-                $html.= (new \iutnc\touiteur\action\AfficheListeTouites())->execute();
+                $html.= (new AfficheListeTouites())->execute();
             }
             else{
                 $html.="<p>Vous ne pouvez pas envoyer un touit vide</p>";
+                return $html.=$this->execute();
             }
 
 
