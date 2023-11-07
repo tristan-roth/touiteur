@@ -18,7 +18,7 @@ class AfficheListeTouites extends Action {
             $html .= "<p>$message</p>";
 
             $html .= <<<HTML
-                <form action="noter_touite.php" method="post">
+                <form action="index.php" method="post">
                     <input type="hidden" name="touiteId" value="$touiteId">
                     <input type="submit" name="action" value="like">
                     <input type="submit" name="action" value="dislike">

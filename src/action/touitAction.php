@@ -5,6 +5,7 @@ namespace iutnc\touiteur\action;
 
 use iutnc\touiteur\action\Action;
 use iutnc\touiteur\connection\ConnectionFactory;
+use iutnc\touiteur\action\AfficheListeTouites;
 
 class TouitAction extends Action{
 
@@ -61,6 +62,7 @@ class TouitAction extends Action{
             $message = $_POST["touit"];
             $data->execute(array($id, $message, 0, $file, $_SESSION["login"]));
             $data->closeCursor();
+            $html.= (new \iutnc\touiteur\action\AfficheListeTouites())->execute();
         }
         return $html;
     }
