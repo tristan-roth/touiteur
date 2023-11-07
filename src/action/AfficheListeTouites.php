@@ -9,7 +9,7 @@ class AfficheListeTouites extends Action {
     {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $data = $connexion->query("select message from touit");
+        $data = $connexion->query("select id, message from touit");
         $html = "";
         while ($res=$data->fetch()){
             $touiteId = $res['id'];
