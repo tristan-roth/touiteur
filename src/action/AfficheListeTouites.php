@@ -7,41 +7,63 @@ use iutnc\touiteur\connection\ConnectionFactory;
 class AfficheListeTouites extends Action {
     public function execute(): string
     {
-        if (isset($_SESSION["login"])) $perso = $_SESSION["login"];
-        else $perso = "";
+        if (isset($_SESSION["login"])) {
+            $utilisateur = $_SESSION["login"];
+        } else {
+            $utilisateur = "";
+        }
+
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $data = $connexion->query("select touits.id_touit, message_text, images.image_path as image, touitsutilisateur.id_utilisateur as id_user from touits 
-                                     left join images on touits.id_image = images.id_image
-                                     inner join touitsutilisateur on touits.id_touit = touitsutilisateur.id_touit
-                                     order by touits.id_touit desc");
-        $html ='';
-        while ($res=$data->fetch()){
+
+        $data = $connexion->query(<<<SQL
+            SELECT Touits.id_touit,
+                    message_text,
+                    Images.image_path as image,
+                    TouitsUtilisateur.id_utilisateur as id_user
+                FROM Touits 
+                LEFT JOIN Images on Touits.id_image = Images.id_image
+                INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
+                ORDER BY Touits.id_touit DESC
+            SQL);
+
+        $contenuHtml ='';
+        while ($res=$data->fetch()) {
+
             $message = htmlspecialchars($res['message_text']);
             $id = $res['id_touit'];
             $user = $res['id_user'];
-            $html .= '<div class="tweets"><a href="?action=detail&id='.$id.'&user='.$user.'">';
-            $html .= '<p>' . $message . '</p></a>';
-            $html.='
-            <form action="?action=follow" class="suivre" method="POST">
-                <input type="hidden" name="user" value="'.$user.'">
-                <input type="submit" value="Suivre" name="mybutton">
-            </form>
-            <a href="?action=detail&id='.$id.'&user='.$user.'">';
-            if ($res['image'] !== null){
+            $contenuHtml = <<<HTML
+                <div class="tweet-box">
+                <a href="?action=detail&id=$id&user=$user">
+                <p>$message</p>
+                <form action="?action=follow" class="suivre" method="POST">
+                    <input type="hidden" name="user" value="'.$user.'">
+                    <input type="submit" value="Suivre" name="mybutton">
+                </form>
+            HTML;
+
+            if ($res['image'] !== null) {
                 $element = explode(".",$res['image']);
-                switch($element[count($element)-1]){
+
+                switch($element[count($element)-1]) {
                     case "mp4" :
-                        $html.='<video controls width="250">
-                        <source src="upload/'.$res['image'].'" type="video/mp4" />
-                        <a href="upload/'.$res['image'].'"></a>
-                        </video>';
+                        $contenuHtml .= <<<HTML
+                        <video controls width="250">
+                            <source src="upload/$res[image]" type="video/mp4" />
+                            <a href="upload/$res[image]"></a>
+                        </video>
+                        HTML;
                         break;
+
                     default :
-                        $html .= "<img src='upload/".$res['image']."' width='300px' ><br>";
+                        $contenuHtml .= <<<HTML
+                            <img src="upload/$res[image]" width="300px" ><br>
+                        HTML;
+                        break;
                 }
-         }
-         $html .= <<<HTML
+            }
+            $contenuHtml .= <<<HTML
                 </a>
                 <form action="" method="post">
                     <input type="submit" name="action" value="like">
@@ -51,6 +73,6 @@ class AfficheListeTouites extends Action {
             HTML;
         }
         unset($connexion);
-        return $html;
+        return $contenuHtml;
     }
 }
