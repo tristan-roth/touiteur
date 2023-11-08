@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace iutnc\touiteur;
 require_once 'vendor/autoload.php';
 
+use iutnc\touiteur\action\Accueil;
 use iutnc\touiteur\action\AfficheListeTouites;
 use iutnc\touiteur\action\AfficheTouiteUtilisateur;
 use iutnc\touiteur\action\SigninAction;
@@ -64,7 +65,7 @@ class Dispatcheur {
                 break;
 
             default : 
-                $this->contenuHtml .= (new AfficheListeTouites())->execute();
+                $this->contenuHtml .= (new Accueil())->execute();
                 break;
         }
         $this->renderer();

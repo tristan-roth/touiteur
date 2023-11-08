@@ -6,7 +6,6 @@ namespace iutnc\touiteur\action;
 class Accueil extends Action {
     public function execute(): string
     {
-        $listTouitesAction = new AfficheListeTouites();
-        return $listTouitesAction->execute();
+        return (new AfficheListeTouites())->execute();
     }
 }
