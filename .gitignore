@@ -1,0 +1,7 @@
+*.iml
+*.class
+.idea
+out
+/vendor/
+upload/
+*.ini
