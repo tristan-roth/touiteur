@@ -22,10 +22,12 @@ class AfficheListeTouites extends Action {
             $user = $res['id_user'];
             $html .= '<div class="tweets"><a href="?action=detail&id='.$id.'&user='.$user.'">';
             $html .= '<p>' . $message . '</p></a>';
-            $html.='<form action="?action=follow" method="POST">
-                    <input type="submit" value="3" name="zero">
-                </form>
-                <a href="?action=detail&id='.$id.'&user='.$user.'">';
+            $html.='
+            <form action="?action=follow" class="suivre" method="POST">
+                <input type="hidden" name="user" value="'.$user.'">
+                <input type="submit" value="Suivre" name="mybutton">
+            </form>
+            <a href="?action=detail&id='.$id.'&user='.$user.'">';
             if ($res['image'] !== null){
                 $element = explode(".",$res['image']);
                 switch($element[count($element)-1]){

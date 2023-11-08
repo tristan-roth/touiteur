@@ -56,7 +56,7 @@ class Dispatcheur {
                 break;
 
             case "follow" : 
-                $this->html = (new FollowAction())->execute();
+                $this->contenuHtml = (new FollowAction())->execute();
                 break;
 
             case "deconnecter" :

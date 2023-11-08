@@ -11,7 +11,7 @@ class FollowAction extends Action {
     }
     public function execute() : string {
         var_dump($_POST);
-        var_dump($_POST["zero"]);
+        var_dump($_POST["mybutton"]);
         $html = "";
         if (isset($_SESSION["login"])){
         }
