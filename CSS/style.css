@@ -13,6 +13,9 @@ header {
     padding: 10px;
     text-align: center;
 }
+header > h1 > a{
+    color: white;
+}
 
 /* Style du menu de navigation */
 nav {
@@ -80,7 +83,7 @@ img, video {
     margin: 10px auto;
 }
 
-button #follow{
+button .follow{
     text-align: right;
 }
 

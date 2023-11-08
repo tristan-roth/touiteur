@@ -11,6 +11,7 @@ use iutnc\touiteur\action\TouitAction;
 use iutnc\touiteur\action\SignupAction;
 use iutnc\touiteur\action\DeconnexionAction;
 use iutnc\touiteur\action\AfficheTouite;
+use iutnc\touiteur\action\FollowAction;
 
 class Dispatcheur {
 
@@ -51,6 +52,10 @@ class Dispatcheur {
 
             case "auteur" :
                 $this->html.= (new AfficheTouiteUtilisateur())->execute();
+                break;
+
+            case "follow" : 
+                $this->html = (new FollowAction())->execute();
                 break;
 
             case "deconnecter" :
@@ -101,7 +106,7 @@ class Dispatcheur {
                     <nav class="menu-gauche">
                         $copaco
                     </nav>
-                    <h1><a href="index.php">Touiteur</a></h1>
+                    <h1><a href="">Touiteur</a></h1>
                     <nav class="menu-droite">
                     </nav>
                 </header>

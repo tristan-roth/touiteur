@@ -34,7 +34,7 @@ class AfficheTouiteUtilisateur extends Action {
                 }
             }
             $html .= <<<HTML
-                <form action="index.php" method="post">
+                <form action="" method="post">
                     <input type="submit" name="action" value="like">
                     <input type="submit" name="action" value="dislike">
                 </form>

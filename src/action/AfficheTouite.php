@@ -38,7 +38,7 @@ class AfficheTouite extends Action{
             $html .= "<a href='?action=auteur&user=".$res['userr']."'>";
             $html .= "<p>Auteur : ".$res['id_user']."</p></a>";
             $html .= <<<HTML
-                <form action="index.php" method="post">
+                <form action="" method="post">
                     <input type="submit" name="action" value="like">
                     <input type="submit" name="action" value="dislike">
                 </form>

@@ -21,10 +21,11 @@ class AfficheListeTouites extends Action {
             $id = $res['id_touit'];
             $user = $res['id_user'];
             $html .= '<div class="tweets"><a href="?action=detail&id='.$id.'&user='.$user.'">';
-            $html .= '<p>' . $message . '</p>
-            <form action="?action=follow" method="POST" enctype="multipart/form-data">
-            <button class="follow" type="submit">Suivre</button>
-        </form>';
+            $html .= '<p>' . $message . '</p></a>';
+            $html.='<form action="?action=follow" method="POST">
+                    <input type="submit" value="3" name="zero">
+                </form>
+                <a href="?action=detail&id='.$id.'&user='.$user.'">';
             if ($res['image'] !== null){
                 $element = explode(".",$res['image']);
                 switch($element[count($element)-1]){
@@ -33,18 +34,17 @@ class AfficheListeTouites extends Action {
                         <source src="upload/'.$res['image'].'" type="video/mp4" />
                         <a href="upload/'.$res['image'].'"></a>
                         </video>';
-                        $html .= "</a>";
                         break;
                     default :
                         $html .= "<img src='upload/".$res['image']."' width='300px' ><br>";
                 }
          }
          $html .= <<<HTML
-                <form action="index.php" method="post">
+                </a>
+                <form action="" method="post">
                     <input type="submit" name="action" value="like">
                     <input type="submit" name="action" value="dislike">
                 </form>
-                </a>
             </div>
             HTML;
         }

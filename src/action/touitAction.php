@@ -17,21 +17,7 @@ class TouitAction extends Action
     {
         $method = $_SERVER["REQUEST_METHOD"];
         $html = "";
-        if ($method === "GET") {
-            $html = <<<HTML
-                <h3>touit : </h3>
-                <link rel="stylesheet" type="text/css" href="../../CSS/style.css">
-                <div class="touite-form">
-                    <form action id="touit" method="POST" enctype="multipart/form-data">
-                        <input type="text" id="touit" name="touit" placeholder="votre touit">
-                        <input type="file" id="image" name="image" placeholder="votre image">
-                        <button type="submit">Touiter</button>
-                    </form>
-                </div>
-            HTML;
-
-        }
-        else if ($method === "POST") {
+        if ($method === "POST") {
 
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
@@ -110,6 +96,8 @@ class TouitAction extends Action
                 }
             }
         }
+        $_POST["image"] = "";
+        $_POST["touit"] = "";
         unset($connexion);
         return $html;
     }
