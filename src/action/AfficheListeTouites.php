@@ -23,7 +23,7 @@ class AfficheListeTouites extends Action {
             $html .= '<a href="?action=detail&id='.$id.'&user='.$user.'">';
             $html .= '<p>' . $message . '</p>
             <form action="?action=follow" method="POST" enctype="multipart/form-data">
-            <button id="follow" type="submit">Suivre</button>
+            <button class="follow" type="submit">Suivre</button>
         </form>';
             if ($res['image'] !== null){
                 $element = explode(".",$res['image']);
@@ -37,17 +37,15 @@ class AfficheListeTouites extends Action {
                         break;
                     default :
                         $html .= "<img src='upload/".$res['image']."' width='300px' ><br>";
-                        $html .= "</a>";
                 }
-            
-            
-            $html .= <<<HTML
+         }
+         $html .= <<<HTML
                 <form action="index.php" method="post">
                     <input type="submit" name="action" value="like">
                     <input type="submit" name="action" value="dislike">
                 </form>
+                </a>;
             HTML;
-         }
         }
         unset($connexion);
         return $html;
