@@ -34,11 +34,9 @@ class TouitAction extends Action
                 $extensions = ["jpg", "png", "jpeg", "gif", "mp4"];
                 $maxSize = 100000000;
 
-                if (
-                    in_array($extension, $extensions) &&
+                if (in_array($extension, $extensions) &&
                     $size <= $maxSize &&
-                    $error == 0
-                ) {
+                    $error == 0) {
                     $uniqueName = uniqid("", true);
                     //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
                     $file = $uniqueName . "." . $extension;
@@ -77,6 +75,36 @@ class TouitAction extends Action
                     $message = $_POST["touit"];
                     $nom_uti = $_SESSION["login"];
                     $data->execute([$id_touit, $message, $id_image]);
+
+
+                    $tag = strstr($message, "#");
+                    $tagsuite = true;
+                    while($tag !== false && $tagsuite !== false) {
+                        $tagsuite = strstr($tag, " ");
+                        if ($tagsuite === true)
+                            $tag = strstr($tag, " " , true);
+                        $tag = substr($tag, 1);
+                        if (!(preg_match("#[\W]#", $tag))) {
+                            $data = $connexion->query(
+                                "select max(id_tag) as id_tag from tags "
+                            );
+                            $res = $data->fetch();
+                            $id_tag = $res["id_tag"]+1;
+                            if ($id_tag === null) {
+                                $id_tag = 0;
+                            }
+
+                            $data = $connexion->prepare(
+                                "insert into tags (id_tag,libelle_tag) values (?, ?)"
+                            );
+                            $data->execute([$id_tag, $tag]);
+                        } else {
+                            $html .= "<h2>Vous ne pouvez pas utiliser de caractères spéciaux dans un tag</h2>";
+                            return $html .= (new AfficheListeTouites)->execute();
+                        }
+                        if ($tagsuite !== false)
+                            $tag = strstr($tagsuite, "#");
+                    }
 
                     $data = $connexion->prepare(
                         "select id_utilisateur from utilisateur where utilisateur = ?"
