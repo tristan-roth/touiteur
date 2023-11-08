@@ -78,34 +78,26 @@ class TouitAction extends Action
                     $data->execute([$id_touit, $message, $id_image]);
 
 
-                    $tag = strstr($message, "#");
-                    $tagsuite = true;
-                    while($tag !== false && $tagsuite !== false) {
-                        $tagsuite = strstr($tag, " ");
-                        if ($tagsuite === true)
-                            $tag = strstr($tag, " " , true);
-                        $tag = substr($tag, 1);
-                        if (!(preg_match("#[\W]#", $tag))) {
-                            $data = $connexion->query(
-                                "select max(id_tag) as id_tag from tags "
-                            );
-                            $res = $data->fetch();
-                            $id_tag = $res["id_tag"]+1;
-                            if ($id_tag === null) {
-                                $id_tag = 0;
-                            }
+                    var_dump($message);
+                    preg_match_all( '/#[^ #]+/i', $message,$tags);
+                    var_dump($tags);
+                    foreach ($tags[0] as $tag) {
+                        $data = $connexion->query(
+                            "select max(id_tag) as id_tag from tags "
+                        );
+                        $res = $data->fetch();
+                        $id_tag = $res["id_tag"]+1;
+                        if ($id_tag === null)
+                            $id_tag = 0;
 
-                            $data = $connexion->prepare(
-                                "insert into tags (id_tag,libelle_tag) values (?, ?)"
-                            );
-                            $data->execute([$id_tag, $tag]);
-                        } else {
-                            $html .= "<h2>Vous ne pouvez pas utiliser de caractères spéciaux dans un tag</h2>";
-                            return $html .= (new AfficheListeTouites)->execute();
-                        }
-                        if ($tagsuite !== false)
-                            $tag = strstr($tagsuite, "#");
+                        $data = $connexion->prepare(
+                            "insert into tags (id_tag,libelle_tag) values (?, ?)"
+                        );
+                        $data->execute([$id_tag, $tag]);
                     }
+
+                    //echo preg_replace('/#[^ #]+/i', '<a href="?action=tag&tag=$0">$0</a>', $message);
+
 
                     $data = $connexion->prepare(
                         "select id_utilisateur from utilisateur where utilisateur = ?"
@@ -124,6 +116,7 @@ class TouitAction extends Action
                     return $html .= (new AfficheListeTouites)->execute();
                 }
             }
+
         }
         else {
             $html.="<h2>Vous devez être connecté pour touiter</h2>";
