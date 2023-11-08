@@ -80,9 +80,11 @@ class Dispatcheur {
         else {$copaco = '<a href="?action=signin">Sign In</a>
                         <a href="?action=signup">Sign Up</a>';
             $petitMenu =<<<BEGIN
+                    <div class="touiteform">
                     <form action="?action=signin" method="GET" enctype="multipart/form-data">
                         <button type="submit">Touiter</button>
                     </form>
+                    </div>  
                     BEGIN;
         }
 
@@ -107,13 +109,13 @@ class Dispatcheur {
                 </header>
                 
         <main class="contenu">
-            <section class="touites">
-            </section>
-            <section class="publier-touite">
+            <div class="publier-touite">
                     $petitMenu
+            </div>
+            <section class="tweets-container">
+                $this->html
             </section>
         </main>
-                $this->html
             </body>
         </html>
         BEGINHTML;

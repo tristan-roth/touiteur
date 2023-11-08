@@ -20,30 +20,31 @@ class AfficheListeTouites extends Action {
             $message = htmlspecialchars($res['message_text']);
             $id = $res['id_touit'];
             $user = $res['id_user'];
-            $html .= '<div class="tweets"><a href="?action=detail&id='.$id.'&user='.$user.'">';
+            $html .= '<div class="tweet-box">';
+            $html .= '<a href="?action=detail&id='.$id.'&user='.$user.'">';
             $html .= '<p>' . $message . '</p>
-            <form action="?action=follow" method="POST" enctype="multipart/form-data">
-            <button class="follow" type="submit">Suivre</button>
-        </form>';
-            if ($res['image'] !== null){
-                $element = explode(".",$res['image']);
-                switch($element[count($element)-1]){
-                    case "mp4" :
-                        $html.='<video controls width="250">
-                        <source src="upload/'.$res['image'].'" type="video/mp4" />
-                        <a href="upload/'.$res['image'].'"></a>
+                <form action="?action=follow" method="POST" enctype="multipart/form-data">
+                    <button class="follow" type="submit">Suivre</button>
+                </form>';
+                        if ($res['image'] !== null) {
+                            $element = explode(".", $res['image']);
+                            switch($element[count($element)-1]) {
+                                case "mp4":
+                                    $html .= '<video controls width="30%"> <!-- Adjust the width as needed -->
+                            <source src="upload/'.$res['image'].'" type="video/mp4" />
+                            <a href="upload/'.$res['image'].'"></a>
                         </video>';
-                        $html .= "</a>";
-                        break;
-                    default :
-                        $html .= "<img src='upload/".$res['image']."' width='300px' ><br>";
-                }
-         }
-         $html .= <<<HTML
-                <form action="index.php" method="post">
-                    <input type="submit" name="action" value="like">
-                    <input type="submit" name="action" value="dislike">
-                </form>
+                                    $html .= "</a>";
+                                    break;
+                                default:
+                                    $html .= "<img src='upload/".$res['image']."' width='30%'> <!-- Adjust the width as needed --><br>";
+                            }
+                        }
+                        $html .= <<<HTML
+                    <form action="index.php" method="post">
+                        <input type="submit" name="action" value="like">
+                        <input type="submit" name="action" value="dislike">
+                    </form>
                 </a>
             </div>
             HTML;
