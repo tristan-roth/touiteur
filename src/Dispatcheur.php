@@ -94,8 +94,8 @@ class Dispatcheur {
         }
 
         echo <<<BEGINHTML
-        <!DOCTYPE contenuHtml>
-        <contenuHtml lang="fr">
+        <!DOCTYPE html>
+        <html lang="fr">
         <head>
             <meta charset='UTF-8'>
             <title>Touiteur</title>
@@ -124,7 +124,7 @@ class Dispatcheur {
                 </section>
             </main>
         </body>
-        </contenuHtml>
+        </html>
         BEGINHTML;
     }
 }
