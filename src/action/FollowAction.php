@@ -10,8 +10,7 @@ class FollowAction extends Action {
         parent::__construct();
     }
     public function execute() : string {
-        var_dump($_POST);
-        var_dump($_POST["mybutton"]);
+        var_dump($_POST["user"]);
         $html = "";
         if (isset($_SESSION["login"])){
         }
