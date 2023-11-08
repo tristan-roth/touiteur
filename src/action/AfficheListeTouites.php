@@ -7,15 +7,11 @@ use iutnc\touiteur\connection\ConnectionFactory;
 class AfficheListeTouites extends Action {
     public function execute(): string
     {
-        if (isset($_SESSION["login"])) {
-            $utilisateur = $_SESSION["login"];
-        } else {
-            $utilisateur = "";
-        }
-
+        $contenuHtml ='';
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
+        
         $data = $connexion->query(<<<SQL
             SELECT Touits.id_touit,
                     message_text,
@@ -27,18 +23,28 @@ class AfficheListeTouites extends Action {
                 ORDER BY Touits.id_touit DESC
             SQL);
 
-        $contenuHtml ='';
-        while ($res=$data->fetch()) {
 
+        if(isset($_SESSION["login"])){
+            $utilisateur = $_SESSION["login"];
+            $recherche = $connexion->query("select count(id_utilisateur_suivi) as nombre from utilisateursuivi
+                                        inner join utilisateur on id_utilisateur_suit = utilisateur.id_utilisateur
+                                        where utilisateur.utilisateur = '$utilisateur'");
+            if ($recherche->rowCount()!==0){
+                $res = $recherche->fetch();
+                $contenuHtml.="<h2>{$res["nombre"]}</h2>";
+            }
+        }
+
+        while ($res=$data->fetch()) {
             $message = htmlspecialchars($res['message_text']);
             $id = $res['id_touit'];
             $user = $res['id_user'];
-            $contenuHtml = <<<HTML
+            $contenuHtml .= <<<HTML
                 <div class="tweet-box">
                 <a href="?action=detail&id=$id&user=$user">
                 <p>$message</p>
                 <form action="?action=follow" class="suivre" method="POST">
-                    <input type="hidden" name="user" value="'.$user.'">
+                    <input type="hidden" name="user" value="$user">
                     <input type="submit" value="Suivre" name="mybutton">
                 </form>
             HTML;

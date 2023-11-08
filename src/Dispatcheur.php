@@ -92,7 +92,7 @@ class Dispatcheur {
 
             $boiteTouit = <<<HTML
                 <div class="touiteform">
-                    <form action="?action=signin" method="GET" enctype="multipart/form-data">
+                    <form action="?action=signin" method="POST" enctype="multipart/form-data">
                         <button type="submit">Touiter</button>
                     </form>
                 </div>
@@ -106,7 +106,7 @@ class Dispatcheur {
             <meta charset='UTF-8'>
             <title>Touiteur</title>
             <meta name="viewport" content="width=device-width,initial-scale=1">
-            <link rel="stylesheet" type='text/css' href="CSS/style.css">
+
         </head>
         <body>
             <header>

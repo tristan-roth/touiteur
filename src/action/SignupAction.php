@@ -26,6 +26,7 @@ class SignupAction extends Action
     <input type="text" id="prenom" name="prenom" placeholder="votre prénom">
     <input type="text" id="uti" name="uti" placeholder="votre nom d'utilisateur">
     <input type="password" id="mdp" name="mdp" placeholder="votre mot de passe">
+    <input type="password" id="mdp" name="mdp2" placeholder="retapez votre mot de passe">
     <button type="submit">Valider</button>
 </form>
 HTML;
@@ -33,6 +34,7 @@ HTML;
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
             $mdp = $_POST["mdp"];
+            $mdp2 = $_POST["mdp2"];
             if (!$this->checkPasswordStrength($mdp, 8)) {
                 $html .=
                     "<h2>Votre mot de passe doit comporter au moins 8 caractères, un chiffre, un caractère spécial, une majuscule, une minuscule</h2>";
@@ -42,6 +44,9 @@ HTML;
                 $prenom = @filter_var($_POST["prenom"], FILTER_SANITIZE_STRING);
                 if ($uti==="" ||$nom==="" ||$prenom==="" ){
                     $html.="<h2>Remplissez tous les champs</h2>";
+                }
+                else if ($mdp !== $mdp2){
+                    $html.="<h2>Vos mots de passe ne correspondent pas</h2>";
                 }
                 else{
                 $data = $connexion->prepare(
