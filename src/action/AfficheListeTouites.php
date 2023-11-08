@@ -20,7 +20,7 @@ class AfficheListeTouites extends Action {
             $message = htmlspecialchars($res['message_text']);
             $id = $res['id_touit'];
             $user = $res['id_user'];
-            $html .= '<div class="tweets><a href="?action=detail&id='.$id.'&user='.$user.'">';
+            $html .= '<div class="tweets"><a href="?action=detail&id='.$id.'&user='.$user.'">';
             $html .= '<p>' . $message . '</p>
             <form action="?action=follow" method="POST" enctype="multipart/form-data">
             <button class="follow" type="submit">Suivre</button>
@@ -45,7 +45,7 @@ class AfficheListeTouites extends Action {
                     <input type="submit" name="action" value="dislike">
                 </form>
                 </a>
-            </div>;
+            </div>
             HTML;
         }
         unset($connexion);
