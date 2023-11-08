@@ -37,9 +37,6 @@ HTML;
                 $html .=
                     "<h2>Votre mot de passe doit comporter au moins 8 caractères, un chiffre, un caractère spécial, une majuscule, une minuscule</h2>";
             } else {
-                $mdpHash = password_hash($_POST["mdp"], PASSWORD_DEFAULT, [
-                    "cost" => 12,
-                ]);
                 $uti = @filter_var($_POST["uti"], FILTER_SANITIZE_STRING);
                 $nom = @filter_var($_POST["nom"], FILTER_SANITIZE_STRING);
                 $prenom = @filter_var($_POST["prenom"], FILTER_SANITIZE_STRING);
@@ -57,6 +54,9 @@ HTML;
                         "<p>ce nom d'utilisateur est déjà pris. <a href=\"?action=signin\">Connectez vous</a> pour continuer</p>";
                 } else {
                     try {
+                        $mdpHash = password_hash($_POST["mdp"], PASSWORD_DEFAULT, [
+                            "cost" => 12,
+                        ]);
                         $data=$connexion->prepare(
                             "insert into utilisateur (utilisateur,passwd,nom,prenom,nbSuivis,nbSuiveurs) values (?,?,?,?,0,0)"
                         );

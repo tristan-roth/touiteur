@@ -16,7 +16,6 @@ class SigninAction extends Action {
     public function execute() : string {
         $method = $_SERVER["REQUEST_METHOD"];
         $html="";
-        var_dump($method);
 
         if ($method === "GET") {
             $html = <<<HTML
