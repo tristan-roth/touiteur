@@ -17,7 +17,7 @@ class SigninAction extends Action {
         $method = $_SERVER["REQUEST_METHOD"];
         $html="";
 
-        if ($method === "GET") {
+        if ($method === "GET" || !isset($_POST["nom"])) {
             $html = <<<HTML
             <h3>connexion : </h3>
             <form action id=signin method ="POST">

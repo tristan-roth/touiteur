@@ -17,7 +17,8 @@ class TouitAction extends Action
     {
         $method = $_SERVER["REQUEST_METHOD"];
         $html = "";
-        if ($method === "POST") {
+
+            if (isset($_SESSION["login"])){
 
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
@@ -96,9 +97,12 @@ class TouitAction extends Action
                 }
             }
         }
-        $_POST["image"] = "";
-        $_POST["touit"] = "";
-        unset($connexion);
-        return $html;
+        else {
+            $html.="<h2>Vous devez être connecté pour touiter</h2>";
+            $html.=(new signinAction())->execute();
+        }
+            unset($connexion);
+            return $html;
     }
-}
+
+    }
