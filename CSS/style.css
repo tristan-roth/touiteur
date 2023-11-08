@@ -21,6 +21,12 @@ header {
 }
 header > h1 > a{
     color: white;
+    text-decoration: none;
+}
+a:-webkit-any-link {
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 /* Style du conteneur général (flex container) */
@@ -40,25 +46,29 @@ header > h1 > a{
     flex: 1; /* Le menu gauche prendra 1/3 de l'espace disponible */
 }
 
-/* Style du contenu principal (touites et formulaire de publication) */
-.conteneur-contenu {
-    background-color: #f0f0f0;
-    padding: 10px;
-    flex: 2; /* Le contenu principal prendra 2/3 de l'espace disponible */
-}
+
 
 /* Style du menu de droite */
-.conteneur-menu-droite {
-    flex: 1; /* Le menu de droite prendra 1/3 de l'espace disponible */
-}
+
 
 /* Style du formulaire de publication de touite */
 form {
-    width: 20px;
+    width: auto;
+    display: flex;
+    justify-content: center;
     padding: 10px;
     background-color: white;
     border-radius: 5px;
     text-align: center;
+}
+
+.publier-touite{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
 }
 
 input[type="text"] {
@@ -70,8 +80,12 @@ input[type="text"] {
 }
 
 input[type="file"] {
+    display: flex;
+    justify-content: center;
     width: 100%;
-    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    align-items: center;
 }
 
 button {
@@ -88,11 +102,11 @@ button:hover {
 }
 
 .tweets-container {
-    width: 70%; /* Adjust the desired width as needed */
+    width: 100%; /* Adjust the desired width as needed */
     margin: 0 auto; /* Center the container horizontally */
     display: flex;
     flex-wrap: wrap; /* Allow tweets to wrap to the next line when needed */
-    justify-content: space-between; /* Distribute tweets with space between them */
+    justify-content: center; /* Distribute tweets with space between them */
 }
 
 .tweets {
@@ -102,10 +116,10 @@ button:hover {
 }
 
 .tweet-box {
-    width: 200px; /* Adjust the desired width for your tweet box */
+    width: 100%; /* Adjust the desired width for your tweet box */
     border: 1px solid #ccc; /* Add a border to the tweet box */
     padding: 10px; /* Add some padding to the tweet box */
-    margin: 10px; /* Add margin to create spacing between tweet boxes */
+    /* Add margin to create spacing between tweet boxes */
     background: purple;
 }
 
@@ -115,11 +129,198 @@ button:hover {
     background-color: white;
     border-radius: 5px;
     text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.wrapper {
+    display: grid;
+    background: gray;
+    grid-template-columns: 300px 1fr 300px;
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+}
+.menu-gauche {
+    text-align: center;
+    background: purple;
+    grid-column: 1;
+    grid-row: 1;
+}
+.wrapper .contenu {
+    background-color: gray;
+    padding: 10px;
+    flex: 2;
+    grid-column: 2;
+    grid-row: 1 ;
+}
+.menu-droite {
+    background: purple;
+    grid-column: 3;
+    grid-row: 1;
 }
 
 
 
 
+
+.modal-container {
+    margin: 60px auto;
+    padding-top: 0px;
+    position: relative;
+    width: 160px;
+}
+.modal-container .modal-btn {
+    display: block;
+    margin: 0 auto;
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    line-height: 50px;
+    background: #446CB3;
+    font-size: 22px;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 5px 5px -5px #333;
+    transition: background 0.3s ease-in;
+}
+.modal-container .modal-btn:hover {
+    background: #365690;
+}
+.modal-container .modal-content,
+.modal-container .modal-backdrop {
+    height: 0;
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    cursor: pointer;
+    transition: opacity 0.2s ease-in;
+}
+.modal-container .modal-close {
+    display: none;
+    color: #aaa;
+    position: absolute;
+    /*right: 5px;
+    top: 5px;*/
+    padding-top: 3px;
+    background: #fff;
+    font-size: 16px;
+    width: 25px;
+    height: 25px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}
+.modal-container .modal-close:hover {
+    color: #333;
+}
+.modal-container .modal-content-btn {
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+    bottom: 20px;
+    right: 30px;
+    background: #446CB3;
+    color: #fff;
+    width: 50px;
+    border-radius: 2px;
+    font-size: 14px;
+    height: 32px;
+    padding-top: 9px;
+    font-weight: normal;
+}
+.modal-container .modal-content-btn:hover {
+    color: #fff;
+    background: #365690;
+}
+.modal-container #modal-toggle {
+    display: none;
+}
+.modal-container #modal-toggle.active ~ .modal-backdrop, .modal-container #modal-toggle:checked ~ .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in;
+}
+.modal-container #modal-toggle.active ~ .modal-content, .modal-container #modal-toggle:checked ~ .modal-content {
+    opacity: 1;
+    background-color: #fff;
+    width: auto;
+    height: auto;
+    padding: 20px 20px;
+    position: fixed;
+    left: calc(47% - 200px);
+    top: 12%;
+    border-radius: 4px;
+    z-index: 999;
+    pointer-events: auto;
+    cursor: auto;
+    visibility: visible;
+
+    /*box-shadow: 0 3px 7px rgba(0, 0, 0, 0.6);*/
+}
+@media (max-width: 400px) {
+    .modal-container #modal-toggle.active ~ .modal-content, .modal-container #modal-toggle:checked ~ .modal-content {
+        left: 0;
+    }
+}
+
+img:hover {
+    opacity: 0.8;
+    transition: opacity 0.9s;
+}
+
+.click {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    text-align: center;
+    z-index: 10;
+    color: white;
+    background-color: #0708a8;
+    font-size: 1em;
+    font-family: "Lucida Console", Courier, monospace;
+    opacity: 0; /*opacity 0 car le texte ne doit pas être affiché avant le hover*/
+}
+
+.box:hover .click {
+    opacity: 1; /*le texte passe à opacity 1 et devient visible*/
+    transition: opacity 0.9s;
+}
+
+.conteneur-flexbox {
+    max-width: 650px;
+    margin: 100px auto 0 auto;
+    padding: 0px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+
+.box {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    border: 2px solid #838383;
+}
+
+.arrow::before {
+    content: "X";
+}
 
 
 /* Le reste de votre CSS reste inchangé */
