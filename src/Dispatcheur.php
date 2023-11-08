@@ -16,42 +16,43 @@ use iutnc\touiteur\action\FollowAction;
 class Dispatcheur {
 
     private string $action;
-    private string $html;
+    private string $contenuHtml;
+    private string $loginError = "<h1>Veuillez vous connecter pour touiter</h1>";
 
     function __construct() {
         if (isset($_GET["action"]))
             $this->action = $_GET["action"];
         else
             $this->action = "";
-        $this->html = "";
+        $this->contenuHtml = "";
     }
 
     function run() : void {
         if (!isset($_SESSION)) session_start();
         switch ($this->action) {
             case "signin" : 
-                $this->html.= (new SigninAction())->execute();
+                $this->contenuHtml .= (new SigninAction())->execute();
                 break;
 
             case "signup" :
-                $this->html.= (new SignupAction())->execute();
+                $this->contenuHtml .= (new SignupAction())->execute();
                 break;
 
             case "touit" :
-                if(isset($_SESSION["login"])){
-                    $this->html.= (new TouitAction())->execute();
+                if(isset($_SESSION["login"])) {
+                    $this->contenuHtml .= (new TouitAction())->execute();
                 }
-                else{
-                    $this->html.="<h1>Veuillez vous connecter pour touiter</h1>" . (new SigninAction())->execute();
+                else {
+                    $this->contenuHtml .= $this->loginError . (new SigninAction())->execute();
                 }
                 break;
 
             case "detail" :
-                $this->html.= (new AfficheTouite())->execute();
+                $this->contenuHtml .= (new AfficheTouite())->execute();
                 break;
 
             case "auteur" :
-                $this->html.= (new AfficheTouiteUtilisateur())->execute();
+                $this->contenuHtml .= (new AfficheTouiteUtilisateur())->execute();
                 break;
 
             case "follow" : 
@@ -59,36 +60,42 @@ class Dispatcheur {
                 break;
 
             case "deconnecter" :
-                $this->html.=(new DeconnexionAction)->execute();
+                $this->contenuHtml .= (new DeconnexionAction)->execute();
                 break;
 
             default : 
-                $this->html .= (new AfficheListeTouites())->execute();
-
+                $this->contenuHtml .= (new AfficheListeTouites())->execute();
                 break;
         }
         $this->renderer();
     }
 
     function renderer() : void {
-        if (isset($_SESSION["login"])){
-            $copaco = '<a href="?action=deconnecter">se déconnecter</a>';
+        if (isset($_SESSION["login"])) {
+            $estConnecteTexte = <<<HTML
+                <a href="?action=deconnecter">se déconnecter</a>
+            HTML;
 
-            $petitMenu=<<<BEGIN
-                    <form action="?action=touit" method="POST" enctype="multipart/form-data">
-                        <input type="text" name="touit" placeholder="Votre touite" autocomplete="off">
-                        <input type="file" name="image" accept="image/*">
-                        <button type="submit">Touiter</button>
-                    </form>
-                    BEGIN;
-        }
-        else {$copaco = '<a href="?action=signin">Sign In</a>
-                        <a href="?action=signup">Sign Up</a>';
-            $petitMenu =<<<BEGIN
+            $boiteTouit = <<<HTML
+                <form action="?action=touit" method="POST" enctype="multipart/form-data">
+                    <input type="text" name="touit" placeholder="Votre touite" autocomplete="off">
+                    <input type="file" name="image" accept="image/*">
+                    <button type="submit">Touiter</button>
+                </form>
+                HTML;
+        } else {
+            $estConnecteTexte = <<<HTML
+                <a href="?action=signin">Sign In</a>
+                <a href="?action=signup">Sign Up</a>
+            HTML;
+
+            $boiteTouit = <<<HTML
+                <div class="touiteform">
                     <form action="?action=signin" method="GET" enctype="multipart/form-data">
                         <button type="submit">Touiter</button>
                     </form>
-                    BEGIN;
+                </div>
+            HTML;
         }
 
         echo <<<BEGINHTML
@@ -96,30 +103,32 @@ class Dispatcheur {
         <html lang="fr">
         <head>
             <meta charset='UTF-8'>
-            <meta charset="UTF-8">
-            <title>Page Title</title>
+            <title>Touiteur</title>
             <meta name="viewport" content="width=device-width,initial-scale=1">
             <link rel="stylesheet" type='text/css' href="CSS/style.css">
         </head>
-            <body>
-                <header>
-                    <nav class="menu-gauche">
-                        $copaco
-                    </nav>
-                    <h1><a href="">Touiteur</a></h1>
-                    <nav class="menu-droite">
-                    </nav>
-                </header>
+        <body>
+            <header>
+                <nav class="menu-gauche">
+                    $estConnecteTexte
+                </nav>
+                <h1>
+                    <a href="index.php">Touiteur</a>
+                </h1>
+                <nav class="menu-droite">
+                </nav>
+            </header>
                 
-        <main class="contenu">
-            <section class="touites">
-            </section>
-            <section class="publier-touite">
-                    $petitMenu
-            </section>
-        </main>
-                $this->html
-            </body>
+            <main class="contenu">
+                <div class="publier-touite">
+                    $boiteTouit
+                </div>
+
+                <section class="tweets-container">
+                    $this->contenuHtml
+                </section>
+            </main>
+        </body>
         </html>
         BEGINHTML;
     }
