@@ -88,6 +88,7 @@ class Dispatcheur {
                     <input type="text" name="touit" placeholder="Votre touite" autocomplete="off">
                     <input type="file" name="image" accept="image/*">
                     <button type="submit">Touiter</button>
+                    <link rel='stylesheet' type='text/css' href='CSS/style.css'>
                 </form>
                 HTML;
         } else {

@@ -54,6 +54,8 @@ a:-webkit-any-link {
 /* Style du formulaire de publication de touite */
 form {
     width: auto;
+    display: flex;
+    justify-content: center;
     padding: 10px;
     background-color: white;
     border-radius: 5px;
@@ -63,16 +65,14 @@ form {
 .publier-touite{
     display: flex;
     justify-content: center;
-    align-items: center;
     width: 100%;
     padding: 10px;
     background-color: white;
     border-radius: 5px;
-    text-align: center;
 }
 
 input[type="text"] {
-    width: 90%;
+    width: 100%;
     padding: 5px;
     margin: 5px;
     border: 1px solid #ccc;
@@ -152,12 +152,12 @@ button:hover {
     background-color: gray;
     padding: 10px;
     flex: 2;
-    grid-column: 2 / 4;
+    grid-column: 2;
     grid-row: 1 ;
 }
 .menu-droite {
     background: purple;
-    grid-column: 5;
+    grid-column: 3;
     grid-row: 1;
 }
 
