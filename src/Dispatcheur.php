@@ -14,6 +14,8 @@ use iutnc\touiteur\action\DeconnexionAction;
 use iutnc\touiteur\action\AfficheTouite;
 use iutnc\touiteur\action\FollowAction;
 
+use iutnc\touiteur\action\AlertAction;
+
 class Dispatcheur {
 
     private string $action;
@@ -64,6 +66,10 @@ class Dispatcheur {
                 $this->contenuHtml .= (new DeconnexionAction)->execute();
                 break;
 
+            case "alert" :
+                $this->contenuHtml .= (new AlertAction)->execute();
+                break;
+
             default : 
                 $this->contenuHtml .= (new Accueil())->execute();
                 break;
@@ -109,26 +115,27 @@ class Dispatcheur {
             <link rel="stylesheet" type='text/css' href="CSS/style.css">
         </head>
         <body>
-            <header>
-                <nav class="menu-gauche">
+            <div class="wrapper">   
+                <div class="menu-gauche">           
                     $estConnecteTexte
-                </nav>
-                <h1>
-                    <a href="index.php">Touiteur</a>
-                </h1>
-                <nav class="menu-droite">
-                </nav>
-            </header>
-                
-            <main class="contenu">
-                <div class="publier-touite">
-                    $boiteTouit
                 </div>
-
-                <section class="tweets-container">
-                    $this->contenuHtml
-                </section>
-            </main>
+                
+                
+                <div class="contenu">
+                    <div class="publier-touite">
+                        $boiteTouit
+                    </div>
+                    <div class="tweets-container">
+                        $this->contenuHtml
+                    </div>
+                </div>
+                
+                
+                <div class="menu-droite">
+                    $estConnecteTexte
+                </div>
+            </div>
+            
         </body>
         </html>
         BEGINHTML;
