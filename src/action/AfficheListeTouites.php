@@ -41,6 +41,12 @@ class AfficheListeTouites extends Action {
 
         while ($res=$data->fetch()) {
             $message = htmlspecialchars($res['message_text']);
+            //$message = preg_replace('/#([^#\'\s]+)/i', '<a href="?action=tag">$0</a>', $message);
+
+            $message = preg_replace('/#([^ #]+)/i', '<a href="?action=tag">$0</a>', $message);
+            //$message = preg_replace('/#([^ #]+)/i', '<a href="?action=tag&tag=$1">$0</a>', $message);
+            var_dump($message);
+
             $id = $res['id_touit'];
             $user = $res['id_user'];
             $contenuHtml .= <<<HTML

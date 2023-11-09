@@ -69,6 +69,10 @@ class Dispatcheur {
             case "alert" :
                 $this->contenuHtml .= (new AlertAction)->execute();
                 break;
+                
+            case "tag" :
+                $this->contenuHtml .= (new AfficheTouiteTag)->execute();
+                break;
 
             default : 
                 $this->contenuHtml .= (new Accueil())->execute();

@@ -29,9 +29,10 @@ class AfficheTouite extends Action {
         $contenuHtml = "";
         while ($res = $data->fetch()) {
             $message = htmlspecialchars($res['message_text']);
-            $contenuHtml .= "<p>$message</p>";
-
-            if ($res['image'] !== null) {
+            $message = preg_replace('/#([^ #]+)/i', '<a href="?action=tag">$0</a>', $message);
+            var_dump($message);
+            $html .= "<p>$message</p>";
+            if ($res['image'] !== null){
                 $element = explode(".",$res['image']);
                 switch($element[count($element)-1]) {
                     case "mp4" :
@@ -64,7 +65,7 @@ class AfficheTouite extends Action {
             HTML;
         }
         unset($connexion);
-        
+
         return $contenuHtml;
     }
 }
