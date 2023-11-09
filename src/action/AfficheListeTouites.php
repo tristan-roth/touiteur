@@ -28,9 +28,9 @@ class AfficheListeTouites extends Action {
 
             $utilisateur = $_SESSION["login"];
             $recherche = $connexion->query(<<<SQL
-                SELECT COUNT(id_utilisateur_suivi) as nombre FROM utilisateursuivi
-                    INNER JOIN utilisateur ON id_utilisateur_suit = utilisateur.id_utilisateur
-                    WHERE utilisateur.utilisateur = '$utilisateur'
+                SELECT count(id_utilisateur_suivi) as nombre FROM UtilisateurSuivi
+                    INNER JOIN Utilisateur ON id_utilisateur_suit = Utilisateur.id_utilisateur
+                    WHERE Utilisateur.utilisateur = '$utilisateur'
                 SQL);
 
             if ($recherche->rowCount() !== 0) {

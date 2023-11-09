@@ -5,28 +5,26 @@ namespace iutnc\touiteur\action;
 use iutnc\touiteur\connection\ConnectionFactory;
 
 class RatingTouites extends Action {
+    
     public function execute(): string {
-        $contenuHtml = "";
-        if (isset($_SESSION["login"])) {
+
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
 
-            $data = $connexion->query(<<<SQL
-                SELECT id_utilisateur FROM Utilisateur
-                    WHERE utilisateur = '{$_SESSION['login']}'
-            SQL);
+            $touiteId = $_POST["touiteId"];
+            $action = $_POST["action"];
 
-            $res = $data->fetch();
-            $idsuivre = $_POST["user"];
-            $idsuit = $res["id_utilisateur"];
-
-            $data = $connexion->query(<<<SQL
-                INSERT INTO UtilisateurSuivi VALUES ($idsuit,$idsuivre)
-            SQL);
-            $contenuHtml.="<h2>Vous suivez maintenant $idsuivre</h2>";
-        } else {
-            $contenuHtml.= "<p>Connectez vous pour suivre un utilisateur</p>";
-            $contenuHtml.= (new SigninAction)->execute();
+            if ($action === "like") {
+                $query = "UPDATE touit SET rating = rating + 1 WHERE id = ?";
+            } elseif ($action === "dislike") {
+                $query = "UPDATE touit SET rating = rating - 1 WHERE id = ?";
+            }
+            $data = $connexion->prepare($query);
+            $data->execute([$touiteId]);
+            header("Location: accueil.php");
+            exit;
         }
         return $contenuHtml;
     }
