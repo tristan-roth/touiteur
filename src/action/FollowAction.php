@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace iutnc\touiteur\action;
 
 use iutnc\touiteur\action\SigninAction;
+use iutnc\touiteur\action\AfficheListeTouites;
 use iutnc\touiteur\connection\ConnectionFactory;
 
 class FollowAction extends Action {
@@ -27,6 +28,8 @@ class FollowAction extends Action {
             $res = $data->fetch();
             $idsuivre = $_POST["user"];
             $idsuit = $res["id_utilisateur"];
+
+            $
 
             $data = $connexion->query(<<<SQL
                 INSERT INTO UtilisateurSuivi VALUES ($idsuit,$idsuivre)

@@ -12,7 +12,7 @@ class AfficheListeTouites extends Action {
         $connexion = ConnectionFactory::makeConnection();
 
         
-        $data = $connexion->query(<<<SQL
+        $data =<<<SQL
             SELECT Touits.id_touit,
                     message_text,
                     Images.image_path as image,
@@ -23,32 +23,44 @@ class AfficheListeTouites extends Action {
                 INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
                 left join tagstouits on Touits.id_touit = tagstouits.id_touit
                 ORDER BY Touits.id_touit DESC
-            SQL);
+            SQL;
         //demander a raf car left join affiche en deux fois quand on met deux # dans un touit
 
 
         if (isset($_SESSION["login"])) {
 
             $utilisateur = $_SESSION["login"];
-            $recherche = $connexion->query(<<<SQL
-                SELECT count(id_utilisateur_suivi) as nombre FROM UtilisateurSuivi
-                    INNER JOIN Utilisateur ON id_utilisateur_suit = Utilisateur.id_utilisateur
-                    WHERE Utilisateur.utilisateur = '$utilisateur'
-                SQL);
+            $recherche = $connexion->query("select count(id_utilisateur_suivi) as nombre from utilisateursuivi
+                                        inner join utilisateur on id_utilisateur_suit = utilisateur.id_utilisateur
+                                        where utilisateur.utilisateur = '$utilisateur'");
+            $res = $recherche->fetch();
+            $uti = $res["nombre"];
+            if ($uti!==0){
+                $data = <<<SQL
+                SELECT Touits.id_touit,
+                    message_text,
+                    Images.image_path as image,
+                    TouitsUtilisateur.id_utilisateur as id_user,
+                    tagstouits.id_tag as id_tag
+                FROM Touits 
+                LEFT JOIN Images on Touits.id_image = Images.id_image
+                INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
+                left join tagstouits on Touits.id_touit = tagstouits.id_touit
+                ORDER BY Touits.id_touit DESC
+                SQL;
 
-            if ($recherche->rowCount() !== 0) {
-                $res = $recherche->fetch();
-                $contenuHtml.="<h2>{$res["nombre"]}</h2>";
+
             }
         }
-        
-        while ($res=$data->fetch()) {
-
+        $precedent =-1;
+        $requete = $connexion->query($data);
+        while ($res=$requete->fetch()) {
             $message = htmlspecialchars($res['message_text']);
 
             $id = $res['id_touit'];
             $user = $res['id_user'];
             $tag = $res['id_tag'];
+            if ($precedent!==$id){
             $replacement = <<<HTML
                 <a href="?action=tag&tag=$tag">$0</a><a href="?action=detail&id=$id&user=$user">
             HTML;
@@ -104,7 +116,9 @@ class AfficheListeTouites extends Action {
                 </div>
             </div>
             HTML;
+            $precedent = $id;
         }
+    }
         unset($connexion);
         return $contenuHtml;
     }
