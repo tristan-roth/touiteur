@@ -1,7 +1,7 @@
 /* Style général de la page */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #161623;
     margin: 0;
     padding: 0;
     display: flex;
@@ -132,7 +132,7 @@ button:hover {
     width: 100%; /* Adjust the desired width for your tweet box */
     border-radius: 20px; /* Add a border to the tweet box */
     padding: 10px 0px;
-    background: black;
+    background: #161623;
     border: solid;
     border-color: white;
     border-width: 1px;
@@ -151,22 +151,27 @@ button:hover {
 
 
 
+
 .wrapper {
     display: grid;
-    background: black;
+    background: #161623;
     grid-template-columns: 300px 1fr 300px;
     grid-gap: 10px;
     grid-auto-rows: minmax(300px, auto);
+    height: 100vh;
 }
 .menu-gauche {
-    position: fixed;
     text-align: center;
-    background: linear-gradient(to right, #5F0065, black);
+    background: linear-gradient(to right, #5F0065, #161623);
     grid-column: 1;
     grid-row: 1;
+    position: fixed; /* Fixe le menu à gauche */
+    height: 100vh;
+    width: 300px;
+    left: 0;
 }
 .wrapper .contenu {
-    background: black;
+    background: #161623;
     padding: 10px;
     flex: 2;
     grid-column: 2;
@@ -177,10 +182,14 @@ button:hover {
     border-bottom-style: none;
 }
 .menu-droite {
-    position: fixed;
-    background: linear-gradient(to right, black ,#5F0065);
+    background: linear-gradient(to right, #161623 ,#5F0065);
     grid-column: 3;
     grid-row: 1;
+    position: fixed; /* Fixe le menu à gauche */
+    height: 100vh;
+    width: 300px;
+    right: 0;
+
 }
 
 .p{
