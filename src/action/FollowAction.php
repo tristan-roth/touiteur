@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace iutnc\touiteur\action;
-require_once "vendor/autoload.php";
-use iutnc\touiteur\action\Action;
+
 use iutnc\touiteur\action\SigninAction;
 use iutnc\touiteur\connection\ConnectionFactory;
 
@@ -12,21 +13,29 @@ class FollowAction extends Action {
     }
     public function execute() : string {
         var_dump($_POST["user"]);
-        $html = "";
-        if (isset($_SESSION["login"])){
+
+        $contenuHtml = "";
+        if (isset($_SESSION["login"])) {
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
-            $idsuivre = $_POST["user"];
-            $data=$connexion->query("select id_utilisateur from utilisateur where utilisateur = '{$_SESSION['login']}'");
+
+            $data = $connexion->query(<<<SQL
+                SELECT id_utilisateur FROM Utilisateur
+                    WHERE utilisateur = '{$_SESSION['login']}'
+            SQL);
+
             $res = $data->fetch();
+            $idsuivre = $_POST["user"];
             $idsuit = $res["id_utilisateur"];
-            $data = $connexion->Query("insert into utilisateursuivi values($idsuit,$idsuivre)");
-            $html.="<h2>Vous suivez maintenant $idsuivre</h2>";
+
+            $data = $connexion->query(<<<SQL
+                INSERT INTO UtilisateurSuivi VALUES ($idsuit,$idsuivre)
+            SQL);
+            $contenuHtml.="<h2>Vous suivez maintenant $idsuivre</h2>";
+        } else {
+            $contenuHtml.= "<p>Connectez vous pour suivre un utilisateur</p>";
+            $contenuHtml.= (new SigninAction)->execute();
         }
-        else{
-            $html.= "<p>Connectez vous pour suivre un utilisateur</p>";
-            $html.= (new SigninAction)->execute();
-        }
-        return $html;
+        return $contenuHtml;
     }
 }
