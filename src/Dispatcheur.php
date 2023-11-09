@@ -6,6 +6,7 @@ require_once 'vendor/autoload.php';
 
 use iutnc\touiteur\action\Accueil;
 use iutnc\touiteur\action\AfficheListeTouites;
+use iutnc\touiteur\action\AfficheTouiteTag;
 use iutnc\touiteur\action\AfficheTouiteUtilisateur;
 use iutnc\touiteur\action\SigninAction;
 use iutnc\touiteur\action\TouitAction;

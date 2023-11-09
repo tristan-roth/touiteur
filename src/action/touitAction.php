@@ -89,12 +89,18 @@ class TouitAction extends Action
                         if ($id_tag === null)
                             $id_tag = 0;
 
-                        var_dump($id_tag);
-
                         $data = $connexion->prepare(
-                            "insert into tags (id_tag,libelle_tag) values (?, ?)"
+                            "select id_tag from tags where libelle_tag = ?"
                         );
-                        $data->execute([$id_tag, $tag]);
+                        $data->execute([$tag]);
+                        $res = $data->fetch();
+
+                        if ($res === false) {
+                            $data = $connexion->prepare(
+                                "insert into tags (id_tag,libelle_tag) values (?, ?)"
+                            );
+                            $data->execute([$id_tag, $tag]);
+                        }
 
                         $data = $connexion->prepare(
                             "insert into tagstouits (id_touit, id_tag) values (?, ?)"
