@@ -19,10 +19,10 @@ class SigninAction extends Action {
 
         if ($method === "GET" || !isset($_POST["nom"])) {
             $contenuHtml = <<<HTML
-            <h3>connexion : </h3>
+            <h3>Connexion : </h3>
             <form action="" id="signin" method="POST">
-                <input type="text" id="nom" name="nom" placeholder="votre nom d'utilisateur">
-                <input type="password" id="mdp" name="passwd" placeholder="votre mot de passe">
+                <input type="text" id="nom" name="nom" placeholder="Votre nom d'utilisateur">
+                <input type="password" id="mdp" name="passwd" placeholder="Votre mot de passe">
                 <button type="submit">Valider</button>
             </form>
             HTML;
@@ -31,28 +31,39 @@ class SigninAction extends Action {
 
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
+
+            $data = $connexion->prepare(<<<SQL
+                SELECT utilisateur,
+                        passwd
+                    FROM Utilisateur
+                    WHERE utilisateur = ?
+                SQL);
+            
             $mdp = $_POST["passwd"];
-            $nom = @filter_var($_POST["nom"],FILTER_SANITIZE_STRING);
-            $data = $connexion->prepare("select utilisateur, passwd from utilisateur where utilisateur = ?");
+            $nom = @filter_var($_POST["nom"], FILTER_SANITIZE_STRING);
+
             $data->bindParam(1,$nom);
             $data->execute();
-            if ($data->rowCount()===0){
-                $contenuHtml.= "<p>ce nom d'utilisateur n'existe pas. <a href=\"?action=signup\">Créez un compte</a> pour continuer</p>";
-            }
-            else{
-                while ($res=$data->fetch()){
+
+            if ($data->rowCount() === 0) {
+                $contenuHtml .= <<<HTML
+                    <p>Ce nom d'utilisateur n'existe pas. <a href="?action=signup">Créez un compte</a> pour continuer.</p>
+                HTML;
+
+            } else {
+                while ($res=$data->fetch()) {
                     if (password_verify($mdp, $res['passwd'])) {
                         $_SESSION["login"] = $nom;
-                        $contenuHtml.="<h1>Vous êtes maintenant connecté</h1>";
-                        $contenuHtml.=(new AfficheListeTouites)->execute();
-                    }
-                    else{
-                        $contenuHtml.="<h1>Les informations ne correspondent pas</h1>";
+                        $contenuHtml .= "<h1>Vous êtes maintenant connecté.</h1>";
+                        $contenuHtml .= (new AfficheListeTouites)->execute();
+                    } else {
+                        $contenuHtml .= "<h1>Les informations ne correspondent pas.</h1>";
                     }
                 }
             } 
         }
         unset($connexion);
+
         return $contenuHtml;
     }
 }
