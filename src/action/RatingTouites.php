@@ -5,13 +5,16 @@ namespace iutnc\touiteur\action;
 use iutnc\touiteur\connection\ConnectionFactory;
 
 class RatingTouites extends Action {
+    
     public function execute(): string {
+
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $touiteId = $_POST["touiteId"];
-            $action = $_POST["action"];
 
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
+
+            $touiteId = $_POST["touiteId"];
+            $action = $_POST["action"];
 
             if ($action === "like") {
                 $query = "UPDATE touit SET rating = rating + 1 WHERE id = ?";
@@ -23,7 +26,6 @@ class RatingTouites extends Action {
             header("Location: accueil.php");
             exit;
         }
-        unset($connexion);
-        return "fqidhfonaqdifji";
+        return $contenuHtml;
     }
 }

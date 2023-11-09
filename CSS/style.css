@@ -1,14 +1,14 @@
 /* Style général de la page */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #161623;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     align-content: center;
-    min-height: 100vh;
+    height: 100vh;
 }
 
 /* Style de l'en-tête (barre de navigation) */
@@ -21,6 +21,12 @@ header {
 }
 header > h1 > a{
     color: white;
+    text-decoration: none;
+}
+a:-webkit-any-link {
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 /* Style du conteneur général (flex container) */
@@ -40,38 +46,59 @@ header > h1 > a{
     flex: 1; /* Le menu gauche prendra 1/3 de l'espace disponible */
 }
 
-/* Style du contenu principal (touites et formulaire de publication) */
-.conteneur-contenu {
-    background-color: #f0f0f0;
-    padding: 10px;
-    flex: 2; /* Le contenu principal prendra 2/3 de l'espace disponible */
-}
+
 
 /* Style du menu de droite */
-.conteneur-menu-droite {
-    flex: 1; /* Le menu de droite prendra 1/3 de l'espace disponible */
-}
+
 
 /* Style du formulaire de publication de touite */
 form {
-    width: 20px;
+    width: auto;
     padding: 10px;
     background-color: white;
     border-radius: 5px;
     text-align: center;
+    margin: 10px;
+    background: transparent;
+}
+
+.publier-touite{
+    display: flex;
+    justify-content: center;
+    max-width: auto;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: linear-gradient(to bottom, #FAA6FF, #161623);
+    border-radius: 5px;
+    border-color: #161623;
 }
 
 input[type="text"] {
-    width: 100%;
+    width: 90%;
     padding: 5px;
     margin: 5px;
     border: 1px solid #ccc;
     border-radius: 3px;
 }
 
+input[type="submit" i] {
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 10px;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    background: #FAA6FF;
+}
+
 input[type="file"] {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
     width: 100%;
-    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    align-items: center;
 }
 
 button {
@@ -79,7 +106,7 @@ button {
     color: white;
     padding: 5px 10px;
     border: none;
-    border-radius: 3px;
+    border-radius: 20px;
     cursor: pointer;
 }
 
@@ -87,12 +114,16 @@ button:hover {
     background-color: #0c90e6;
 }
 
+
 .tweets-container {
-    width: 70%; /* Adjust the desired width as needed */
-    margin: 0 auto; /* Center the container horizontally */
+    width: 100%;
     display: flex;
-    flex-wrap: wrap; /* Allow tweets to wrap to the next line when needed */
-    justify-content: space-between; /* Distribute tweets with space between them */
+    flex-wrap: wrap;
+    justify-content: center; /* Distribute tweets with space between them */
+}
+
+.form .signup{
+    align-items: ;
 }
 
 .tweets {
@@ -102,24 +133,259 @@ button:hover {
 }
 
 .tweet-box {
-    width: 200px; /* Adjust the desired width for your tweet box */
-    border: 1px solid #ccc; /* Add a border to the tweet box */
-    padding: 10px; /* Add some padding to the tweet box */
-    margin: 10px; /* Add margin to create spacing between tweet boxes */
-    background: purple;
+    text-align: center;
+    width: 100%; /* Adjust the desired width for your tweet box */
+    border-radius: 20px; /* Add a border to the tweet box */
+    padding: 10px 0px;
+    background: #161623;
+    border: solid;
+    border-color: white;
+    border-width: 1px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.TestAlign{
+    display: flex;
+}
+
+
+
+.tweet-box .a .p {
+    text-align: justify;
+
+    border: 1px solid black;
+
+    overflow: auto;
 }
 
 .touiteform{
     width: 200px;
     padding: 10px;
-    background-color: white;
+    background-color: red;
     border-radius: 5px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+
+/* Barre de défilement principale */
+.content::-webkit-scrollbar {
+    width: 12px;
+    background-color:black; /* Couleur de fond de la barre de défilement */
+}
+
+/* Bouton de la barre de défilement */
+.content::-webkit-scrollbar-thumb {
+    background-color: rgb(191, 196, 200); /* Couleur du bouton de la barre de défilement */
+    border-radius: 6px; /* Forme du bouton de la barre de défilement */
+}
+
+
+.wrapper {
+    display: grid;
+    background: #161623;
+    grid-template-columns: 1fr 2fr 1fr; /* Trois colonnes égales. */
+    grid-gap: 10px; /* Espace entre les colonnes. */
+    height: 100%;
+    width: 100%;
+}
+.menu-gauche {
+    text-align: center;
+    background: linear-gradient(to right, #5F0065, #161623);
+    height: auto;
+    width: 100%;
+    overflow: hidden;
+}
+.contenu {
+    background: #161623;
+    padding: 10px;
+    overflow: scroll;
+    width: auto;
+    border: white;
+    border: 1px solid #FFFFFF;
+    border-top-style: none;
+    border-bottom-style: none;
+}
+.menu-droite {
+    text-align: center;
+    background: linear-gradient(to right, #161623 ,#5F0065);
+    height: auto;
+    width: 100%;
+    overflow: hidden;
+}
+
+.p{
     text-align: center;
 }
 
 
 
 
+
+.modal-container {
+    margin: 60px auto;
+    padding-top: 0px;
+    position: relative;
+    width: 160px;
+}
+.modal-container .modal-btn {
+    display: block;
+    margin: 0 auto;
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    line-height: 50px;
+    background: #446CB3;
+    font-size: 22px;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 5px 5px -5px #333;
+    transition: background 0.3s ease-in;
+}
+.modal-container .modal-btn:hover {
+    background: #365690;
+}
+.modal-container .modal-content,
+.modal-container .modal-backdrop {
+    height: 0;
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    cursor: pointer;
+    transition: opacity 0.2s ease-in;
+}
+.modal-container .modal-close {
+    display: none;
+    color: #aaa;
+    position: absolute;
+    /*right: 5px;
+    top: 5px;*/
+    padding-top: 3px;
+    background: #fff;
+    font-size: 16px;
+    width: 25px;
+    height: 25px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}
+.modal-container .modal-close:hover {
+    color: #333;
+}
+.modal-container .modal-content-btn {
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+    bottom: 20px;
+    right: 30px;
+    background: #446CB3;
+    color: #fff;
+    width: 50px;
+    border-radius: 2px;
+    font-size: 14px;
+    height: 32px;
+    padding-top: 9px;
+    font-weight: normal;
+}
+.modal-container .modal-content-btn:hover {
+    color: #fff;
+    background: #365690;
+}
+.modal-container #modal-toggle {
+    display: none;
+}
+.modal-container #modal-toggle.active ~ .modal-backdrop, .modal-container #modal-toggle:checked ~ .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in;
+}
+.modal-container #modal-toggle.active ~ .modal-content, .modal-container #modal-toggle:checked ~ .modal-content {
+    opacity: 1;
+    background-color: #fff;
+    width: auto;
+    height: auto;
+    padding: 20px 20px;
+    position: fixed;
+    left: calc(47% - 200px);
+    top: 12%;
+    border-radius: 4px;
+    z-index: 999;
+    pointer-events: auto;
+    cursor: auto;
+    visibility: visible;
+
+    /*box-shadow: 0 3px 7px rgba(0, 0, 0, 0.6);*/
+}
+@media (max-width: 400px) {
+    .modal-container #modal-toggle.active ~ .modal-content, .modal-container #modal-toggle:checked ~ .modal-content {
+        left: 0;
+    }
+}
+
+img:hover {
+    opacity: 0.8;
+    transition: opacity 0.9s;
+}
+
+.click {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    text-align: center;
+    z-index: 10;
+    color: white;
+    background-color: #0708a8;
+    font-size: 1em;
+    font-family: "Lucida Console", Courier, monospace;
+    opacity: 0; /*opacity 0 car le texte ne doit pas être affiché avant le hover*/
+}
+
+.box:hover .click {
+    opacity: 1; /*le texte passe à opacity 1 et devient visible*/
+    transition: opacity 0.9s;
+}
+
+.conteneur-flexbox {
+    max-width: 650px;
+    margin: 100px auto 0 auto;
+    padding: 0px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+
+.box {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    border: 2px solid #838383;
+}
+
+.arrow::before {
+    content: "X";
+}
 
 
 /* Le reste de votre CSS reste inchangé */
