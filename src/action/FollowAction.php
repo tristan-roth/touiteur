@@ -29,6 +29,8 @@ class FollowAction extends Action {
             $idsuivre = $_POST["user"];
             $idsuit = $res["id_utilisateur"];
 
+            $
+
             $data = $connexion->query(<<<SQL
                 INSERT INTO UtilisateurSuivi VALUES ($idsuit,$idsuivre)
             SQL);

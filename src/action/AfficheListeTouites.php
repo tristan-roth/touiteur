@@ -38,23 +38,21 @@ class AfficheListeTouites extends Action {
             if ($uti!==0){
                 $data = <<<SQL
                 SELECT Touits.id_touit,
-                        message_text,
-                        Images.image_path as image,
-                        TouitsUtilisateur.id_utilisateur as id_user
-                    FROM Touits 
-                    LEFT JOIN Images on Touits.id_image = Images.id_image
-                    INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
-                    INNER JOIN utilisateur on TouitsUtilisateur.id_utilisateur = utilisateur.id_utilisateur
-                    INNER JOIN utilisateursuivi on utilisateur.id_utilisateur = utilisateursuivi.id_utilisateur_suivi
-                    WHERE utilisateursuivi.id_utilisateur_suivi IN (SELECT id_utilisateur_suivi from utilisateursuivi
-                                                                inner join utilisateur on id_utilisateur_suit = id_utilisateur
-                                                                 where utilisateur = '$utilisateur')
-                    ORDER BY Touits.id_touit DESC;
+                    message_text,
+                    Images.image_path as image,
+                    TouitsUtilisateur.id_utilisateur as id_user,
+                    tagstouits.id_tag as id_tag
+                FROM Touits 
+                LEFT JOIN Images on Touits.id_image = Images.id_image
+                INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
+                left join tagstouits on Touits.id_touit = tagstouits.id_touit
+                ORDER BY Touits.id_touit DESC
                 SQL;
 
 
             }
         }
+        $precedent =-1;
         $requete = $connexion->query($data);
         while ($res=$requete->fetch()) {
             $message = htmlspecialchars($res['message_text']);
@@ -62,6 +60,7 @@ class AfficheListeTouites extends Action {
             $id = $res['id_touit'];
             $user = $res['id_user'];
             $tag = $res['id_tag'];
+            if ($precedent!==$id){
             $replacement = <<<HTML
                 <a href="?action=tag&tag=$tag">$0</a><a href="?action=detail&id=$id&user=$user">
             HTML;
@@ -117,7 +116,9 @@ class AfficheListeTouites extends Action {
                 </div>
             </div>
             HTML;
+            $precedent = $id;
         }
+    }
         unset($connexion);
         return $contenuHtml;
     }
