@@ -40,8 +40,9 @@ class AfficheListeTouites extends Action {
                 $contenuHtml.="<h2>{$res["nombre"]}</h2>";
             }
         }
-
+        
         while ($res=$data->fetch()) {
+
             $message = htmlspecialchars($res['message_text']);
             //$message = preg_replace('/#([^#\'\s]+)/i', '<a href="?action=tag">$0</a>', $message);
 
