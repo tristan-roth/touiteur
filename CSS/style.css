@@ -46,6 +46,24 @@ a:-webkit-any-link {
     flex: 1; /* Le menu gauche prendra 1/3 de l'espace disponible */
 }
 
+.touit{
+    height: 200px;
+    width: 500px;
+    min-width: 400px;
+}
+
+.touitActionsWrapper{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.icone>input{
+    display: none;
+}
+
+
 
 
 /* Style du menu de droite */
@@ -68,7 +86,7 @@ form {
     max-width: auto;
     margin-bottom: 10px;
     padding: 10px;
-    background: linear-gradient(to bottom, #FAA6FF, #161623);
+    background: linear-gradient(to bottom, #5F0065, #161623);
     border-radius: 5px;
     border-color: #161623;
 }

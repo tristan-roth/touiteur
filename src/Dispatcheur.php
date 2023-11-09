@@ -90,16 +90,30 @@ class Dispatcheur {
 
             $boiteTouit = <<<HTML
                 <form action="?action=touit" method="POST" enctype="multipart/form-data">
-                    <input type="text" name="touit" placeholder="Votre touite" autocomplete="off">
+                    <input type="text" name="touit" placeholder="Votre touite" autocomplete="off" style="width: 400px; height: 30px; border-radius: 15px; ">
                     <div class="touitActionsWrapper">
-                        <label for="touitSendFile">
-                            <img src="image/sendFile.png" style="width: 32px">
-                        </label>
-                        <input type="file" id="touitSendFile" name="image" accept="image/*">
+                        <div class="icone">
+                            <label for="touitSendFile">
+                                <img src="image/sendicone.png" style="width: 50px">
+                            </label>
+                            <input type="file" id="touitSendFile" name="image" accept="image/*" style="display: none">
+                        </div>
                         <button type="submit">Touiter</button>
                     </div>
                 </form>
                 HTML;
+
+            $droiteWeb = <<<HTML
+                <div class="menu-droite">
+                    <h3>Utilisateurs à suivre</h3>
+                    <ul>
+                        <li><a href="?action=auteur&user=1">Jean</a></li>
+                        <li><a href="?action=auteur&user=2">Paul</a></li>
+                        <li><a href="?action=auteur&user=3">Jacques</a></li>
+                    </ul>
+                </div>  
+            HTML;
+
         } else {
             $estConnecteTexte = <<<HTML
                 <a href="?action=signin">Sign In<br></a>
@@ -141,7 +155,7 @@ class Dispatcheur {
                 
                 
                 <div class="menu-droite">
-                    $estConnecteTexte
+                    $droiteWeb
                 </div>
             </div>
             
