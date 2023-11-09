@@ -88,21 +88,18 @@ class Dispatcheur {
                     <input type="text" name="touit" placeholder="Votre touite" autocomplete="off">
                     <input type="file" name="image" accept="image/*">
                     <button type="submit">Touiter</button>
-                    <link rel='stylesheet' type='text/css' href='CSS/style.css'>
                 </form>
                 HTML;
         } else {
             $estConnecteTexte = <<<HTML
-                <a href="?action=signin">Sign In</a>
-                <a href="?action=signup">Sign Up</a>
+                <a href="?action=signin">Sign In<br></a>
+                <a href="?action=signup">Sign Up<br></a>
             HTML;
 
             $boiteTouit = <<<HTML
-                <div class="touiteform">
                     <form action="?action=signin" method="POST" enctype="multipart/form-data">
                         <button type="submit">Touiter</button>
                     </form>
-                </div>
             HTML;
         }
 
@@ -113,11 +110,12 @@ class Dispatcheur {
             <meta charset='UTF-8'>
             <title>Touiteur</title>
             <meta name="viewport" content="width=device-width,initial-scale=1">
-
+            <link rel='stylesheet' type='text/css' href='CSS/style.css'>
         </head>
         <body>
             <div class="wrapper">   
-                <div class="menu-gauche">           
+                <div class="menu-gauche">        
+                    <h1><a href="index.php">Touiteur</a></h1>  
                     $estConnecteTexte
                 </div>
                 
