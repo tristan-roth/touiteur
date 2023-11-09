@@ -21,7 +21,7 @@ class AfficheListeTouites extends Action {
                 FROM Touits 
                 LEFT JOIN Images on Touits.id_image = Images.id_image
                 INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
-                INNER JOIN tagstouits on Touits.id_touit = tagstouits.id_touit
+                left join tagstouits on Touits.id_touit = tagstouits.id_touit
                 ORDER BY Touits.id_touit DESC
             SQL);
 
@@ -45,9 +45,7 @@ class AfficheListeTouites extends Action {
 
             $message = htmlspecialchars($res['message_text']);
             //$message = preg_replace('/#([^#\'\s]+)/i', '<a href="?action=tag">$0</a>', $message);
-
-            $message = preg_replace('/#([^ #]+)/i', '<a href="?action=tag">$0</a>', $message);
-
+            ;
 
             $id = $res['id_touit'];
             $user = $res['id_user'];
@@ -56,7 +54,8 @@ class AfficheListeTouites extends Action {
                 <a href="?action=tag&tag=$tag">$0</a>
             HTML;
 
-            $message = preg_replace('/#([^ #]+)/i', $replacement, $message);
+            $message = preg_replace('/#([^ #]+)/i',$replacement, $message);
+
             $contenuHtml .= <<<HTML
                 <div class="tweet-box">
                 <a href="?action=detail&id=$id&user=$user">

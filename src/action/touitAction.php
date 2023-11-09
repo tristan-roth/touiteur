@@ -79,34 +79,39 @@ class TouitAction extends Action
 
 
                     preg_match_all( '/#[^ #]+/i', $message,$tags);
-                    var_dump($tags[0]);
                     foreach ($tags[0] as $tag) {
-                        $data = $connexion->query(
-                            "select max(id_tag) as id_tag from tags "
-                        );
-                        $res = $data->fetch();
-                        $id_tag = $res["id_tag"]+1;
-                        if ($id_tag === null)
-                            $id_tag = 0;
-
                         $data = $connexion->prepare(
                             "select id_tag from tags where libelle_tag = ?"
                         );
                         $data->execute([$tag]);
-                        $res = $data->fetch();
+                        $resExist = $data->fetch();
+                        if ($resExist === false) {
 
-                        if ($res === false) {
+                            $data = $connexion->query(
+                                "select max(id_tag) as id_tag from tags "
+                            );
+                            $res = $data->fetch();
+                            $id_tag = $res["id_tag"] + 1;
+                            if ($id_tag === null)
+                                $id_tag = 0;
+
+
                             $data = $connexion->prepare(
                                 "insert into tags (id_tag,libelle_tag) values (?, ?)"
                             );
                             $data->execute([$id_tag, $tag]);
+
+                            $data = $connexion->prepare(
+                                "insert into tagstouits (id_touit, id_tag) values (?, ?)"
+                            );
+                            $data->execute([$id_touit, $id_tag]);
                         }
-
-                        $data = $connexion->prepare(
-                            "insert into tagstouits (id_touit, id_tag) values (?, ?)"
-                        );
-                        $data->execute([$id_touit, $id_tag]);
-
+                        else {
+                            $data = $connexion->prepare(
+                                "insert into tagstouits (id_touit, id_tag) values (?, ?)"
+                            );
+                            $data->execute([$id_touit, $resExist["id_tag"]]);
+                        }
                     }
 
 
