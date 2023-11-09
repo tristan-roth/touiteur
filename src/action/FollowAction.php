@@ -19,7 +19,7 @@ class FollowAction extends Action {
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
 
-            $idsuivre = $_POST["user"]+1;
+            $idsuivre = $_POST["user"]+0;
             $idsuit = RequetesBd::recupererId($_SESSION["login"]);
             
             if (RequetesBd::followDeja($idsuit,$idsuivre)){

@@ -5,7 +5,7 @@ namespace iutnc\touiteur\action;
 use iutnc\touiteur\connection\ConnectionFactory;
 use iutnc\touiteur\action\RequetesBd;
 
-class AfficheListeTouites extends Action {
+class AfficheListeTouitesAbonnement extends Action {
     public function execute(): string
     {
         $contenuHtml = '';
@@ -30,6 +30,7 @@ class AfficheListeTouites extends Action {
         if ($connecte) {
 
             $utilisateur = $_SESSION["login"];
+            $id_uti = RequetesBd::recupererId($utilisateur)+0;
             $recherche = $connexion->query("select count(id_utilisateur_suivi) as nombre from utilisateursuivi
                                         inner join utilisateur on id_utilisateur_suit = utilisateur.id_utilisateur
                                         where utilisateur.utilisateur = '$utilisateur'");
@@ -46,6 +47,8 @@ class AfficheListeTouites extends Action {
                 LEFT JOIN Images on Touits.id_image = Images.id_image
                 INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
                 left join tagstouits on Touits.id_touit = tagstouits.id_touit
+                inner join utilisateursuivi on TouitsUtilisateur.id_utilisateur = utilisateursuivi.id_utilisateur_suivi
+                where utilisateursuivi.id_utilisateur_suivi in (SELECt id_utilisateur_suivi from utilisateursuivi where id_utilisateur_suit = $id_uti)
                 ORDER BY Touits.id_touit DESC
                 SQL;
 

@@ -6,6 +6,7 @@ require_once 'vendor/autoload.php';
 
 use iutnc\touiteur\action\Accueil;
 use iutnc\touiteur\action\AfficheListeTouites;
+use iutnc\touiteur\action\AfficheListeTouitesAbonnement;
 use iutnc\touiteur\action\AfficheTouiteTag;
 use iutnc\touiteur\action\AfficheTouiteUtilisateur;
 use iutnc\touiteur\action\SigninAction;
@@ -75,6 +76,10 @@ class Dispatcheur {
                 $this->contenuHtml .= (new AfficheTouiteTag)->execute();
                 break;
 
+            case "abo" : 
+                $this->contenuHtml.=(new AfficheListetouitesAbonnement())->execute();
+                break;
+
             default :
                 $this->contenuHtml .= (new Accueil())->execute();
                 break;
@@ -115,10 +120,26 @@ class Dispatcheur {
                 </form>
                 HTML;
 
+                $liste =<<<HTML
+                    <div class="type-liste">
+                    <a href="?action=">Tweets récents</a>
+                    <a href="?action=abo">Abonnements</a>
+                    </div>
+                    HTML;
+
+
         } else {
+
+            $liste =<<<HTML
+                    <div class="type-liste">
+                    <a href="?action=">Tweets récents</a>
+                    <a href="?action=abo">Abonnements</a>
+                    </div>
+                    HTML;
+                    
             $estConnecteTexte = <<<HTML
-                <a href="?action=signin">Sign In<br></a>
-                <a href="?action=signup">Sign Up<br></a>
+                <a href="?action=signin">Se connecter<br></a>
+                <a href="?action=signup">S'inscrire<br></a>
             HTML;
 
             $boiteTouit = <<<HTML
@@ -149,6 +170,7 @@ class Dispatcheur {
                     <div class="publier-touite">
                         $boiteTouit
                     </div>
+                    $liste;
                     <div class="tweets-container">
                         $this->contenuHtml
                     </div>
