@@ -7,7 +7,7 @@ use iutnc\touiteur\connection\ConnectionFactory;
 class AfficheListeTouites extends Action {
     public function execute(): string
     {
-        $contenuHtml ='';
+        $contenuHtml = '';
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
@@ -24,12 +24,16 @@ class AfficheListeTouites extends Action {
             SQL);
 
 
-        if(isset($_SESSION["login"])){
+        if (isset($_SESSION["login"])) {
+
             $utilisateur = $_SESSION["login"];
-            $recherche = $connexion->query("select count(id_utilisateur_suivi) as nombre from utilisateursuivi
-                                        inner join utilisateur on id_utilisateur_suit = utilisateur.id_utilisateur
-                                        where utilisateur.utilisateur = '$utilisateur'");
-            if ($recherche->rowCount()!==0){
+            $recherche = $connexion->query(<<<SQL
+                SELECT COUNT(id_utilisateur_suivi) as nombre FROM utilisateursuivi
+                    INNER JOIN utilisateur ON id_utilisateur_suit = utilisateur.id_utilisateur
+                    WHERE utilisateur.utilisateur = '$utilisateur'
+                SQL);
+
+            if ($recherche->rowCount() !== 0) {
                 $res = $recherche->fetch();
                 $contenuHtml.="<h2>{$res["nombre"]}</h2>";
             }
