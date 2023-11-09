@@ -18,8 +18,15 @@ class AfficheTouite extends Action{
                                     where touits.id_touit = $id");
         $html = "";
         while ($res=$data->fetch()){
+            $user = $res['id_user'];
             $message = htmlspecialchars($res['message_text']);
             $html .= "<p>$message</p>";
+            $html.=<<<HTML
+            <form action="?action=follow" class="suivre" method="POST">
+                <input type="hidden" name="user" value="$user">
+                <input type="submit" value="Suivre" name="mybutton">
+            </form>
+            HTML;
             if ($res['image'] !== null){
                 $element = explode(".",$res['image']);
                 switch($element[count($element)-1]){

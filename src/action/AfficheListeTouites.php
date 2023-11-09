@@ -12,7 +12,7 @@ class AfficheListeTouites extends Action {
         $connexion = ConnectionFactory::makeConnection();
 
         
-        $data = $connexion->query(<<<SQL
+        $data =<<<SQL
             SELECT Touits.id_touit,
                     message_text,
                     Images.image_path as image,
@@ -21,7 +21,7 @@ class AfficheListeTouites extends Action {
                 LEFT JOIN Images on Touits.id_image = Images.id_image
                 INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
                 ORDER BY Touits.id_touit DESC
-            SQL);
+            SQL;
 
 
         if(isset($_SESSION["login"])){
@@ -29,13 +29,30 @@ class AfficheListeTouites extends Action {
             $recherche = $connexion->query("select count(id_utilisateur_suivi) as nombre from utilisateursuivi
                                         inner join utilisateur on id_utilisateur_suit = utilisateur.id_utilisateur
                                         where utilisateur.utilisateur = '$utilisateur'");
-            if ($recherche->rowCount()!==0){
-                $res = $recherche->fetch();
-                $contenuHtml.="<h2>{$res["nombre"]}</h2>";
+            $res = $recherche->fetch();
+            $uti = $res["nombre"];
+            if ($uti!==0){
+                $data = <<<SQL
+                SELECT Touits.id_touit,
+                        message_text,
+                        Images.image_path as image,
+                        TouitsUtilisateur.id_utilisateur as id_user
+                    FROM Touits 
+                    LEFT JOIN Images on Touits.id_image = Images.id_image
+                    INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
+                    INNER JOIN utilisateur on TouitsUtilisateur.id_utilisateur = utilisateur.id_utilisateur
+                    INNER JOIN utilisateursuivi on utilisateur.id_utilisateur = utilisateursuivi.id_utilisateur_suivi
+                    WHERE utilisateursuivi.id_utilisateur_suivi IN (SELECT id_utilisateur_suivi from utilisateursuivi
+                                                                inner join utilisateur on id_utilisateur_suit = id_utilisateur
+                                                                 where utilisateur = '$utilisateur')
+                    ORDER BY Touits.id_touit DESC;
+                SQL;
+
+
             }
         }
-
-        while ($res=$data->fetch()) {
+        $requete = $connexion->query($data);
+        while ($res=$requete->fetch()) {
             $message = htmlspecialchars($res['message_text']);
             $id = $res['id_touit'];
             $user = $res['id_user'];
