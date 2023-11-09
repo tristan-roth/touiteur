@@ -21,7 +21,7 @@ class SignupAction extends Action
         if ($method === "GET") {
             $html = <<<HTML
 <h3>Inscription : </h3>
-<form action="signup" id="signup" method="POST">
+<form action="" id="signup" method="POST">
     <input type="text" id="nom" name="nom" placeholder="votre nom">
     <input type="text" id="prenom" name="prenom" placeholder="votre prénom">
     <input type="text" id="uti" name="uti" placeholder="votre nom d'utilisateur">
