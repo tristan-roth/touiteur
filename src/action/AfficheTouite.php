@@ -19,6 +19,8 @@ class AfficheTouite extends Action{
         $html = "";
         while ($res=$data->fetch()){
             $message = htmlspecialchars($res['message_text']);
+            $message = preg_replace('/#([^ #]+)/i', '<a href="?action=tag">$0</a>', $message);
+            var_dump($message);
             $html .= "<p>$message</p>";
             if ($res['image'] !== null){
                 $element = explode(".",$res['image']);

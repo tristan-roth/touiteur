@@ -78,9 +78,8 @@ class TouitAction extends Action
                     $data->execute([$id_touit, $message, $id_image]);
 
 
-                    var_dump($message);
                     preg_match_all( '/#[^ #]+/i', $message,$tags);
-                    var_dump($tags);
+                    var_dump($tags[0]);
                     foreach ($tags[0] as $tag) {
                         $data = $connexion->query(
                             "select max(id_tag) as id_tag from tags "
@@ -90,13 +89,19 @@ class TouitAction extends Action
                         if ($id_tag === null)
                             $id_tag = 0;
 
+                        var_dump($id_tag);
+
                         $data = $connexion->prepare(
                             "insert into tags (id_tag,libelle_tag) values (?, ?)"
                         );
                         $data->execute([$id_tag, $tag]);
-                    }
 
-                    //echo preg_replace('/#[^ #]+/i', '<a href="?action=tag&tag=$0">$0</a>', $message);
+                        $data = $connexion->prepare(
+                            "insert into tagstouits (id_touit, id_tag) values (?, ?)"
+                        );
+                        $data->execute([$id_touit, $id_tag]);
+
+                    }
 
 
                     $data = $connexion->prepare(
