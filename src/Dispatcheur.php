@@ -93,9 +93,9 @@ class Dispatcheur {
                     <input type="text" name="touit" placeholder="Votre touite" autocomplete="off">
                     <div class="touitActionsWrapper">
                         <label for="touitSendFile">
-                            <img src="image/sendFile.png" style="width: 32px"/>
+                            <img src="image/sendFile.png" style="width: 32px">
                         </label>
-                        <input type="file" id="touitSendFile" name="image" accept="image/*"/>
+                        <input type="file" id="touitSendFile" name="image" accept="image/*">
                         <button type="submit">Touiter</button>
                     </div>
                 </form>

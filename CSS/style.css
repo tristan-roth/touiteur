@@ -54,13 +54,12 @@ a:-webkit-any-link {
 /* Style du formulaire de publication de touite */
 form {
     width: auto;
-    display: flex;
-    justify-content: center;
     padding: 10px;
     background-color: white;
     border-radius: 5px;
     text-align: center;
     margin: 10px;
+    background: transparent;
 }
 
 .publier-touite{
@@ -69,12 +68,13 @@ form {
     max-width: auto;
     margin-bottom: 10px;
     padding: 10px;
-    background-color: white;
+    background: linear-gradient(to bottom, #FAA6FF, #161623);
     border-radius: 5px;
+    border-color: #161623;
 }
 
 input[type="text"] {
-    width: 100%;
+    width: 90%;
     padding: 5px;
     margin: 5px;
     border: 1px solid #ccc;
@@ -116,10 +116,14 @@ button:hover {
 
 
 .tweets-container {
-    width: 100%; /* Adjust the desired width as needed *
+    width: 100%;
     display: flex;
-    flex-wrap: wrap; /* Allow tweets to wrap to the next line when needed */
+    flex-wrap: wrap;
     justify-content: center; /* Distribute tweets with space between them */
+}
+
+.form .signup{
+    align-items: ;
 }
 
 .tweets {
@@ -138,6 +142,24 @@ button:hover {
     border-color: white;
     border-width: 1px;
     margin-top: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.TestAlign{
+    display: flex;
+}
+
+
+
+.tweet-box .a .p {
+    text-align: justify;
+
+    border: 1px solid black;
+
+    overflow: auto;
 }
 
 .touiteform{

@@ -59,15 +59,19 @@ class AfficheListeTouites extends Action {
                 <div class="tweet-box">
                 <a href="?action=detail&id=$id&user=$user">
                 <p>$message</p></a>
-                <form action="?action=follow" class="suivre" method="POST">
-                    <input type="hidden" name="user" value="$user">
-                    <input type="submit" value="Suivre" name="mybutton">
-                </form>
-                
-                <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
-                    <input type="hidden" name="id" value="$id">
-                    <input type="submit" value="Supprimer" name="button">
-                </form>
+                <div class="TestAlign">
+                <div class="Follow">
+                    <form action="?action=follow" class="suivre" method="POST">
+                        <input type="hidden" name="user" value="$user">
+                        <input type="submit" value="Suivre" name="mybutton">
+                    </form>
+                </div>
+                <div class="Delete">
+                    <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
+                        <input type="hidden" name="id" value="$id">
+                        <input type="submit" value="Supprimer" name="button">
+                    </form>
+                </div>
             HTML;
 
             if ($res['image'] !== null) {
@@ -91,10 +95,13 @@ class AfficheListeTouites extends Action {
                 }
             }
             $contenuHtml .= <<<HTML
+                <div class="rating">
                 <form action="" method="post">
                     <input type="submit" name="action" value="like">
                     <input type="submit" name="action" value="dislike">
                 </form>
+                </div>
+                </div>
             </div>
             HTML;
         }
