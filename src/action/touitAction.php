@@ -137,7 +137,9 @@ class TouitAction extends Action {
                         "insert into touitsutilisateur values (?,?)"
                     );
                     $data->execute([$id_touit, $id_uti]);
-                    $contenuHtml .= (new AfficheListeTouites())->execute();
+                    //$contenuHtml .= (new AfficheListeTouites())->execute();
+                    $contenuHtml .= (new Accueil())->execute();
+                    header("Location: index.php");
                 } else {
                     $contenuHtml .= "<h2>Vous ne pouvez pas envoyer un touit vide</h2>";
                     return $contenuHtml .= (new AfficheListeTouites)->execute();

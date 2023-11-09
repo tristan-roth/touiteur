@@ -24,6 +24,7 @@ class AfficheListeTouites extends Action {
                 left join tagstouits on Touits.id_touit = tagstouits.id_touit
                 ORDER BY Touits.id_touit DESC
             SQL);
+        //demander a raf car left join affiche en deux fois quand on met deux # dans un touit
 
 
         if (isset($_SESSION["login"])) {
@@ -44,14 +45,12 @@ class AfficheListeTouites extends Action {
         while ($res=$data->fetch()) {
 
             $message = htmlspecialchars($res['message_text']);
-            //$message = preg_replace('/#([^#\'\s]+)/i', '<a href="?action=tag">$0</a>', $message);
-            ;
 
             $id = $res['id_touit'];
             $user = $res['id_user'];
             $tag = $res['id_tag'];
             $replacement = <<<HTML
-                <a href="?action=tag&tag=$tag">$0</a>
+                <a href="?action=tag&tag=$tag">$0</a><a href="?action=detail&id=$id&user=$user">
             HTML;
 
             $message = preg_replace('/#([^ #]+)/i',$replacement, $message);
@@ -59,10 +58,15 @@ class AfficheListeTouites extends Action {
             $contenuHtml .= <<<HTML
                 <div class="tweet-box">
                 <a href="?action=detail&id=$id&user=$user">
-                <p>$message</p>
+                <p>$message</p></a>
                 <form action="?action=follow" class="suivre" method="POST">
                     <input type="hidden" name="user" value="$user">
                     <input type="submit" value="Suivre" name="mybutton">
+                </form>
+                
+                <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
+                    <input type="hidden" name="id" value="$id">
+                    <input type="submit" value="Supprimer" name="button">
                 </form>
             HTML;
 
@@ -87,7 +91,6 @@ class AfficheListeTouites extends Action {
                 }
             }
             $contenuHtml .= <<<HTML
-                </a>
                 <form action="" method="post">
                     <input type="submit" name="action" value="like">
                     <input type="submit" name="action" value="dislike">

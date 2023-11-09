@@ -9,6 +9,7 @@ use iutnc\touiteur\action\AfficheListeTouites;
 use iutnc\touiteur\action\AfficheTouiteTag;
 use iutnc\touiteur\action\AfficheTouiteUtilisateur;
 use iutnc\touiteur\action\SigninAction;
+use iutnc\touiteur\action\SupprimerAction;
 use iutnc\touiteur\action\TouitAction;
 use iutnc\touiteur\action\SignupAction;
 use iutnc\touiteur\action\DeconnexionAction;
@@ -73,6 +74,10 @@ class Dispatcheur {
                 
             case "tag" :
                 $this->contenuHtml .= (new AfficheTouiteTag)->execute();
+                break;
+
+            case "supprimer" :
+                $this->contenuHtml .= (new SupprimerAction)->execute();
                 break;
 
             default : 
