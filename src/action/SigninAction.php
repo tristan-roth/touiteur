@@ -15,10 +15,10 @@ class SigninAction extends Action {
 
     public function execute() : string {
         $method = $_SERVER["REQUEST_METHOD"];
-        $html="";
+        $contenuHtml="";
 
         if ($method === "GET" || !isset($_POST["nom"])) {
-            $html = <<<HTML
+            $contenuHtml = <<<HTML
             <h3>connexion : </h3>
             <form action="" id="signin" method="POST">
                 <input type="text" id="nom" name="nom" placeholder="votre nom d'utilisateur">
@@ -37,22 +37,22 @@ class SigninAction extends Action {
             $data->bindParam(1,$nom);
             $data->execute();
             if ($data->rowCount()===0){
-                $html.= "<p>ce nom d'utilisateur n'existe pas. <a href=\"?action=signup\">Créez un compte</a> pour continuer</p>";
+                $contenuHtml.= "<p>ce nom d'utilisateur n'existe pas. <a href=\"?action=signup\">Créez un compte</a> pour continuer</p>";
             }
             else{
                 while ($res=$data->fetch()){
                     if (password_verify($mdp, $res['passwd'])) {
                         $_SESSION["login"] = $nom;
-                        $html.="<h1>Vous êtes maintenant connecté</h1>";
-                        $html.=(new AfficheListeTouites)->execute();
+                        $contenuHtml.="<h1>Vous êtes maintenant connecté</h1>";
+                        $contenuHtml.=(new AfficheListeTouites)->execute();
                     }
                     else{
-                        $html.="<h1>Les informations ne correspondent pas</h1>";
+                        $contenuHtml.="<h1>Les informations ne correspondent pas</h1>";
                     }
                 }
             } 
         }
         unset($connexion);
-        return $html;
+        return $contenuHtml;
     }
 }
