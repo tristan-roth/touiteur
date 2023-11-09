@@ -3,6 +3,7 @@
 namespace iutnc\touiteur\action;
 
 use iutnc\touiteur\connection\ConnectionFactory;
+use iutnc\touiteur\action\RequetesBd;
 
 class AfficheListeTouites extends Action {
     public function execute(): string
@@ -11,7 +12,7 @@ class AfficheListeTouites extends Action {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
-        
+        $connecte = isset($_SESSION["login"]);
         $data =<<<SQL
             SELECT Touits.id_touit,
                     message_text,
@@ -25,9 +26,10 @@ class AfficheListeTouites extends Action {
                 ORDER BY Touits.id_touit DESC
             SQL;
         //demander a raf car left join affiche en deux fois quand on met deux # dans un touit
+        //reglé ! 
 
 
-        if (isset($_SESSION["login"])) {
+        if ($connecte) {
 
             $utilisateur = $_SESSION["login"];
             $recherche = $connexion->query("select count(id_utilisateur_suivi) as nombre from utilisateursuivi
@@ -52,6 +54,9 @@ class AfficheListeTouites extends Action {
 
             }
         }
+        else{
+            $utilisateur = "";
+        }
         $precedent =-1;
         $requete = $connexion->query($data);
         while ($res=$requete->fetch()) {
@@ -67,24 +72,41 @@ class AfficheListeTouites extends Action {
 
             $message = preg_replace('/#([^ #]+)/i',$replacement, $message);
 
-            $contenuHtml .= <<<HTML
-                <div class="tweet-box">
-                <a href="?action=detail&id=$id&user=$user">
-                <p>$message</p></a>
-                <div class="TestAlign">
-                <div class="Follow">
-                    <form action="?action=follow" class="suivre" method="POST">
-                        <input type="hidden" name="user" value="$user">
-                        <input type="submit" value="Suivre" name="mybutton">
-                    </form>
-                </div>
+            $contenuHtml .=<<<HTML
+                    <div class="tweet-box">
+                        <a href="?action=detail&id=$id&user=$user">
+                        <p>$message</p></a>
+                        <div class="TestAlign">
+                    HTML;
+
+                    if (!$connecte){
+                        $memeuti = false;
+                    }
+                    else{
+                        $id_connecte = RequetesBd::RecupererId($utilisateur);
+                        $memeuti = $user === $id_connecte;
+                    }
+                    if ($memeuti){
+                    $contenuHtml.=<<<HTML
                 <div class="Delete">
                     <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
                         <input type="hidden" name="id" value="$id">
                         <input type="submit" value="Supprimer" name="button">
                     </form>
                 </div>
-            HTML;
+                HTML;
+                    }
+                    else{
+                $contenuHtml.=<<<HTML
+                <div class="Follow">
+                    <form action="?action=follow" class="suivre" method="POST">
+                        <input type="hidden" name="user" value="$user">
+                        <input type="submit" value="Suivre" name="mybutton">
+                    </form>
+                </div>
+                HTML;
+                    }
+        
 
             if ($res['image'] !== null) {
                 $element = explode(".",$res['image']);

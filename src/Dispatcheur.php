@@ -83,6 +83,18 @@ class Dispatcheur {
     }
 
     function renderer() : void {
+
+        $droiteWeb = <<<HTML
+                <div class="menu-droite">
+                    <h3>Utilisateurs à suivre</h3>
+                    <ul>
+                        <li><a href="?action=auteur&user=1">Jean</a></li>
+                        <li><a href="?action=auteur&user=2">Paul</a></li>
+                        <li><a href="?action=auteur&user=3">Jacques</a></li>
+                    </ul>
+                </div>  
+            HTML;
+
         if (isset($_SESSION["login"])) {
             $estConnecteTexte = <<<HTML
                 <a href="?action=deconnecter">se déconnecter</a>
@@ -102,17 +114,6 @@ class Dispatcheur {
                     </div>
                 </form>
                 HTML;
-
-            $droiteWeb = <<<HTML
-                <div class="menu-droite">
-                    <h3>Utilisateurs à suivre</h3>
-                    <ul>
-                        <li><a href="?action=auteur&user=1">Jean</a></li>
-                        <li><a href="?action=auteur&user=2">Paul</a></li>
-                        <li><a href="?action=auteur&user=3">Jacques</a></li>
-                    </ul>
-                </div>  
-            HTML;
 
         } else {
             $estConnecteTexte = <<<HTML
