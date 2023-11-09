@@ -9,7 +9,6 @@ use iutnc\touiteur\action\AfficheListeTouites;
 use iutnc\touiteur\action\AfficheTouiteTag;
 use iutnc\touiteur\action\AfficheTouiteUtilisateur;
 use iutnc\touiteur\action\SigninAction;
-use iutnc\touiteur\action\SupprimerAction;
 use iutnc\touiteur\action\TouitAction;
 use iutnc\touiteur\action\SignupAction;
 use iutnc\touiteur\action\DeconnexionAction;
@@ -35,7 +34,7 @@ class Dispatcheur {
     function run() : void {
         if (!isset($_SESSION)) session_start();
         switch ($this->action) {
-            case "signin" : 
+            case "signin" :
                 $this->contenuHtml .= (new SigninAction())->execute();
                 break;
 
@@ -60,7 +59,7 @@ class Dispatcheur {
                 $this->contenuHtml .= (new AfficheTouiteUtilisateur())->execute();
                 break;
 
-            case "follow" : 
+            case "follow" :
                 $this->contenuHtml = (new FollowAction())->execute();
                 break;
 
@@ -71,16 +70,12 @@ class Dispatcheur {
             case "alert" :
                 $this->contenuHtml .= (new AlertAction)->execute();
                 break;
-                
+
             case "tag" :
                 $this->contenuHtml .= (new AfficheTouiteTag)->execute();
                 break;
 
-            case "supprimer" :
-                $this->contenuHtml .= (new SupprimerAction)->execute();
-                break;
-
-            default : 
+            default :
                 $this->contenuHtml .= (new Accueil())->execute();
                 break;
         }
@@ -96,8 +91,13 @@ class Dispatcheur {
             $boiteTouit = <<<HTML
                 <form action="?action=touit" method="POST" enctype="multipart/form-data">
                     <input type="text" name="touit" placeholder="Votre touite" autocomplete="off">
-                    <input type="file" name="image" accept="image/*">
-                    <button type="submit">Touiter</button>
+                    <div class="touitActionsWrapper">
+                        <label for="touitSendFile">
+                            <img src="image/sendFile.png" style="width: 32px"/>
+                        </label>
+                        <input type="file" id="touitSendFile" name="image" accept="image/*"/>
+                        <button type="submit">Touiter</button>
+                    </div>
                 </form>
                 HTML;
         } else {
