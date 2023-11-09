@@ -20,7 +20,7 @@ class SigninAction extends Action {
         if ($method === "GET" || !isset($_POST["nom"])) {
             $html = <<<HTML
             <h3>connexion : </h3>
-            <form action id=signin method ="POST">
+            <form action="signin" id="signin" method="POST">
                 <input type="text" id="nom" name="nom" placeholder="votre nom d'utilisateur">
                 <input type="password" id="mdp" name="passwd" placeholder="votre mot de passe">
                 <button type="submit">Valider</button>
