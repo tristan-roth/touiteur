@@ -21,7 +21,7 @@ class FollowAction extends Action {
 
             $idsuivre = $_POST["user"] + 0;
             $idsuit = RequetesBd::recupererId($_SESSION["login"]);
-            if($idsuit = $idsuivre){
+            if($idsuit === $idsuivre){
                 $contenuHtml.="<h2>Vous ne pouvez pas vous suivre vous-mêmes.</h2>";
             }
             else{
