@@ -5,7 +5,6 @@ namespace iutnc\touiteur;
 require_once 'vendor/autoload.php';
 
 use iutnc\touiteur\action\Accueil;
-use iutnc\touiteur\action\AfficheListeTouites;
 use iutnc\touiteur\action\AfficheListeTouitesAbonnement;
 use iutnc\touiteur\action\AfficheTouiteTag;
 use iutnc\touiteur\action\AfficheTouiteUtilisateur;
@@ -17,7 +16,6 @@ use iutnc\touiteur\action\DeconnexionAction;
 use iutnc\touiteur\action\AfficheTouite;
 use iutnc\touiteur\action\FollowAction;
 use iutnc\touiteur\action\LikeDislikeAction;
-use iutnc\touiteur\action\AlertAction;
 use iutnc\touiteur\connection\ConnectionFactory;
 use iutnc\touiteur\action\UnfollowAction;
 
@@ -69,10 +67,6 @@ class Dispatcheur {
 
             case "deconnecter" :
                 $this->contenuHtml .= (new DeconnexionAction)->execute();
-                break;
-
-            case "alert" :
-                $this->contenuHtml .= (new AlertAction)->execute();
                 break;
 
             case "tag" :
