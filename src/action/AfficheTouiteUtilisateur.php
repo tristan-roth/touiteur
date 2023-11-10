@@ -25,8 +25,14 @@ class AfficheTouiteUtilisateur extends Action {
 
         $contenuHtml = "";
         while ($res=$data->fetch()) {
+            $idTouit = $res['id_touit'];
             $message = htmlspecialchars($res['message_text']);
-            $contenuHtml .= "<p>$message</p>";
+            $contenuHtml .= <<<HTML
+                    <div class="tweet-box">
+                        <a href="?action=detail&id=$idTouit">
+                        <p>$message</p></a>
+                        <div class="TestAlign">
+                    HTML;;
 
             if ($res['image'] !== null) {
                 $element = explode(".",$res['image']);
@@ -48,6 +54,15 @@ class AfficheTouiteUtilisateur extends Action {
                         break;
                 }
             }
+            $contenuHtml.=<<<HTML
+                <div class="Delete">
+                    <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
+                        <input type="hidden" name="id" value="$id">
+                        <input type="submit" value="Supprimer" name="button">
+                    </form>
+                </div>
+                HTML;
+            
             $contenuHtml .= <<<HTML
                 <form action="" method="post">
                     <input type="submit" name="action" value="like">

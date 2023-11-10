@@ -21,16 +21,16 @@ class SupprimerAction extends Action{
         $image = $res['image'];
         var_dump($res['utilisateur']);
         if ($res['utilisateur'] === $_SESSION['login']){
+            $data = $connexion->prepare("delete from touitsutilisateur where id_touit = ?");
+            $data->execute([$id]);
+
+            $data = $connexion->prepare("delete from touits where id_touit = ?");
+            $data->execute([$id]);
             if ($image !== null){
                 $data = $connexion->prepare("delete from images where id_image = ?");
                 $data->bindParam(1,$image);
                 $data->execute();
             }
-            $data = $connexion->prepare("delete from touits where id_touit = ?");
-            $data->execute([$id]);
-            $data = $connexion->prepare("delete from touitsutilisateur where id_touit = ?");
-            $data->execute([$id]);
-
 
             $contenuHtml = "<h2>Le touite a bien été supprimé</h2>";
         } else {
