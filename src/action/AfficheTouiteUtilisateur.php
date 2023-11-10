@@ -19,14 +19,15 @@ class AfficheTouiteUtilisateur extends Action {
                     message_text, 
                     Images.image_path as image
                 FROM Touits 
-                LEFT JOIN images ON touits.id_image = images.id_image
-                INNER JOIN touitsutilisateur ON touits.id_touit = touitsutilisateur.id_touit
-                WHERE touitsutilisateur.id_utilisateur = $id
-                ORDER BY touits.id_touit DESC
+                LEFT JOIN Images ON Touits.id_image = Images.id_image
+                INNER JOIN TouitsUtilisateur ON Touits.id_touit = TouitsUtilisateur.id_touit
+                WHERE TouitsUtilisateur.id_utilisateur = $id
+                ORDER BY Touits.id_touit DESC
             SQL);
 
         $contenuHtml = "<h2>Touites de $uti</h2>";
-        while ($res=$data->fetch()) {
+        while ($res = $data->fetch()) {
+
             $idTouit = $res['id_touit'];
             $message = htmlspecialchars($res['message_text']);
             $contenuHtml .= <<<HTML
@@ -56,7 +57,7 @@ class AfficheTouiteUtilisateur extends Action {
                         break;
                 }
             }
-            $contenuHtml.=<<<HTML
+            $contenuHtml .= <<<HTML
                 <div class="Delete">
                     <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
                         <input type="hidden" name="id" value="$id">
@@ -74,6 +75,7 @@ class AfficheTouiteUtilisateur extends Action {
             HTML;
         }
         unset($connexion);
+        
         return $contenuHtml;
     }
 }

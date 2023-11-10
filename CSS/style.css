@@ -29,19 +29,30 @@ html {
     -ms-overflow-style: none;
 }
 
-html::-webkit-scrollbar {
-    display: none;
+*::-webkit-scrollbar {
+    width: 16px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #161623;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #8f54a0;
+    border-radius: 20px;
+    border: 1px none #ffffff;
 }
 
 body {
-    background: #161623;
-    top: 0;
+    font-family: Arial, sans-serif;
+    background-color: #161623;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     align-content: center;
-    padding: 0;
-    margin: 0;
+    height: 100vh;
 }
 
 .form .signup {
@@ -51,12 +62,11 @@ body {
 .wrapper {
     display: grid;
     background: #161623;
-    grid-template-columns: 1fr 2fr 1fr;
-    grid-gap: 10px;
+    grid-template-columns: 1fr 2fr 1fr; /* Trois colonnes égales. */
+    grid-gap: 10px; /* Espace entre les colonnes. */
     height: 100%;
     width: 100%;
 }
-
 .menu-gauche {
     text-align: center;
     background: linear-gradient(to right, #5F0065, #161623);
@@ -64,22 +74,16 @@ body {
     width: 100%;
     overflow: hidden;
 }
-
 .contenu {
     background: #161623;
+    padding: 10px;
+    overflow: scroll;
     width: auto;
-    border: 1px solid #E1D9D1;
-    border-top-style: hidden;
-
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    border: white;
+    border: 1px solid #FFFFFF;
+    border-top-style: none;
+    border-bottom-style: none;
 }
-
-.contenu::-webkit-scrollbar {
-    display: none;
-}
-
 .menu-droite {
     text-align: center;
     background: linear-gradient(to right, #161623 ,#5F0065);

@@ -24,8 +24,6 @@ class SupprimerAction extends Action{
 
         $res = $data->fetch();
 
-        var_dump($res);
-        var_dump($res['utilisateur']);
 
         $image = $res['image'];
         if ($res['utilisateur'] === $_SESSION['login']) {
@@ -34,6 +32,11 @@ class SupprimerAction extends Action{
                 DELETE FROM TouitsUtilisateur
                     WHERE id_touit = ?
                 SQL);
+            $data->execute([$id]);
+
+            $data = $connexion->prepare(<<<SQL
+            delete from Tagstouits where id_touit = ?
+            SQL);
             $data->execute([$id]);
 
             $data = $connexion->prepare(<<<SQL

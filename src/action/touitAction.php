@@ -20,6 +20,7 @@ class TouitAction extends Action {
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
 
+            /*
             $data = $connexion->prepare(<<<SQL
                                SELECT max(id_touit) as id_touit FROM Touits
                             SQL);
@@ -27,6 +28,7 @@ class TouitAction extends Action {
             
             $id_touit = $res["id_touit"] + 1;
             if ($id_touit === null) $id_touit = 0;
+            */
 
             //recupérer un fichier
             if (isset($_FILES["image"])) {
@@ -62,7 +64,7 @@ class TouitAction extends Action {
                         $data->execute([$file]);
                     }
                     $data = $connexion->prepare(<<<SQL
-                        INSERT INTO Touits(message_text, date_touit, rating, id_image) VALUES (?, sysdate(), 0, ?)
+                        INSERT INTO Touits(message_text, rating, id_image) VALUES (?, 0, ?)
                     SQL);
 
                     $message = htmlspecialchars($_POST["touit"]);
@@ -72,6 +74,8 @@ class TouitAction extends Action {
                         [$message,
                         $id_image]
                     );
+
+                    $idTouit = $connexion->lastInsertId();
 
                     $message = htmlspecialchars_decode($message);
                     preg_match_all( '/#[^ #]+/i', $message, $tags);
@@ -86,28 +90,32 @@ class TouitAction extends Action {
 
                         if ($resExist === false) {
 
-                            $data = $connexion->query(<<<SQL
+                            /*$data = $connexion->query(<<<SQL
                                 SELECT max(id_tag) as id_tag FROM Tags
                             SQL);
                             $res = $data->fetch();
                             $id_tag = $res["id_tag"] + 1;
                             if ($id_tag === null) $id_tag = 0;
+                            */
 
                             $data = $connexion->prepare(<<<SQL
-                                INSERT INTO Tags(libelle_tag) VALUES (?)
+                                INSERT INTO Tags libelle_tag = ?
                             SQL);
                             $data->execute([$tag]);
+
+                            $idTag = $connexion->lastInsertId();
 
                             $data = $connexion->prepare(<<<SQL
                                 INSERT INTO TagsTouits VALUES (?, ?)
                             SQL);
-                            $data->execute([$id_touit, $id_tag]);
+                            $data->execute([$idTouit, $idTag]);
+
 
                         } else {
                             $data = $connexion->prepare(<<<SQL
                                 INSERT INTO TagsTouits VALUES (?, ?)
                             SQL);
-                            $data->execute([$id_touit, $resExist["id_tag"]]);
+                            $data->execute([$idTouit, $resExist["id_tag"]]);
                         }
                     }
 
@@ -122,7 +130,7 @@ class TouitAction extends Action {
                     $data = $connexion->prepare(<<<SQL
                         INSERT INTO TouitsUtilisateur VALUES (?, ?)
                     SQL);
-                    $data->execute([$id_touit, $id_uti]);
+                    $data->execute([$idTouit, $id_uti]);
 
                     $contenuHtml .= (new Accueil())->execute();
                     header("Location: index.php");
