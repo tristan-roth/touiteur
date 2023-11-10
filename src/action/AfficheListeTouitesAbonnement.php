@@ -105,7 +105,7 @@ class AfficheListeTouitesAbonnement extends Action {
                 } else {
                     $contenuHtml.=<<<HTML
                     <div class="Follow">
-                        <form action="?action=follow" class="suivre" method="POST">
+                        <form action="?action=delete" class="suivre" method="POST">
                             <input type="hidden" name="user" value="$user">
                             <input type="submit" value="Suivre" name="mybutton">
                         </form>

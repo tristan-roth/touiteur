@@ -53,7 +53,8 @@ SQL;
 
         if ($connecte) {
             $utilisateur = $_SESSION["login"];
-
+            $id_connecte = RequetesBd::RecupererId($utilisateur);
+            var_dump($id_connecte);
             $recherche = $connexion->query(
                 <<<SQL
 SELECT count(id_utilisateur_suivi) as nombre FROM UtilisateurSuivi
@@ -88,6 +89,7 @@ SQL;
             $message = htmlspecialchars($res["message_text"]);
             $id = $res["id_touit"];
             $user = $res["id_user"];
+            var_dump($user);
             $tag = $res["id_tag"];
 
             if ($precedent !== $id) {
@@ -123,9 +125,11 @@ HTML;
                     $memeuti = false;
                 } else {
                     $id_connecte = RequetesBd::RecupererId($utilisateur);
+                    var_dump($id_connecte);
                     $memeuti = $user === $id_connecte;
                 }
-                if ($memeuti) {
+                if ($connecte) {
+                    if($memeuti){
                     $contenuHtml .= <<<HTML
 <div class="Delete">
     <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
@@ -134,15 +138,28 @@ HTML;
     </form>
 </div>
 HTML;
-                } else {
+                } else if (RequetesBd::followDeja($id_connecte,$user)){
                     $contenuHtml .= <<<HTML
 <div class="Follow">
-    <form action="?action=follow" class="suivre" method="POST">
+<form action="?action=follow" class="suivre" method="POST">
+    <input type="hidden" name="user" value="$user">
+    <input type="submit" value="Suivre" name="mybutton">
+</form>
+</div>
+HTML;
+                }
+                    
+                    else{
+                        $contenuHtml .= <<<HTML
+<div class="Follow">
+    <form action="?action=delete" class="suivre" method="POST">
         <input type="hidden" name="user" value="$user">
-        <input type="submit" value="Suivre" name="mybutton">
+        <input type="submit" value="se désabonner" name="mybutton">
     </form>
 </div>
 HTML;
+                    }
+
                 }
 
                 if ($res["image"] !== null) {
