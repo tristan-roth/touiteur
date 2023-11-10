@@ -361,7 +361,7 @@ button {
 }
 
 .touits-container {
-    width: 100%;
+    width: auto;
     text-align: left;
     display: flex;
     flex-wrap: wrap;
@@ -386,6 +386,7 @@ button {
 }
 
 .touit-box > a > p {
+    width: 100%;
     text-align: justify;
     padding: 0 20px;
 }
