@@ -4,7 +4,9 @@ namespace iutnc\touiteur\action;
 
 use iutnc\touiteur\connection\ConnectionFactory;
 use iutnc\touiteur\action\RequetesBd;
-
+/**
+ * affiche tous les touites
+ */
 class AfficheListeTouites extends Action
 {
     public function execute(): string
@@ -37,6 +39,7 @@ class AfficheListeTouites extends Action
         //premier touit de la page
         $premier = $currentPage * $parPage - $parPage;
 
+        //recuperationde tous les tweets pour leur affichage
         $connecte = isset($_SESSION["login"]);
         $data = <<<SQL
             SELECT Touits.id_touit,
@@ -50,6 +53,7 @@ class AfficheListeTouites extends Action
             LEFT JOIN TagsTouits on Touits.id_touit = TagsTouits.id_touit
             ORDER BY Touits.id_touit DESC LIMIT $premier, $parPage
             SQL;
+
 
         if ($connecte) {
             $utilisateur = $_SESSION["login"];
@@ -65,20 +69,7 @@ class AfficheListeTouites extends Action
             $res = $recherche->fetch();
             $uti = $res["nombre"];
 
-            if ($uti !== 0) {
-                $data = <<<SQL
-                SELECT Touits.id_touit,
-                        message_text,
-                        Images.image_path as image,
-                        TouitsUtilisateur.id_utilisateur as id_user,
-                        TagsTouits.id_tag as id_tag
-                    FROM Touits 
-                LEFT JOIN Images on Touits.id_image = Images.id_image
-                INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
-                LEFT JOIN TagsTouits on Touits.id_touit = TagsTouits.id_touit
-                ORDER BY Touits.id_touit DESC LIMIT $premier, $parPage
-                SQL;
-            }
+
         } else {
             $utilisateur = "";
         }
