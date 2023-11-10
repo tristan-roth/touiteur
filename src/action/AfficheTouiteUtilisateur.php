@@ -11,6 +11,10 @@ class AfficheTouiteUtilisateur extends Action {
         $id = $_GET['user'];
         $uti = RequetesBd::recupererNom($id);
 
+        if(isset($_SESSION["login"])){
+            
+        }
+
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
