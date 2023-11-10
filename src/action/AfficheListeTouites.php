@@ -109,8 +109,8 @@ class AfficheListeTouites extends Action
                                     <div class="rating">
                                         <form action="?action=like" method="post">
                                             <input type="hidden" name="id" value="$id">
-                                            <input type="submit" name="type" value="like">
-                                            <input type="submit" name="type" value="dislike">
+                                            <input type="submit" class="test" name="type" value="like">
+                                            <input type="submit" class="test" name="type" value="dislike">
                                         </form>
                                     </div>
                                 HTML;
@@ -126,7 +126,7 @@ class AfficheListeTouites extends Action
 <div class="Delete">
     <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
         <input type="hidden" name="id" value="$id">
-        <input type="submit" value="Supprimer" name="button">
+        <input type="submit" class="test" value="Supprimer" name="button">
     </form>
 </div>
 HTML;
@@ -135,7 +135,7 @@ HTML;
 <div class="Follow">
     <form action="?action=delete" class="suivre" method="POST">
         <input type="hidden" name="user" value="$user">
-        <input type="submit" value="se désabonner" name="mybutton">
+        <input type="submit" class="test" value="se désabonner" name="mybutton">
     </form>
 </div>
 HTML;
@@ -145,7 +145,7 @@ HTML;
                     <div class="Follow">
                         <form action="?action=follow" class="suivre" method="POST">
                             <input type="hidden" name="user" value="$user">
-                            <input type="submit" value="suivre" name="mybutton">
+                            <input type="submit" class="test" value="suivre" name="mybutton">
                         </form>
                     </div>
                     HTML;
@@ -156,7 +156,7 @@ HTML;
 <div class="Follow">
     <form action="?action=follow" class="suivre" method="POST">
         <input type="hidden" name="user" value="$user">
-        <input type="submit" value="suivre" name="mybutton">
+        <input type="submit" class="test" value="suivre" name="mybutton">
     </form>
 </div>
 HTML;
