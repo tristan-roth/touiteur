@@ -38,6 +38,7 @@ class AfficheTouite extends Action {
                 switch($element[count($element)-1]) {
                     case "mp4" :
                         $contenuHtml .= <<<HTML
+                        <div class="organisation"></div>
                             <video controls width="250">
                                 <source src="upload/$res[image]" type="video/mp4" />
                                 <a href="upload/$res[image]"></a>
@@ -53,11 +54,13 @@ class AfficheTouite extends Action {
                 }
             }
             $contenuHtml .= <<<HTML
+            <div class="organisation">
                 <p>date : $res[date_touit]</p>
                 <p>rating : $res[rating]</p>
                 <a href="?action=auteur&user=$res[userr]">
                     <p>Auteur : $res[id_user]</p>
                 </a>
+            </div>
 
                 <form action="" method="post">
                     <input type="submit" name="action" value="like">

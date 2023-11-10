@@ -31,8 +31,7 @@ class AfficheTouiteUtilisateur extends Action {
                     <div class="tweet-box">
                         <a href="?action=detail&id=$idTouit">
                         <p>$message</p></a>
-                        <div class="TestAlign">
-                    HTML;;
+            HTML;
 
             if ($res['image'] !== null) {
                 $element = explode(".",$res['image']);
@@ -68,6 +67,7 @@ class AfficheTouiteUtilisateur extends Action {
                     <input type="submit" name="action" value="like">
                     <input type="submit" name="action" value="dislike">
                 </form>
+            </div>
             HTML;
         }
         unset($connexion);

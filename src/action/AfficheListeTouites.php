@@ -75,6 +75,13 @@ class AfficheListeTouites extends Action {
                         <a href="?action=detail&id=$id&user=$user">
                         <p>$message</p></a>
                         <div class="TestAlign">
+                        <div class="AlignButton">
+                            <div class="rating">
+                            <form action="" method="post">
+                                <input type="submit" name="action" value="like">
+                                <input type="submit" name="action" value="dislike">
+                            </form>
+                            </div>
                     HTML;
 
                     if (!$connecte){
@@ -84,6 +91,7 @@ class AfficheListeTouites extends Action {
                         $id_connecte = RequetesBd::RecupererId($utilisateur);
                         $memeuti = $user === $id_connecte;
                     }
+                var_dump($memeuti);
                     if ($memeuti){
                     $contenuHtml.=<<<HTML
                 <div class="Delete">
@@ -101,6 +109,7 @@ class AfficheListeTouites extends Action {
                         <input type="hidden" name="user" value="$user">
                         <input type="submit" value="Suivre" name="mybutton">
                     </form>
+                </div>
                 </div>
                 HTML;
                     }
@@ -121,18 +130,13 @@ class AfficheListeTouites extends Action {
 
                     default :
                         $contenuHtml .= <<<HTML
-                            <img src="upload/$res[image]" width="300px" ><br>
+                            <img src="upload/$res[image]" width="200px" ><br>
                         HTML;
                         break;
                 }
             }
             $contenuHtml .= <<<HTML
-                <div class="rating">
-                <form action="" method="post">
-                    <input type="submit" name="action" value="like">
-                    <input type="submit" name="action" value="dislike">
-                </form>
-                </div>
+                
                 </div>
             </div>
             HTML;
