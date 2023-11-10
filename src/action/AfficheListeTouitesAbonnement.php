@@ -85,32 +85,44 @@ class AfficheListeTouitesAbonnement extends Action {
                         <p>$message</p>
                         <div class="touit-actions">
                     HTML;
-
-                if (!$connecte) {
-                    $memeuti = false;
-                } else {
-                    $id_connecte = RequetesBd::RecupererId($utilisateur);
-                    $memeuti = $user === $id_connecte;
-                }
-
-                if ($memeuti) {
+                if ($uti===0){
                     $contenuHtml .= <<<HTML
-                        <div class="Delete">
-                            <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
-                                <input type="hidden" name="id" value="$id">
-                                <input type="submit" value="Supprimer" name="button">
-                            </form>
-                        </div>
-                        HTML;
-                } else {
-                    $contenuHtml.=<<<HTML
                     <div class="Follow">
-                        <form action="?action=delete" class="suivre" method="POST">
+                        <form action="?action=follow" class="suivre" method="POST">
                             <input type="hidden" name="user" value="$user">
-                            <input type="submit" value="se désabonner" name="mybutton">
+                            <input type="submit" class="test" value="suivre" name="mybutton">
                         </form>
                     </div>
                     HTML;
+                }
+                    else{
+                        if (!$connecte) {
+                            $memeuti = false;
+                        } else {
+                            $id_connecte = RequetesBd::RecupererId($utilisateur);
+                            $memeuti = $user === $id_connecte;
+                        }
+        
+                        if ($memeuti) {
+                            $contenuHtml .= <<<HTML
+                                <div class="Delete">
+                                    <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
+                                        <input type="hidden" name="id" value="$id">
+                                        <input type="submit" class="test" value="Supprimer" name="button">
+                                    </form>
+                                </div>
+                                HTML;
+                        } else {
+                            $contenuHtml.=<<<HTML
+                            <div class="Follow">
+                                <form action="?action=delete" class="suivre" method="POST">
+                                    <input type="hidden" name="user" value="$user">
+                                    <input type="submit" class="test" value="se désabonner" name="mybutton">
+                                </form>
+                            </div>
+                            HTML;
+                    }
+
                 }
                 if ($res['image'] !== null) {
                     $element = explode(".",$res['image']);
@@ -136,8 +148,8 @@ class AfficheListeTouitesAbonnement extends Action {
                             <div class="rating">
                                 <form action="?action=like" method="post">
                                     <input type="hidden" name="id" value="$id">
-                                    <input type="submit" name="type" value="like">
-                                    <input type="submit" name="type" value="dislike">
+                                    <input type="submit" class="test" name="type" value="like">
+                                    <input type="submit" class="test" name="type" value="dislike">
                                 </form>
                             </div>
                         </div>

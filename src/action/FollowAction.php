@@ -29,7 +29,8 @@ class FollowAction extends Action {
                 $data = $connexion->query(<<<SQL
                     INSERT INTO UtilisateurSuivi VALUES ($idsuit, $idsuivre)
                     SQL);
-            $contenuHtml.="<h2>Vous suivez maintenant $idsuivre.</h2>";
+                    $nomfollow = RequetesBd::recupererNom($idsuivre);
+            $contenuHtml.="<h2>Vous suivez maintenant $nomfollow.</h2>";
             }
         } else {
             $contenuHtml.= "<p>Connectez vous pour suivre un utilisateur.</p>";
