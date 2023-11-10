@@ -53,7 +53,8 @@ class AfficheListeTouites extends Action
 
         if ($connecte) {
             $utilisateur = $_SESSION["login"];
-
+            $id_connecte = RequetesBd::RecupererId($utilisateur);
+            var_dump($id_connecte);
             $recherche = $connexion->query(
                 <<<SQL
             SELECT count(id_utilisateur_suivi) as nombre FROM UtilisateurSuivi
@@ -84,6 +85,12 @@ class AfficheListeTouites extends Action
         }
         $precedent = -1;
         $requete = $connexion->query($data);
+        while ($res = $requete->fetch()) {
+            $message = htmlspecialchars($res["message_text"]);
+            $id = $res["id_touit"];
+            $user = $res["id_user"];
+            var_dump($user);
+            $tag = $res["id_tag"];
 
         while ($res=$requete->fetch()) {
             //$message = htmlspecialchars($res['message_text']);
@@ -117,26 +124,41 @@ class AfficheListeTouites extends Action
                     $memeuti = false;
                 } else {
                     $id_connecte = RequetesBd::RecupererId($utilisateur);
+                    var_dump($id_connecte);
                     $memeuti = $user === $id_connecte;
                 }
-                if ($memeuti) {
+                if ($connecte) {
+                    if($memeuti){
                     $contenuHtml .= <<<HTML
-                                    <div class="Delete">
-                                        <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
-                                            <input type="hidden" name="id" value="$id">
-                                            <input type="submit" value="Supprimer" name="button">
-                                        </form>
-                                    </div>
-                                    HTML;
-                } else {
+<div class="Delete">
+    <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
+        <input type="hidden" name="id" value="$id">
+        <input type="submit" value="Supprimer" name="button">
+    </form>
+</div>
+HTML;
+                } else if (RequetesBd::followDeja($id_connecte,$user)){
                     $contenuHtml .= <<<HTML
-                                    <div class="Follow">
-                                        <form action="?action=follow" class="suivre" method="POST">
-                                            <input type="hidden" name="user" value="$user">
-                                            <input type="submit" value="Suivre" name="mybutton">
-                                        </form>
-                                    </div>
-                                HTML;
+<div class="Follow">
+<form action="?action=follow" class="suivre" method="POST">
+    <input type="hidden" name="user" value="$user">
+    <input type="submit" value="Suivre" name="mybutton">
+</form>
+</div>
+HTML;
+                }
+                    
+                    else{
+                        $contenuHtml .= <<<HTML
+<div class="Follow">
+    <form action="?action=delete" class="suivre" method="POST">
+        <input type="hidden" name="user" value="$user">
+        <input type="submit" value="se désabonner" name="mybutton">
+    </form>
+</div>
+HTML;
+                    }
+
                 }
 
                 if ($res["image"] !== null) {
@@ -170,4 +192,5 @@ class AfficheListeTouites extends Action
         unset($connexion);
         return $contenuHtml;
     }
+}
 }
