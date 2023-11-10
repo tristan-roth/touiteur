@@ -27,7 +27,7 @@ class UnfollowAction extends Action {
                 
             } else {
                 $data = $connexion->query(<<<SQL
-                    INSERT INTO UtilisateurSuivi VALUES ($idsuit, $idsuivre)
+                    DELETE INTO UtilisateurSuivi VALUES ($idsuit, $idsuivre)
                     SQL);
             $contenuHtml.="<h2>Vous ne pouvez pas supprimer un utilisateur que vous ne suivez pas $idsuivre.</h2>";
             }

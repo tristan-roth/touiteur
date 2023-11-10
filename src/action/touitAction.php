@@ -138,6 +138,8 @@ class TouitAction extends Action {
                     $data = $connexion->prepare(<<<SQL
                         INSERT INTO TouitsUtilisateur VALUES (?, ?)
                     SQL);
+                    var_dump($id_touit);
+                    var_dump($id_uti);
                     $data->execute([$id_touit, $id_uti]);
 
                     //$contenuHtml .= (new AfficheListeTouites())->execute();
