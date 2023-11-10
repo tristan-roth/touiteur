@@ -6,7 +6,7 @@ use iutnc\touiteur\connection\ConnectionFactory;
 
 class RequetesBd {
 
-    static function recupererId(string $uti) : string {
+    static function recupererId(string $uti) : int {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
