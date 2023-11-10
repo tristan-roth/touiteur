@@ -71,10 +71,10 @@ class AfficheListeTouites extends Action {
                 $message = preg_replace('/#([^ #]+)/i',$replacement, $message);
 
                 $contenuHtml .=<<<HTML
-                    <div class="tweet-box">
+                    <div class="touit-box">
                         <a href="?action=detail&id=$id&user=$user">
                         <p>$message</p></a>
-                        <div class="TestAlign">
+                        <div class="touit-actions">
                         <div class="rating">
                         <form action="?action=like" method="post">
                             <input type="hidden" name="id" value="$id">

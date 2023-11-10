@@ -118,7 +118,7 @@ class Dispatcheur {
                     <div class="touitActionsWrapper">
                         <div class="icone">
                             <label for="touitSendFile">
-                                <img src="image/sendicone.png" style="width: 50px">
+                                <img src="image/sendicone.png" style="width: 50px" title="Envoyer une image/vidéo" alt="Envoyer une image/vidéo">
                             </label>
                             <input type="file" id="touitSendFile" name="image" accept="image/*" style="display: none">
                         </div>
@@ -127,23 +127,9 @@ class Dispatcheur {
                 </form>
                 HTML;
 
-                $liste =<<<HTML
-                    <div class="type-liste">
-                    <a href="?action=">Tweets récents</a>
-                    <a href="?action=abo">Abonnements</a>
-                    </div>
-                    HTML;
-
 
         } else {
-
-            $liste =<<<HTML
-                    <div class="type-liste">
-                    <a href="?action=">Tweets récents</a>
-                    <a href="?action=abo">Abonnements</a>
-                    </div>
-                    HTML;
-
+                    
             $estConnecteTexte = <<<HTML
                 <a href="?action=signin">Se connecter<br></a>
                 <a href="?action=signup">S'inscrire<br></a>
@@ -174,11 +160,15 @@ class Dispatcheur {
                 
                 
                 <div class="contenu">
+                    <div class="type-liste">
+                        <a href="?action=">Tendances</a>
+                        <p>|</p>
+                        <a href="?action=abo">Abonnements</a>
+                    </div>
                     <div class="publier-touite">
                         $boiteTouit
                     </div>
-                    $liste;
-                    <div class="tweets-container">
+                    <div class="touits-container">
                         $this->contenuHtml
                     </div>
                 </div>
