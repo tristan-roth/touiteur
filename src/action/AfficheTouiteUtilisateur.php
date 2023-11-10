@@ -28,7 +28,7 @@ class AfficheTouiteUtilisateur extends Action {
             $idTouit = $res['id_touit'];
             $message = htmlspecialchars($res['message_text']);
             $contenuHtml .= <<<HTML
-                    <div class="tweet-box">
+                    <div class="touit-box">
                         <a href="?action=detail&id=$idTouit">
                         <p>$message</p></a>
             HTML;
