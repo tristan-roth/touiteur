@@ -37,6 +37,11 @@ class SupprimerAction extends Action{
             $data->execute([$id]);
 
             $data = $connexion->prepare(<<<SQL
+            delete from Tagstouits where id_touit = ?
+            SQL);
+            $data->execute([$id]);
+
+            $data = $connexion->prepare(<<<SQL
                 DELETE FROM Touits
                     WHERE id_touit = ?
                 SQL);
