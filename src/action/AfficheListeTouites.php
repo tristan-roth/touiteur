@@ -64,35 +64,32 @@ class AfficheListeTouites extends Action {
             $user = $res['id_user'];
             $tag = $res['id_tag'];
             if ($precedent!==$id){
-            $replacement = <<<HTML
+                $replacement = <<<HTML
                 <a href="?action=tag&tag=$tag">$0</a><a href="?action=detail&id=$id&user=$user">
             HTML;
 
-            $message = preg_replace('/#([^ #]+)/i',$replacement, $message);
+                $message = preg_replace('/#([^ #]+)/i',$replacement, $message);
 
-            $contenuHtml .=<<<HTML
+                $contenuHtml .=<<<HTML
                     <div class="tweet-box">
                         <a href="?action=detail&id=$id&user=$user">
                         <p>$message</p></a>
                         <div class="TestAlign">
-                        <div class="AlignButton">
-                            <div class="rating">
-                            <form action="" method="post">
-                                <input type="submit" name="action" value="like">
-                                <input type="submit" name="action" value="dislike">
-                            </form>
-                            </div>
+                        <div class="rating">
+                        <form action="" method="post">
+                            <input type="submit" name="action" value="like">
+                            <input type="submit" name="action" value="dislike">
+                        </form>
+                        </div>
                     HTML;
-
-                    if (!$connecte){
-                        $memeuti = false;
-                    }
-                    else{
-                        $id_connecte = RequetesBd::RecupererId($utilisateur);
-                        $memeuti = $user === $id_connecte;
-                    }
-                var_dump($memeuti);
-                    if ($memeuti){
+                if (!$connecte){
+                    $memeuti = false;
+                }
+                else{
+                    $id_connecte = RequetesBd::RecupererId($utilisateur);
+                    $memeuti = $user === $id_connecte;
+                }
+                if ($memeuti){
                     $contenuHtml.=<<<HTML
                 <div class="Delete">
                     <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
@@ -101,48 +98,47 @@ class AfficheListeTouites extends Action {
                     </form>
                 </div>
                 HTML;
-                    }
-                    else{
-                $contenuHtml.=<<<HTML
+                }
+                else{
+                    $contenuHtml.=<<<HTML
                 <div class="Follow">
                     <form action="?action=follow" class="suivre" method="POST">
                         <input type="hidden" name="user" value="$user">
                         <input type="submit" value="Suivre" name="mybutton">
                     </form>
                 </div>
-                </div>
                 HTML;
-                    }
-        
+                }
 
-            if ($res['image'] !== null) {
-                $element = explode(".",$res['image']);
 
-                switch($element[count($element)-1]) {
-                    case "mp4" :
-                        $contenuHtml .= <<<HTML
+                if ($res['image'] !== null) {
+                    $element = explode(".",$res['image']);
+
+                    switch($element[count($element)-1]) {
+                        case "mp4" :
+                            $contenuHtml .= <<<HTML
                         <video controls width="250">
                             <source src="upload/$res[image]" type="video/mp4" />
                             <a href="upload/$res[image]"></a>
                         </video>
                         HTML;
-                        break;
+                            break;
 
-                    default :
-                        $contenuHtml .= <<<HTML
-                            <img src="upload/$res[image]" width="200px" ><br>
+                        default :
+                            $contenuHtml .= <<<HTML
+                            <img src="upload/$res[image]" width="300px" ><br>
                         HTML;
-                        break;
+                            break;
+                    }
                 }
-            }
-            $contenuHtml .= <<<HTML
-                
+                $contenuHtml .= <<<HTML
                 </div>
             </div>
             HTML;
-            $precedent = $id;
+                $precedent = $id;
+            }
         }
-    }
+
         unset($connexion);
         return $contenuHtml;
     }

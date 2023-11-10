@@ -185,7 +185,8 @@ button:hover {
 
 .AlignButton{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
 }
 
 
