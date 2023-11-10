@@ -107,7 +107,7 @@ class AfficheListeTouitesAbonnement extends Action {
                     <div class="Follow">
                         <form action="?action=delete" class="suivre" method="POST">
                             <input type="hidden" name="user" value="$user">
-                            <input type="submit" value="Suivre" name="mybutton">
+                            <input type="submit" value="se désabonner" name="mybutton">
                         </form>
                     </div>
                     HTML;
