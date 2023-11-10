@@ -51,7 +51,7 @@ class SigninAction extends Action {
                 HTML;
 
             } else {
-                while ($res=$data->fetch()) {
+                while ($res = $data->fetch()) {
                     if (password_verify($mdp, $res['passwd'])) {
                         $_SESSION["login"] = $nom;
                         $contenuHtml .= "<h1>Vous êtes maintenant connecté.</h1>";

@@ -13,7 +13,6 @@ class TouitAction extends Action {
     }
     
     public function execute(): string {
-        $method = $_SERVER["REQUEST_METHOD"];
 
         $contenuHtml = "";
         if (isset($_SESSION["login"])) {
@@ -91,52 +90,56 @@ class TouitAction extends Action {
 
                     preg_match_all( '/#[^ #]+/i', $message, $tags);
                     foreach ($tags[0] as $tag) {
-                        $data = $connexion->prepare(
-                            "select id_tag from tags where libelle_tag = ?"
-                        );
+
+                        $data = $connexion->prepare(<<<SQL
+                            SELECT id_tag FROM Tags WHERE libelle_tag = ?
+                        SQL);
+
                         $data->execute([$tag]);
                         $resExist = $data->fetch();
+
                         if ($resExist === false) {
 
-                            $data = $connexion->query(
-                                "select max(id_tag) as id_tag from tags "
-                            );
+                            $data = $connexion->query(<<<SQL
+                                SELECT max(id_tag) as id_tag FROM Tags
+                            SQL);
+
                             $res = $data->fetch();
                             $id_tag = $res["id_tag"] + 1;
-                            if ($id_tag === null)
-                                $id_tag = 0;
 
+                            if ($id_tag === null) $id_tag = 0;
 
-                            $data = $connexion->prepare(
-                                "insert into tags (id_tag,libelle_tag) values (?, ?)"
-                            );
+                            $data = $connexion->prepare(<<<SQL
+                                INSERT INTO Tags VALUES (?, ?)
+                            SQL);
                             $data->execute([$id_tag, $tag]);
 
-                            $data = $connexion->prepare(
-                                "insert into tagstouits (id_touit, id_tag) values (?, ?)"
-                            );
+                            $data = $connexion->prepare(<<<SQL
+                                INSERT INTO TagsTouits VALUES (?, ?)
+                            SQL);
                             $data->execute([$id_touit, $id_tag]);
-                        }
-                        else {
-                            $data = $connexion->prepare(
-                                "insert into tagstouits (id_touit, id_tag) values (?, ?)"
-                            );
+
+                        } else {
+                            $data = $connexion->prepare(<<<SQL
+                                INSERT INTO TagsTouits VALUES (?, ?)
+                            SQL);
                             $data->execute([$id_touit, $resExist["id_tag"]]);
                         }
                     }
 
-
-                    $data = $connexion->prepare(
-                        "select id_utilisateur from utilisateur where utilisateur = ?"
-                    );
+                    $data = $connexion->prepare(<<<SQL
+                        SELECT id_utilisateur FROM Utilisateur WHERE utilisateur = ?
+                    SQL);
                     $data->execute([$nom_uti]);
+
                     $res = $data->fetch();
                     $id_uti = $res["id_utilisateur"];
 
-                    $data=$connexion->prepare(
-                        "insert into touitsutilisateur values (?,?)"
-                    );
+                    $data = $connexion->prepare(<<<SQL
+                        INSERT INTO TouitsUtilisateur VALUES (?, ?)
+                    SQL);
                     $data->execute([$id_touit, $id_uti]);
+
                     //$contenuHtml .= (new AfficheListeTouites())->execute();
                     $contenuHtml .= (new Accueil())->execute();
                     header("Location: index.php");
@@ -145,14 +148,12 @@ class TouitAction extends Action {
                     return $contenuHtml .= (new AfficheListeTouites)->execute();
                 }
             }
-
-        }
-        else {
+        } else {
             $contenuHtml.="<h2>Vous devez être connecté pour touiter</h2>";
             $contenuHtml.=(new signinAction())->execute();
         }
-            unset($connexion);
-            return $contenuHtml;
+        unset($connexion);
+        
+        return $contenuHtml;
     }
-
-    }
+}

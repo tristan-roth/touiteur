@@ -1,13 +1,19 @@
 <?php
+declare(strict_types=1);
+
 namespace iutnc\touiteur\action;
 use iutnc\touiteur\connection\ConnectionFactory;
-class RequetesBd {
 
+class RequetesBd {
 
     static function recupererId(string $uti) : string {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $data = $connexion->query("select id_utilisateur from Utilisateur where utilisateur = '$uti'");
+
+        $data = $connexion->query(<<<SQL
+            SELECT id_utilisateur FROM Utilisateur
+                WHERE utilisateur = '$uti'
+            SQL);
         $res = $data->fetch();
         return $res["id_utilisateur"];
     }
@@ -15,7 +21,11 @@ class RequetesBd {
     static function recupererNom(int $uti) : string {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $data = $connexion->query("select utilisateur from Utilisateur where id_utilisateur = $uti");
+
+        $data = $connexion->query(<<<SQL
+            SELECT utilisateur FROM Utilisateur
+                WHERE id_utilisateur = $uti
+            SQL);
         $res = $data->fetch();
         return $res["utilisateur"];
     }
@@ -23,39 +33,49 @@ class RequetesBd {
     static function followDeja(int $suiveur, int $suivi) : bool {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $data = $connexion->query("select id_utilisateur_suit from Utilisateursuivi where id_utilisateur_suit = $suiveur and id_utilisateur_suivi = $suivi");
-        if ($data->rowCount()===1)
-            return true;
-        else
-            return false;
+
+        $data = $connexion->query(<<<SQL
+            SELECT id_utilisateur_suit FROM UtilisateurSuivi
+                WHERE id_utilisateur_suit = $suiveur AND id_utilisateur_suivi = $suivi
+            SQL);
+        if ($data->rowCount()===1) return true;
+        else return false;
     }
 
-    static function alike(int $id_touit,int $id_uti) : int{
+    static function alike(int $id_touit,int $id_uti) : int {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $data = $connexion->query("select rating from utilisateurratings where id_utilisateur = $id_uti and id_touit = $id_touit");
-        if ($data->rowCount()===0){
-            return -2;
-        }
+
+        $data = $connexion->query(<<<SQL
+            SELECT rating FROM UtilisateurRatings
+                WHERE id_touit = $id_touit AND id_utilisateur = $id_uti
+            SQL);
+        if ($data->rowCount() === 0) return -2; 
         else {
             $res = $data->fetch();
-            return $res["rating"]+0;
+            return $res["rating"] + 0;
         }
     }
 
-    static function modifRating(int $id_touit, int $id_uti, int $new_rating){
+    static function modifRating(int $id_touit, int $id_uti, int $new_rating) {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $connexion->query("update utilisateurratings
-        set rating = $new_rating 
-        where id_touit = $id_touit and id_utilisateur = $id_uti");
+
+        $connexion->query(<<<SQL
+            UPDATE UtilisateurRatings
+                SET rating = $new_rating
+                WHERE id_touit = $id_touit AND id_utilisateur = $id_uti
+            SQL);
     }
 
-    static function creerRating(int $id_touit, int $id_uti, int $new_rating){
+    static function creerRating(int $id_touit, int $id_uti, int $new_rating) {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $connexion->query("insert into utilisateurratings
-        values ($id_touit,$id_uti,$new_rating)");
+
+        $connexion->query(<<<SQL
+            INSERT INTO UtilisateurRatings
+                VALUES ($id_touit,$id_uti,$new_rating)
+            SQL);
     }
 
 }
