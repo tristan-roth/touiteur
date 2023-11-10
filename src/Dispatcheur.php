@@ -223,6 +223,7 @@ class Dispatcheur {
         $suivant = $currentPage + 1;
 
         $contenuHtml = <<<HTML
+        <h4>Pages :</h4>
         <nav>
             <ul class="pagination">
         HTML;
