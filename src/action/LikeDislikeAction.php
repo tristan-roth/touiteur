@@ -20,9 +20,35 @@ class LikeDislikeAction extends Action {
             $connexion = ConnectionFactory::makeConnection();
             $contenuHtml ="";
             $idtouit = $_POST["id"]+0;
-            var_dump($idtouit);
-            $idsuit = RequetesBd::recupererId($_SESSION["login"]);
-            
+            $type = $_POST["type"];
+            $idlike = RequetesBd::recupererId($_SESSION["login"])+0;
+            $ancien = RequetesBd::alike($idtouit,$idlike);
+            if ($type==="like"){
+                switch ($ancien){
+                    case -2 :
+                        RequetesBd::creerRating($idtouit,$idlike,1);
+                        break;
+                    case 1 : 
+                        RequetesBd::modifRating($idtouit,$idlike,0);
+                        break;
+                    default :
+                        RequetesBd::modifRating($idtouit,$idlike,1);
+                        break;
+                }
+            }
+            else {
+                switch ($ancien){
+                    case -2 :
+                        RequetesBd::creerRating($idtouit,$idlike,-1);
+                        break;
+                    case -1 : 
+                        RequetesBd::modifRating($idtouit,$idlike,0);
+                        break;
+                    default :
+                        RequetesBd::modifRating($idtouit,$idlike,-1);
+                        break;
+                }
+            }
              
 
         } else {

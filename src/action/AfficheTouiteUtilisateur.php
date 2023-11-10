@@ -11,7 +11,6 @@ class AfficheTouiteUtilisateur extends Action {
     {
         $id = $_GET['user'];
         $uti = RequetesBd::recupererNom($id);
-        var_dump($uti);
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
@@ -66,10 +65,11 @@ class AfficheTouiteUtilisateur extends Action {
                 HTML;
             
             $contenuHtml .= <<<HTML
-                <form action="" method="post">
-                    <input type="submit" name="action" value="like">
-                    <input type="submit" name="action" value="dislike">
-                </form>
+                <form action="?action=like" method="post">
+                            <input type="hidden" name="id" value="$id">
+                            <input type="submit" name="type" value="like">
+                            <input type="submit" name="type" value="dislike">
+                        </form>
             </div>
             HTML;
         }
