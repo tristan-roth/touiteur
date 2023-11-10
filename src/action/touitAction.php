@@ -100,7 +100,7 @@ class TouitAction extends Action {
                             */
 
                             $data = $connexion->prepare(<<<SQL
-                                INSERT INTO Tags libelle_tag = ?
+                                INSERT INTO Tags (libelle_tag) values (?)
                             SQL);
                             $data->execute([$tag]);
 

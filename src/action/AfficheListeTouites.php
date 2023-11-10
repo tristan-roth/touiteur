@@ -145,30 +145,29 @@ class AfficheListeTouites extends Action
                     switch ($element[count($element) - 1]) {
                         case "mp4":
                             $contenuHtml .= <<<HTML
-<video controls width="250">
-    <source src="upload/$res[image]" type="video/mp4" />
-    <a href="upload/$res[image]"></a>
-</video>
-HTML;
+                                                <video controls width="250">
+                                                <source src="upload/$res[image]" type="video/mp4" />
+                                                <a href="upload/$res[image]"></a>
+                                                </video>
+                                            HTML;
                             break;
 
                         default:
                             $contenuHtml .= <<<HTML
-    <img src="upload/$res[image]" width="300px" ><br>
-HTML;
+                                                <img src="upload/$res[image]" width="300px" ><br>
+                                            HTML;
                             break;
                     }
                 }
                 $contenuHtml .= <<<HTML
-    </div>
-    </a>
-</div>
-HTML;
+                                    </div>
+                                </a>
+                            </div>
+                            HTML;
                 $precedent = $id;
             }
         }
         unset($connexion);
-
         return $contenuHtml;
     }
 }
