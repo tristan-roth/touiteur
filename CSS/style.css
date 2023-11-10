@@ -126,7 +126,7 @@ body {
     justify-content: space-evenly;
     align-items: center;
 
-    margin-right: 10px 0;
+    margin-right: 10px;
     font-size: 2rem;
     text-decoration: underline;
 
@@ -216,6 +216,68 @@ body {
 }
 
 
+.test {
+    backface-visibility: hidden;
+    background: #B36AF6;
+    border: 0;
+    border-radius: .375rem;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 0.675rem;
+    font-weight: 500;
+    letter-spacing: -.01em;
+    line-height: 1;
+    padding: 0.45rem 0.65rem;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transform: translateZ(0) scale(1);
+    transition: transform .2s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.test:disabled {
+    color: #5F0065;
+    cursor: auto;
+}
+
+
+.test:not(:disabled):hover {
+    transform: scale(1.05);
+}
+
+.test:not(:disabled):hover:active {
+    transform: scale(1.05) translateY(.125rem);
+}
+
+.test:focus {
+    outline: 0 solid transparent;
+}
+
+.test:focus:before {
+    border-width: .125rem;
+    content: "";
+    left: calc(-1*.375rem);
+    pointer-events: none;
+    position: absolute;
+    top: calc(-1*.375rem);
+    transition: border-radius;
+    user-select: none;
+}
+
+.test:focus:not(:focus-visible) {
+    outline: 0 solid transparent;
+}
+
+.test:not(:disabled):active {
+    transform: translateY(.125rem);
+}
+
+
 
 /* Style du formulaire de publication de touite */
 form {
@@ -231,7 +293,7 @@ form {
 .publier-touite {
     display: flex;
     justify-content: center;
-    max-width: auto;
+    max-width: 100%;
     margin-bottom: 10px;
     padding: 10px;
     background: linear-gradient(to bottom, rgba(95, 0, 101, 0.50), #161623);
@@ -276,6 +338,17 @@ form {
     font-size: 1rem;
     color: white;
 
+}
+
+.touit-actions > input[type="submit"] {
+    padding: 10px 20px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    cursor: pointer;
+    background-color: #4CAF50; /* Green color for "like" */
+    color: #fff; /* White text color */
+    border: none;
+    border-radius: 4px; /* Rounded corners */
+    margin-right: 10px; /* Add some space between buttons */
 }
 
 button {
@@ -323,8 +396,9 @@ button {
 
 .touit-actions {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
 }
 
 .touit-actions > button {
