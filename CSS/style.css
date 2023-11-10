@@ -44,15 +44,15 @@ html {
 }
 *::-webkit-scrollbar-track {
     border-radius: 5px;
-    background-color: #DFE9EB;
+    background-color: #161623;
 }
 
 *::-webkit-scrollbar-track:hover {
-    background-color: #B8C0C2;
+    background-color: #161623;
 }
 
 *::-webkit-scrollbar-track:active {
-    background-color: #B8C0C2;
+    background-color: #161623;
 }
 
 *::-webkit-scrollbar-thumb {
@@ -83,6 +83,7 @@ body {
 
 .form .signup {
     align-items: center;
+    width: 100%;
 }
 
 .wrapper {
@@ -252,6 +253,29 @@ form {
     background: #161623;
     font-size: 2rem;
     color: white;
+}
+
+.touits-container > form > input[type="text"] {
+    width: 45% !important;
+    margin: 5px 0px;
+    padding: 5px 0px;
+    border: 1px solid #ccc;
+    border-radius: 7px !important;
+    background: #161623;
+    font-size: 1rem;
+    color: white;
+}
+
+.touits-container > form > input[type="password"] {
+    width: 45% !important;
+    margin: 5px 0px;
+    padding: 5px 0px;
+    border: 1px solid #ccc;
+    border-radius: 7px !important;
+    background: #161623;
+    font-size: 1rem;
+    color: white;
+
 }
 
 button {

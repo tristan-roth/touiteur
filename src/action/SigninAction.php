@@ -21,8 +21,8 @@ class SigninAction extends Action {
             $contenuHtml = <<<HTML
             <h3>Connexion : </h3>
             <form action="" id="signin" method="POST">
-                <input type="text" id="nom" name="nom" placeholder="Votre nom d'utilisateur" style="color: black">
-                <input type="password" id="mdp" name="passwd" placeholder="Votre mot de passe" style="color: black">
+                <input type="text" id="nom" name="nom" placeholder="Votre nom d'utilisateur" autocomplete="off">
+                <input type="password" id="mdp" name="passwd" placeholder="Votre mot de passe" autocomplete="off">
                 <button type="submit">Valider</button>
             </form>
             HTML;

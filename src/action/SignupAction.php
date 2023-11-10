@@ -20,11 +20,11 @@ class SignupAction extends Action {
             $contenuHtml = <<<HTML
                 <h3>Inscription : </h3>
                 <form action="" id="signup" method="POST">
-                    <input type="text" id="nom" name="nom" placeholder="Votre nom" style="color: black">
-                    <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" style="color: black">
-                    <input type="text" id="uti" name="uti" placeholder="Votre nom d'utilisateur" style="color: black">
-                    <input type="password" id="mdp" name="mdp" placeholder="Votre mot de passe" style="color: black">
-                    <input type="password" id="mdp" name="mdp2" placeholder="Retapez votre mot de passe" style="color: black">
+                    <input type="text" id="nom" name="nom" placeholder="Votre nom">
+                    <input type="text" id="prenom" name="prenom" placeholder="Votre prénom">
+                    <input type="text" id="uti" name="uti" placeholder="Votre nom d'utilisateur">
+                    <input type="password" id="mdp" name="mdp" placeholder="Votre mot de passe">
+                    <input type="password" id="mdp" name="mdp2" placeholder="Retapez votre mot de passe"><br>
                     <button type="submit">Valider</button>
                 </form>
             HTML;
