@@ -54,7 +54,6 @@ class AfficheListeTouites extends Action
         if ($connecte) {
             $utilisateur = $_SESSION["login"];
             $id_connecte = RequetesBd::RecupererId($utilisateur);
-            var_dump($id_connecte);
             $recherche = $connexion->query(
                 <<<SQL
             SELECT count(id_utilisateur_suivi) as nombre FROM UtilisateurSuivi
@@ -118,7 +117,6 @@ class AfficheListeTouites extends Action
                     $memeuti = false;
                 } else {
                     $id_connecte = RequetesBd::RecupererId($utilisateur);
-                    var_dump($id_connecte);
                     $memeuti = $user === $id_connecte;
                 }
                 if ($connecte) {

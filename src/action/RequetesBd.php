@@ -15,7 +15,7 @@ class RequetesBd {
                 WHERE utilisateur = '$uti'
             SQL);
         $res = $data->fetch();
-        return $res["id_utilisateur"];
+        return $res["id_utilisateur"]+0;
     }
 
     static function recupererNom(int $uti) : string {
