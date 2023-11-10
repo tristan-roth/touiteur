@@ -7,7 +7,7 @@ use iutnc\touiteur\action\SigninAction;
 use iutnc\touiteur\action\AfficheListeTouites;
 use iutnc\touiteur\connection\ConnectionFactory;
 
-class FollowAction extends Action {
+class UnfollowAction extends Action {
 
     public function __construct() {
         parent::__construct();
@@ -27,9 +27,9 @@ class FollowAction extends Action {
                 
             } else {
                 $data = $connexion->query(<<<SQL
-                    INSERT INTO UtilisateurSuivi VALUES ($idsuit, $idsuivre)
+                    DELETE INTO UtilisateurSuivi VALUES ($idsuit, $idsuivre)
                     SQL);
-            $contenuHtml.="<h2>Vous suivez maintenant $idsuivre.</h2>";
+            $contenuHtml.="<h2>Vous ne pouvez pas supprimer un utilisateur que vous ne suivez pas $idsuivre.</h2>";
             }
         } else {
             $contenuHtml.= "<p>Connectez vous pour suivre un utilisateur.</p>";

@@ -28,6 +28,7 @@ class AfficheTouite extends Action {
 
         $contenuHtml = "";
         while ($res = $data->fetch()) {
+
             $message = htmlspecialchars($res['message_text']);
             $message = preg_replace('/#([^ #]+)/i', '<a href="?action=tag">$0</a>', $message);
             $contenuHtml .= "<p>$message</br></p>";
@@ -54,17 +55,18 @@ class AfficheTouite extends Action {
                 }
             }
             $contenuHtml .= <<<HTML
-            <div class="organisation">
-                <p>date : $res[date_touit]</p>
-                <p>rating : $res[rating]</p>
-                <a href="?action=auteur&user=$res[userr]">
-                    <p>Auteur : $res[id_user]</p>
-                </a>
-            </div>
+                <div class="organisation">
+                    <p>date : $res[date_touit]</p>
+                    <p>rating : $res[rating]</p>
+                    <a href="?action=auteur&user=$res[userr]">
+                        <p>Auteur : $res[id_user]</p>
+                    </a>
+                </div>
 
-                <form action="" method="post">
-                    <input type="submit" name="action" value="like">
-                    <input type="submit" name="action" value="dislike">
+                <form action="?action=like" method="post">
+                    <input type="hidden" name="id" value="$id">
+                    <input type="submit" name="type" value="like">
+                    <input type="submit" name="type" value="dislike">
                 </form>
             HTML;
         }
