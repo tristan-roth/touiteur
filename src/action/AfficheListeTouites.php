@@ -91,7 +91,6 @@ class AfficheListeTouites extends Action {
                         $id_connecte = RequetesBd::RecupererId($utilisateur);
                         $memeuti = $user === $id_connecte;
                     }
-                var_dump($memeuti);
                     if ($memeuti){
                     $contenuHtml.=<<<HTML
                 <div class="Delete">
