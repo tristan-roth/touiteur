@@ -8,6 +8,8 @@ class RatingTouites extends Action {
     
     public function execute(): string {
 
+        $contenuHtml = "";
+
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             ConnectionFactory::setConfig("config.ini");
