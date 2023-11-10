@@ -62,7 +62,6 @@ class AfficheTouiteUtilisateur extends Action {
                     </form>
                 </div>
                 HTML;
-            
             $contenuHtml .= <<<HTML
                 <form action="" method="post">
                     <input type="submit" name="action" value="like">
@@ -71,7 +70,6 @@ class AfficheTouiteUtilisateur extends Action {
             HTML;
         }
         unset($connexion);
-        
         return $contenuHtml;
     }
 }

@@ -12,6 +12,22 @@ class AfficheListeTouites extends Action {
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
+        if(isset($_GET['page']) && !empty($_GET['page'])){
+            $currentPage = (int) strip_tags($_GET['page']);
+        }else{
+            $currentPage = 1;
+        }
+        $query = $connexion->prepare("SELECT COUNT(*) AS nb_touits FROM `touits`;");
+        $query->execute();
+        $result = $query->fetch();
+        $nbTouits = (int) $result['nb_touits'];
+        //nb d'article par page
+        $parPage = 15;
+        //pages totales
+        $pages = ceil($nbTouits / $parPage);
+        //premier touit de la page
+        $premier = ($currentPage * $parPage) - $parPage;
+
         $connecte = isset($_SESSION["login"]);
         $data =<<<SQL
             SELECT Touits.id_touit,
@@ -23,11 +39,11 @@ class AfficheListeTouites extends Action {
                 LEFT JOIN Images on Touits.id_image = Images.id_image
                 INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
                 left join tagstouits on Touits.id_touit = tagstouits.id_touit
-                ORDER BY Touits.id_touit DESC
+                ORDER BY Touits.id_touit DESC LIMIT $premier, $parPage
             SQL;
 
 
-        if ($connecte) {
+        if ($connecte) {  //de la
 
             $utilisateur = $_SESSION["login"];
             $recherche = $connexion->query("select count(id_utilisateur_suivi) as nombre from utilisateursuivi
@@ -46,7 +62,7 @@ class AfficheListeTouites extends Action {
                 LEFT JOIN Images on Touits.id_image = Images.id_image
                 INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
                 left join tagstouits on Touits.id_touit = tagstouits.id_touit
-                ORDER BY Touits.id_touit DESC
+                ORDER BY Touits.id_touit DESC LIMIT $premier, $parPage
                 SQL;
 
 
@@ -54,12 +70,11 @@ class AfficheListeTouites extends Action {
         }
         else{
             $utilisateur = "";
-        }
+        } // a la ça sert a quoi ? (on duplique juste)
         $precedent =-1;
         $requete = $connexion->query($data);
         while ($res=$requete->fetch()) {
             $message = htmlspecialchars($res['message_text']);
-
             $id = $res['id_touit'];
             $user = $res['id_user'];
             $tag = $res['id_tag'];
@@ -69,14 +84,13 @@ class AfficheListeTouites extends Action {
             HTML;
 
             $message = preg_replace('/#([^ #]+)/i',$replacement, $message);
-
             $contenuHtml .=<<<HTML
                     <div class="tweet-box">
                         <a href="?action=detail&id=$id&user=$user">
                         <p>$message</p></a>
                         <div class="TestAlign">
                     HTML;
-
+                    //echo $contenuHtml;
                     if (!$connecte){
                         $memeuti = false;
                     }
@@ -137,8 +151,11 @@ class AfficheListeTouites extends Action {
             </div>
             HTML;
             $precedent = $id;
+            //var_dump($contenuHtml);
         }
     }
+    //var_dump($contenuHtml);
+
         unset($connexion);
         return $contenuHtml;
     }

@@ -18,6 +18,7 @@ use iutnc\touiteur\action\AfficheTouite;
 use iutnc\touiteur\action\FollowAction;
 
 use iutnc\touiteur\action\AlertAction;
+use iutnc\touiteur\connection\ConnectionFactory;
 
 class Dispatcheur {
 
@@ -152,7 +153,7 @@ class Dispatcheur {
                     </form>
             HTML;
         }
-
+        $pagination = Dispatcheur::pagination();
         echo <<<BEGINHTML
         <!DOCTYPE html>
         <html lang="fr">
@@ -178,6 +179,7 @@ class Dispatcheur {
                     <div class="tweets-container">
                         $this->contenuHtml
                     </div>
+                    $this->contenuHtml = $pagination;
                 </div>
                 
                 
@@ -189,5 +191,57 @@ class Dispatcheur {
         </body>
         </html>
         BEGINHTML;
+    }
+
+    public static function pagination(){
+        ConnectionFactory::setConfig("config.ini");
+        $connexion = ConnectionFactory::makeConnection();
+
+        // On détermine sur quelle page on se trouve
+        if(isset($_GET['page']) && !empty($_GET['page'])){
+            $currentPage = (int) strip_tags($_GET['page']);
+        }else{
+            $currentPage = 1;
+        }
+
+        // On détermine le nombre total de touits
+        $query = $connexion->prepare("SELECT COUNT(*) AS nb_touits FROM `touits`;");
+        $query->execute();
+        $result = $query->fetch();
+        $nbTouits = (int) $result['nb_touits'];
+
+        //nb d'article par page
+        $parPage = 15;
+        //pages totales
+        $pages = ceil($nbTouits / $parPage);
+        //premier touit de la page
+        $premier = ($currentPage * $parPage) - $parPage;
+
+        $query = $connexion->prepare("select * from touits order by id_touit desc limit $premier, $parPage");
+        $query->execute();
+        $nbTouits = $query->fetchAll();
+
+        $precedent = $currentPage-1;
+        $suivant = $currentPage+1;
+        $contenuHtml = <<<HTML
+        <nav>
+            <ul class="pagination">
+            <li class="page-item disabled">
+                <a href="?page=$precedent" class="page-link">Précédente</a>
+            </li>
+        HTML;
+        for($page = 1; $page <= $pages; $page++){
+            $contenuHtml .= <<<HTML
+            <li class="page-item"><a href="?page=$page" class="page-link">$page</a></li>
+            HTML;
+        }
+        $contenuHtml .= <<<HTML
+            <li class="page-item">
+                <a href="?page=$suivant" class="page-link">Suivante</a>
+            </li>
+            </ul>
+        </nav>
+        HTML;
+        return $contenuHtml;
     }
 }
