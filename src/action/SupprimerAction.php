@@ -19,10 +19,12 @@ class SupprimerAction extends Action{
         $res = $data->fetch();
         var_dump($res);
         $image = $res['image'];
+        var_dump($res['utilisateur']);
         if ($res['utilisateur'] === $_SESSION['login']){
             if ($image !== null){
                 $data = $connexion->prepare("delete from images where id_image = ?");
-                $data->execute([$image]);
+                $data->bindParam(1,$image);
+                $data->execute();
             }
             $data = $connexion->prepare("delete from touits where id_touit = ?");
             $data->execute([$id]);
