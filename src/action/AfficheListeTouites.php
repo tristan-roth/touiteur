@@ -76,10 +76,12 @@ class AfficheListeTouites extends Action {
                         <p>$message</p></a>
                         <div class="touit-actions">
                         <div class="rating">
-                        <form action="" method="post">
+                        <form action="?action=like" method="post">
+                            <input type="hidden" name="id" value="$id">
                             <input type="submit" name="action" value="like">
                             <input type="submit" name="action" value="dislike">
                         </form>
+                        
                         </div>
                     HTML;
                 if (!$connecte){

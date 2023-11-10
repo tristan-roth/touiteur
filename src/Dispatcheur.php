@@ -16,7 +16,7 @@ use iutnc\touiteur\action\SignupAction;
 use iutnc\touiteur\action\DeconnexionAction;
 use iutnc\touiteur\action\AfficheTouite;
 use iutnc\touiteur\action\FollowAction;
-
+use iutnc\touiteur\action\LikeDislikeAction;
 use iutnc\touiteur\action\AlertAction;
 
 class Dispatcheur {
@@ -83,6 +83,9 @@ class Dispatcheur {
             case "supprimer" :
                 $this->contenuHtml.=(new SupprimerAction())->execute();
                 break;
+
+            case 'like' :
+                $this->contenuHtml.=(new LikeDislikeAction())->execute();
 
             default :
                 $this->contenuHtml .= (new Accueil())->execute();
