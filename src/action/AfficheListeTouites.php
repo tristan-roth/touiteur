@@ -110,6 +110,8 @@ class AfficheListeTouites extends Action {
                 }
                 else{
                     $id_connecte = RequetesBd::RecupererId($utilisateur);
+                    var_dump($user);
+                    var_dump($id_connecte);
                     $memeuti = $user === $id_connecte;
                 }
                 if ($memeuti){
