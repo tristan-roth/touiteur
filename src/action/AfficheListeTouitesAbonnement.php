@@ -76,7 +76,7 @@ class AfficheListeTouitesAbonnement extends Action {
             $contenuHtml .=<<<HTML
                     <div class="touit-box">
                         <a href="?action=detail&id=$id&user=$user">
-                        <p>$message</p></a>
+                        <p>$message</p>
                         <div class="touit-actions">
                     HTML;
 
@@ -139,6 +139,7 @@ class AfficheListeTouitesAbonnement extends Action {
                         </form>
                 </div>
                 </div>
+                </a>
             </div>
             HTML;
             $precedent = $id;

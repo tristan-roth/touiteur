@@ -94,7 +94,7 @@ class AfficheListeTouites extends Action {
                 $contenuHtml .=<<<HTML
                     <div class="touit-box">
                         <a href="?action=detail&id=$id&user=$user">
-                        <p>$message</p></a>
+                        <p>$message</p>
                         <div class="touit-actions">
                         <div class="rating">
                         <form action="?action=like" method="post">
@@ -110,8 +110,6 @@ class AfficheListeTouites extends Action {
                 }
                 else{
                     $id_connecte = RequetesBd::RecupererId($utilisateur);
-                    var_dump($user);
-                    var_dump($id_connecte);
                     $memeuti = $user === $id_connecte;
                 }
                 if ($memeuti){
@@ -158,6 +156,7 @@ class AfficheListeTouites extends Action {
                 }
                 $contenuHtml .= <<<HTML
                 </div>
+                </a>
             </div>
             HTML;
                 $precedent = $id;
