@@ -22,32 +22,42 @@ class AfficheTouiteTag extends Action {
                 ORDER BY Touits.id_touit DESC
             SQL);
             
-        $html = "";
-        while ($res=$data->fetch()){
+        $contenuHtml = "";
+        while ($res = $data->fetch()) {
+
             $message = htmlspecialchars($res['message_text']);
-            $html .= "<p>$message</p>";
-            if ($res['image'] !== null){
+            $contenuHtml .= "<p>$message</p>";
+
+            if ($res['image'] !== null) {
                 $element = explode(".",$res['image']);
-                switch($element[count($element)-1]){
+
+                switch($element[count($element)-1]) {
                     case "mp4" :
-                        $html.='<video controls width="250">
-                        <source src="upload/'.$res['image'].'" type="video/mp4" />
-                        <a href="upload/'.$res['image'].'"></a>
-                        </video>';
+                        $contenuHtml .= <<<HTML
+                            <video controls width="250">
+                                <source src="upload/$res[image]" type="video/mp4" />
+                                <a href="upload/$res[image]"></a>
+                            </video>
+                            HTML;
                         break;
+
                     default :
-                        $html .= "<img src='upload/".$res['image']."' width='300px' ><br>";
+                        $contenuHtml .= <<<HTML
+                            <img src="upload/$res[image]" width="300px" ><br>
+                            HTML;
+                        break;
                 }
             }
-            $html .= <<<HTML
+            $contenuHtml .= <<<HTML
                 <form action="" method="post">
                     <input type="submit" name="action" value="like">
                     <input type="submit" name="action" value="dislike">
                 </form>
-            HTML;
+                HTML;
         }
         unset($connexion);
-        return $html;
+        
+        return $contenuHtml;
     }
 
 }

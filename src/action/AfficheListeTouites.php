@@ -11,6 +11,25 @@ class AfficheListeTouites extends Action {
         $contenuHtml = '';
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
+        // On détermine sur quelle page on se trouve
+        if(isset($_GET['page']) && !empty($_GET['page'])){
+            $currentPage = (int) strip_tags($_GET['page']);
+        }else{
+            $currentPage = 1;
+        }
+
+        // On détermine le nombre total de touits
+        $query = $connexion->prepare("SELECT COUNT(*) AS nb_touits FROM `touits`;");
+        $query->execute();
+        $result = $query->fetch();
+        $nbTouits = (int) $result['nb_touits'];
+
+        //nb d'article par page
+        $parPage = 15;
+        //pages totales
+        $pages = ceil($nbTouits / $parPage);
+        //premier touit de la page
+        $premier = ($currentPage * $parPage) - $parPage;
 
         $connecte = isset($_SESSION["login"]);
         $data =<<<SQL
@@ -23,7 +42,7 @@ class AfficheListeTouites extends Action {
                 LEFT JOIN Images on Touits.id_image = Images.id_image
                 INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
                 left join tagstouits on Touits.id_touit = tagstouits.id_touit
-                ORDER BY Touits.id_touit DESC
+                ORDER BY Touits.id_touit DESC LIMIT $premier, $parPage
             SQL;
 
 
@@ -46,7 +65,7 @@ class AfficheListeTouites extends Action {
                 LEFT JOIN Images on Touits.id_image = Images.id_image
                 INNER JOIN TouitsUtilisateur on Touits.id_touit = TouitsUtilisateur.id_touit
                 left join tagstouits on Touits.id_touit = tagstouits.id_touit
-                ORDER BY Touits.id_touit DESC
+                ORDER BY Touits.id_touit DESC LIMIT $premier, $parPage
                 SQL;
 
 
@@ -59,7 +78,6 @@ class AfficheListeTouites extends Action {
         $requete = $connexion->query($data);
         while ($res=$requete->fetch()) {
             $message = htmlspecialchars($res['message_text']);
-
             $id = $res['id_touit'];
             $user = $res['id_user'];
             $tag = $res['id_tag'];
@@ -68,7 +86,10 @@ class AfficheListeTouites extends Action {
                 <a href="?action=tag&tag=$tag">$0</a><a href="?action=detail&id=$id&user=$user">
             HTML;
 
-                $message = preg_replace('/#([^ #]+)/i',$replacement, $message);
+
+                //$message = htmlspecialchars_decode($message);
+                $message = htmlspecialchars(preg_replace('/#([^ #]+)/i',$replacement, htmlspecialchars_decode($message)));
+               // $message = htmlspecialchars($message);
 
                 $contenuHtml .=<<<HTML
                     <div class="touit-box">
