@@ -33,8 +33,8 @@ class AfficheListeTouitesAbonnement extends Action {
 
             $recherche = $connexion->query(<<<SQL
                 SELECT count(id_utilisateur_suivi) as nombre FROM UtilisateurSuivi
-                    INNER JOIN Utilisateur ON UtilisateurSuivi.id_utilisateur_suivi = Utilisateur.id_utilisateur
-                    WHERE Utilisateur.id_utilisateur = '$utilisateur'
+                    INNER JOIN Utilisateur ON UtilisateurSuivi.id_utilisateur_suit = Utilisateur.id_utilisateur
+                    WHERE Utilisateur.id_utilisateur = $id_uti;
                 SQL);
 
             $res = $recherche->fetch();
