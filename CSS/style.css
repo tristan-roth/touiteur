@@ -29,9 +29,45 @@ html {
     -ms-overflow-style: none;
 }
 
-html::-webkit-scrollbar {
-    display: none;
+
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #B36AF6 #DFE9EB;
 }
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+*::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: #161623;
+}
+
+*::-webkit-scrollbar-track:hover {
+    background-color: #161623;
+}
+
+*::-webkit-scrollbar-track:active {
+    background-color: #161623;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #B36AF6;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #B36AF6;
+}
+
+*::-webkit-scrollbar-thumb:active {
+    background-color: #B36AF6;
+}
+
 
 body {
     font-family: Arial, sans-serif;
@@ -47,6 +83,7 @@ body {
 
 .form .signup {
     align-items: center;
+    width: 100%;
 }
 
 .wrapper {
@@ -73,6 +110,7 @@ body {
     border: 1px solid #FFFFFF;
     border-top-style: none;
     border-bottom-style: none;
+    overflow-x: hidden;
 }
 .menu-droite {
     text-align: center;
@@ -215,6 +253,29 @@ form {
     background: #161623;
     font-size: 2rem;
     color: white;
+}
+
+.touits-container > form > input[type="text"] {
+    width: 45% !important;
+    margin: 5px 0px;
+    padding: 5px 0px;
+    border: 1px solid #ccc;
+    border-radius: 7px !important;
+    background: #161623;
+    font-size: 1rem;
+    color: white;
+}
+
+.touits-container > form > input[type="password"] {
+    width: 45% !important;
+    margin: 5px 0px;
+    padding: 5px 0px;
+    border: 1px solid #ccc;
+    border-radius: 7px !important;
+    background: #161623;
+    font-size: 1rem;
+    color: white;
+
 }
 
 button {
