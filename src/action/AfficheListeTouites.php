@@ -137,7 +137,7 @@ class AfficheListeTouites extends Action
     </form>
 </div>
 HTML;
-                } else if (RequetesBd::followDeja($id_connecte,$user)){
+                } else if (!RequetesBd::followDeja($id_connecte,$user)){
                     $contenuHtml .= <<<HTML
 <div class="Follow">
 <form action="?action=follow" class="suivre" method="POST">
