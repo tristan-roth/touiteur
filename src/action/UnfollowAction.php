@@ -29,7 +29,8 @@ class UnfollowAction extends Action {
                 $data = $connexion->query(<<<SQL
                     DELETE from UtilisateurSuivi where id_utilisateur_suit = $idsuit and id_utilisateur_suivi = $idsuivre
                     SQL);
-            $contenuHtml.="<h2>Vous avez supprimé $idsuivre de vos abonnements</h2>";
+            $nomfollow = RequetesBd::recupererNom($idsuivre);
+            $contenuHtml.="<h2>Vous avez supprimé $nomfollow de vos abonnements</h2>";
             }
         } else {
             $contenuHtml.= "<p>Vous ne pouvez pas vous désabonner sans compte</p>";
