@@ -92,11 +92,7 @@ class AfficheListeTouites extends Action
 
 
                 $contenuHtml .= <<<HTML
-<<<<<<< HEAD
-                                <a href="?action=detail&id=$id&user=$user">
-=======
                                 <a href="?action=detail&id=$id&user=$user" style="width: 100%">
->>>>>>> ee3a287c3d3fc7ebdd6873ae8e30742348efabc2
                                 <div class="touit-box">
                                 
                                 <p>$message</p>
