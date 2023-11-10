@@ -21,17 +21,23 @@ class FollowAction extends Action {
 
             $idsuivre = $_POST["user"] + 0;
             $idsuit = RequetesBd::recupererId($_SESSION["login"]);
-            
-            if (RequetesBd::followDeja($idsuit, $idsuivre)) {
-                $contenuHtml.="<h2>Vous suivez déjà cet utilisateur.</h2>";
-                
-            } else {
-                $data = $connexion->query(<<<SQL
-                    INSERT INTO UtilisateurSuivi VALUES ($idsuit, $idsuivre)
-                    SQL);
-                    $nomfollow = RequetesBd::recupererNom($idsuivre);
-            $contenuHtml.="<h2>Vous suivez maintenant $nomfollow.</h2>";
+            if($idsuit = $idsuivre){
+                $contenuHtml.="<h2>Vous ne pouvez pas vous suivre vous-mêmes.</h2>";
             }
+            else{
+                if (RequetesBd::followDeja($idsuit, $idsuivre)) {
+                    $contenuHtml.="<h2>Vous suivez déjà cet utilisateur.</h2>";
+                    
+                } else {
+                    $data = $connexion->query(<<<SQL
+                        INSERT INTO UtilisateurSuivi VALUES ($idsuit, $idsuivre)
+                        SQL);
+                        $nomfollow = RequetesBd::recupererNom($idsuivre);
+                $contenuHtml.="<h2>Vous suivez maintenant $nomfollow.</h2>";
+                }
+            }
+            
+            
         } else {
             $contenuHtml.= "<p>Connectez vous pour suivre un utilisateur.</p>";
             $contenuHtml.= (new SigninAction)->execute();
