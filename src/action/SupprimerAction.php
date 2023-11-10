@@ -8,7 +8,6 @@ class SupprimerAction extends Action{
 
     public function execute(): string
     {
-        ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
         $id = $_GET['id'];

@@ -7,7 +7,6 @@ use iutnc\touiteur\connection\ConnectionFactory;
 class AfficheTouiteTag extends Action {
 
     public function execute(): string {
-        ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
         $tag = $_GET['tag'];

@@ -17,7 +17,6 @@ class TouitAction extends Action {
         $contenuHtml = "";
         if (isset($_SESSION["login"])) {
 
-            ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
 
             /*

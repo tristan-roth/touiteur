@@ -12,7 +12,6 @@ class RatingTouites extends Action {
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-            ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
 
             $touiteId = $_POST["touiteId"];

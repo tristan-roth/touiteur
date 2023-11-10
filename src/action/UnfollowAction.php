@@ -16,7 +16,6 @@ class UnfollowAction extends Action {
 
         $contenuHtml = "";
         if (isset($_SESSION["login"])) {
-            ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
 
             $idsuivre = $_POST["user"] + 0;

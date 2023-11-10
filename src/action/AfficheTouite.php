@@ -9,7 +9,6 @@ class AfficheTouite extends Action {
     public function execute(): string
     {
         $id = $_GET['id'];
-        ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
         $data = $connexion->query(<<<SQL

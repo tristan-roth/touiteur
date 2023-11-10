@@ -9,7 +9,6 @@ class AfficheListeTouitesAbonnement extends Action {
 
     public function execute(): string {
         $contenuHtml = "";
-        ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
         $connecte = isset($_SESSION["login"]);

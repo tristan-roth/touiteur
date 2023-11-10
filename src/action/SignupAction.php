@@ -30,7 +30,6 @@ class SignupAction extends Action {
             HTML;
 
         } else if ($method === "POST") {
-            ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
 
             $mdp = $_POST["mdp"];

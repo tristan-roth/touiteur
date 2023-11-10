@@ -29,7 +29,6 @@ class SigninAction extends Action {
         }
         else if ($method === "POST") {
 
-            ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
 
             $data = $connexion->prepare(<<<SQL

@@ -7,7 +7,6 @@ use iutnc\touiteur\connection\ConnectionFactory;
 class RequetesBd {
 
     static function recupererId(string $uti) : int {
-        ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
         $data = $connexion->query(<<<SQL
@@ -19,7 +18,6 @@ class RequetesBd {
     }
 
     static function recupererNom(int $uti) : string {
-        ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
         $data = $connexion->query(<<<SQL
@@ -31,7 +29,6 @@ class RequetesBd {
     }
 
     static function followDeja(int $suiveur, int $suivi) : bool {
-        ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
         $data = $connexion->query(<<<SQL
@@ -43,7 +40,6 @@ class RequetesBd {
     }
 
     static function alike(int $id_touit,int $id_uti) : int {
-        ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
         $data = $connexion->query(<<<SQL
@@ -58,7 +54,6 @@ class RequetesBd {
     }
 
     static function modifRating(int $id_touit, int $id_uti, int $new_rating) {
-        ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
         $connexion->query(<<<SQL
@@ -69,7 +64,6 @@ class RequetesBd {
     }
 
     static function creerRating(int $id_touit, int $id_uti, int $new_rating) {
-        ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
         $connexion->query(<<<SQL

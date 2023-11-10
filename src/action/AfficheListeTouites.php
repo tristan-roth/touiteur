@@ -12,7 +12,6 @@ class AfficheListeTouites extends Action
     public function execute(): string
     {
         $contenuHtml = "";
-        ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
         // On détermine sur quelle page on se trouve
@@ -91,8 +90,9 @@ class AfficheListeTouites extends Action
                 $message = preg_replace('/#([^ #]+)/i',$replacement, $message);
                 //$message = htmlspecialchars($message);
 
+
                 $contenuHtml .= <<<HTML
-                                <a href="?action=detail&id=$id&user=$user"  style="width: 100%">
+                                <a href="?action=detail&id=$id&user=$user">
                                 <div class="touit-box">
                                 
                                 <p>$message</p>
@@ -112,6 +112,7 @@ class AfficheListeTouites extends Action
                     $id_connecte = RequetesBd::RecupererId($utilisateur);
                     $memeuti = $user === $id_connecte;
                 }
+                //affichage des boutons en fonction de la relation entre l'utilisateur et l'auteur du tweet. 
                 if ($connecte) {
                     if($memeuti){
                     $contenuHtml .= <<<HTML
