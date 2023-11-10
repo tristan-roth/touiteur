@@ -3,12 +3,15 @@
 namespace iutnc\touiteur\action;
 
 use iutnc\touiteur\connection\ConnectionFactory;
+use iutnc\touiteur\action\RequetesBd;
 
 class AfficheTouiteUtilisateur extends Action {
 
     public function execute(): string
     {
         $id = $_GET['user'];
+        $uti = RequetesBd::recupererNom($id);
+        var_dump($uti);
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
@@ -23,16 +26,15 @@ class AfficheTouiteUtilisateur extends Action {
                 ORDER BY touits.id_touit DESC
             SQL);
 
-        $contenuHtml = "";
+        $contenuHtml = "<h2>Touites de $uti</h2>";
         while ($res=$data->fetch()) {
             $idTouit = $res['id_touit'];
             $message = htmlspecialchars($res['message_text']);
             $contenuHtml .= <<<HTML
-                    <div class="tweet-box">
+                    <div class="touit-box">
                         <a href="?action=detail&id=$idTouit">
                         <p>$message</p></a>
-                        <div class="TestAlign">
-                    HTML;;
+            HTML;
 
             if ($res['image'] !== null) {
                 $element = explode(".",$res['image']);
@@ -67,6 +69,7 @@ class AfficheTouiteUtilisateur extends Action {
                     <input type="submit" name="action" value="like">
                     <input type="submit" name="action" value="dislike">
                 </form>
+            </div>
             HTML;
         }
         unset($connexion);
