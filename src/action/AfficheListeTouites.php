@@ -99,8 +99,8 @@ class AfficheListeTouites extends Action {
                         <div class="rating">
                         <form action="?action=like" method="post">
                             <input type="hidden" name="id" value="$id">
-                            <input type="submit" name="action" value="like">
-                            <input type="submit" name="action" value="dislike">
+                            <input type="submit" name="type" value="like">
+                            <input type="submit" name="type" value="dislike">
                         </form>
                         
                         </div>

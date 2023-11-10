@@ -73,7 +73,7 @@ class SignupAction extends Action {
                             $mdpHash = password_hash($_POST["mdp"], PASSWORD_DEFAULT, [
                                 "cost" => 12,
                             ]);
-                            $data=$connexion->prepare(<<<SQL
+                            $data = $connexion->prepare(<<<SQL
                                 INSERT INTO Utilisateur (
                                         utilisateur,
                                         passwd,

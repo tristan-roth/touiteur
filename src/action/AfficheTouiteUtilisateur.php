@@ -7,11 +7,10 @@ use iutnc\touiteur\action\RequetesBd;
 
 class AfficheTouiteUtilisateur extends Action {
 
-    public function execute(): string
-    {
+    public function execute(): string {
         $id = $_GET['user'];
         $uti = RequetesBd::recupererNom($id);
-        var_dump($uti);
+
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
 
@@ -31,9 +30,10 @@ class AfficheTouiteUtilisateur extends Action {
             $idTouit = $res['id_touit'];
             $message = htmlspecialchars($res['message_text']);
             $contenuHtml .= <<<HTML
-                    <div class="touit-box">
-                        <a href="?action=detail&id=$idTouit">
-                        <p>$message</p></a>
+                <div class="touit-box">
+                    <a href="?action=detail&id=$idTouit">
+                        <p>$message</p>
+                    </a>
             HTML;
 
             if ($res['image'] !== null) {
@@ -65,9 +65,10 @@ class AfficheTouiteUtilisateur extends Action {
                 </div>
                 HTML;
             $contenuHtml .= <<<HTML
-                <form action="" method="post">
-                    <input type="submit" name="action" value="like">
-                    <input type="submit" name="action" value="dislike">
+                <form action="?action=like" method="post">
+                    <input type="hidden" name="id" value="$id">
+                    <input type="submit" name="type" value="like">
+                    <input type="submit" name="type" value="dislike">
                 </form>
             </div>
             HTML;

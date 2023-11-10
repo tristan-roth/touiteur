@@ -110,7 +110,7 @@ class Dispatcheur {
 
         if (isset($_SESSION["login"])) {
             $estConnecteTexte = <<<HTML
-                <a href="?action=deconnecter">se déconnecter</a>
+                <a href="?action=deconnecter">Se déconnecter</a>
             HTML;
 
             $boiteTouit = <<<HTML

@@ -19,21 +19,20 @@ class FollowAction extends Action {
             ConnectionFactory::setConfig("config.ini");
             $connexion = ConnectionFactory::makeConnection();
 
-            $idsuivre = $_POST["user"]+0;
+            $idsuivre = $_POST["user"] + 0;
             $idsuit = RequetesBd::recupererId($_SESSION["login"]);
             
-            if (RequetesBd::followDeja($idsuit,$idsuivre)){
-                $contenuHtml.="<h2>Vous suivez déjà cet utilisateur</h2>";
-            }
-            else{
+            if (RequetesBd::followDeja($idsuit, $idsuivre)) {
+                $contenuHtml.="<h2>Vous suivez déjà cet utilisateur.</h2>";
+                
+            } else {
                 $data = $connexion->query(<<<SQL
-                INSERT INTO UtilisateurSuivi VALUES ($idsuit,$idsuivre)
-            SQL);
-            $contenuHtml.="<h2>Vous suivez maintenant $idsuivre</h2>";
+                    INSERT INTO UtilisateurSuivi VALUES ($idsuit, $idsuivre)
+                    SQL);
+            $contenuHtml.="<h2>Vous suivez maintenant $idsuivre.</h2>";
             }
-
         } else {
-            $contenuHtml.= "<p>Connectez vous pour suivre un utilisateur</p>";
+            $contenuHtml.= "<p>Connectez vous pour suivre un utilisateur.</p>";
             $contenuHtml.= (new SigninAction)->execute();
         }
         return $contenuHtml;
