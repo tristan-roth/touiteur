@@ -29,19 +29,45 @@ html {
     -ms-overflow-style: none;
 }
 
-*::-webkit-scrollbar {
-    width: 16px;
+
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #B36AF6 #DFE9EB;
 }
 
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
 *::-webkit-scrollbar-track {
-    background: #161623;
+    border-radius: 5px;
+    background-color: #DFE9EB;
+}
+
+*::-webkit-scrollbar-track:hover {
+    background-color: #B8C0C2;
+}
+
+*::-webkit-scrollbar-track:active {
+    background-color: #B8C0C2;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: #8f54a0;
-    border-radius: 20px;
-    border: 1px none #ffffff;
+    border-radius: 5px;
+    background-color: #B36AF6;
 }
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #B36AF6;
+}
+
+*::-webkit-scrollbar-thumb:active {
+    background-color: #B36AF6;
+}
+
 
 body {
     font-family: Arial, sans-serif;
@@ -83,6 +109,7 @@ body {
     border: 1px solid #FFFFFF;
     border-top-style: none;
     border-bottom-style: none;
+    overflow-x: hidden;
 }
 .menu-droite {
     text-align: center;
