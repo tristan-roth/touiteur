@@ -16,7 +16,7 @@ use iutnc\touiteur\action\SignupAction;
 use iutnc\touiteur\action\DeconnexionAction;
 use iutnc\touiteur\action\AfficheTouite;
 use iutnc\touiteur\action\FollowAction;
-
+use iutnc\touiteur\action\LikeDislikeAction;
 use iutnc\touiteur\action\AlertAction;
 
 class Dispatcheur {
@@ -84,6 +84,9 @@ class Dispatcheur {
                 $this->contenuHtml.=(new SupprimerAction())->execute();
                 break;
 
+            case 'like' :
+                $this->contenuHtml.=(new LikeDislikeAction())->execute();
+
             default :
                 $this->contenuHtml .= (new Accueil())->execute();
                 break;
@@ -140,7 +143,7 @@ class Dispatcheur {
                     <a href="?action=abo">Abonnements</a>
                     </div>
                     HTML;
-                    
+
             $estConnecteTexte = <<<HTML
                 <a href="?action=signin">Se connecter<br></a>
                 <a href="?action=signup">S'inscrire<br></a>
