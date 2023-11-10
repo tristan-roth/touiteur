@@ -29,7 +29,7 @@ class AfficheListeTouitesAbonnement extends Action {
         if ($connecte) {
 
             $utilisateur = $_SESSION["login"];
-            $id_uti = RequetesBd::recupererId($utilisateur) + 0;
+            $id_uti = RequetesBd::recupererId($utilisateur);
 
             $recherche = $connexion->query(<<<SQL
                 SELECT count(id_utilisateur_suivi) as nombre FROM UtilisateurSuivi
@@ -82,8 +82,7 @@ class AfficheListeTouitesAbonnement extends Action {
                 $contenuHtml .= <<<HTML
                     <div class="touit-box">
                         <a href="?action=detail&id=$id&user=$user">
-                            <p>$message</p>
-                        </a>
+                        <p>$message</p>
                         <div class="touit-actions">
                     HTML;
 
@@ -121,7 +120,7 @@ class AfficheListeTouitesAbonnement extends Action {
                             $contenuHtml .= <<<HTML
                                 <video controls width="250">
                                     <source src="upload/$res[image]" type="video/mp4" />
-                                    <a href="upload/$res[image]"></a>
+                                    <a href="upload/$res[image]">
                                 </video>
                                 HTML;
                             break;
@@ -142,6 +141,7 @@ class AfficheListeTouitesAbonnement extends Action {
                                 </form>
                             </div>
                         </div>
+                        </a>
                     </div>
                 HTML;
                 $precedent = $id;

@@ -24,8 +24,6 @@ class SupprimerAction extends Action{
 
         $res = $data->fetch();
 
-        var_dump($res);
-        var_dump($res['utilisateur']);
 
         $image = $res['image'];
         if ($res['utilisateur'] === $_SESSION['login']) {
