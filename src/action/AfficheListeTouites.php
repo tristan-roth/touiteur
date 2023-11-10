@@ -106,6 +106,7 @@ class AfficheListeTouites extends Action
                                 
                                 <p>$message</p>
                                 <div class="touit-actions">
+                                <div class="AlignButton">
                                     <div class="rating">
                                         <form action="?action=like" method="post">
                                             <input type="hidden" name="id" value="$id">
@@ -123,22 +124,22 @@ class AfficheListeTouites extends Action
                 if ($connecte) {
                     if($memeuti){
                     $contenuHtml .= <<<HTML
-<div class="Delete">
-    <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
-        <input type="hidden" name="id" value="$id">
-        <input type="submit" class="test" value="Supprimer" name="button">
-    </form>
-</div>
-HTML;
+                    <div class="Delete">
+                        <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
+                            <input type="hidden" name="id" value="$id">
+                            <input type="submit" class="test" value="Supprimer" name="button">
+                        </form>
+                    </div>
+                    HTML;
                 } else if (RequetesBd::followDeja($id_connecte,$user)){
                     $contenuHtml .= <<<HTML
-<div class="Follow">
-    <form action="?action=delete" class="suivre" method="POST">
-        <input type="hidden" name="user" value="$user">
-        <input type="submit" class="test" value="se désabonner" name="mybutton">
-    </form>
-</div>
-HTML;
+                    <div class="Follow">
+                        <form action="?action=delete" class="suivre" method="POST">
+                            <input type="hidden" name="user" value="$user">
+                            <input type="submit" class="test" value="se désabonner" name="mybutton">
+                        </form>
+                    </div>
+                    HTML;
                 }
                 else{
                     $contenuHtml .= <<<HTML
@@ -152,14 +153,14 @@ HTML;
                 }
             }
             else{
-                        $contenuHtml .= <<<HTML
-<div class="Follow">
-    <form action="?action=follow" class="suivre" method="POST">
-        <input type="hidden" name="user" value="$user">
-        <input type="submit" class="test" value="suivre" name="mybutton">
-    </form>
-</div>
-HTML;
+                $contenuHtml .= <<<HTML
+                <div class="Follow">
+                    <form action="?action=follow" class="suivre" method="POST">
+                        <input type="hidden" name="user" value="$user">
+                        <input type="submit" class="test" value="suivre" name="mybutton">
+                    </form>
+                </div>
+                HTML;
             }
 
                 if ($res["image"] !== null) {
@@ -184,6 +185,7 @@ HTML;
                 }
                 $contenuHtml .= <<<HTML
                                     </div>
+                            </div>
                             </div>
                             </a>
                             HTML;

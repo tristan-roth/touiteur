@@ -378,6 +378,7 @@ button {
     background: #161623;
     border: 1px hidden #E1D9D1;
     border-bottom-style: solid;
+    
     margin-bottom: 5px;
     display: flex;
     align-items: stretch;
@@ -408,7 +409,7 @@ button {
 
 .AlignButton {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
 }
 
