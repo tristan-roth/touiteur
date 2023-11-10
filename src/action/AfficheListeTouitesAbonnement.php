@@ -53,7 +53,7 @@ class AfficheListeTouitesAbonnement extends Action {
                         LEFT JOIN TagsTouits ON Touits.id_touit = TagsTouits.id_touit
                         INNER JOIN UtilisateurSuivi ON TouitsUtilisateur.id_utilisateur = UtilisateurSuivi.id_utilisateur_suivi
                         WHERE UtilisateurSuivi.id_utilisateur_suivi in
-                            (SELECT id_utilisateur_suivi FROM utilisateursuivi
+                            (SELECT id_utilisateur_suivi FROM UtilisateurSuivi
                                 WHERE id_utilisateur_suit = $id_uti)
                         ORDER BY Touits.id_touit DESC
                 SQL;
