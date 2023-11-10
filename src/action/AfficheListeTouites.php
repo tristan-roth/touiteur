@@ -77,7 +77,7 @@ class AfficheListeTouites extends Action {
         $precedent =-1;
         $requete = $connexion->query($data);
         while ($res=$requete->fetch()) {
-            $message = htmlspecialchars($res['message_text']);
+            //$message = htmlspecialchars($res['message_text']);
             $id = $res['id_touit'];
             $user = $res['id_user'];
             $tag = $res['id_tag'];
@@ -88,7 +88,7 @@ class AfficheListeTouites extends Action {
 
 
                 //$message = htmlspecialchars_decode($message);
-                $message = htmlspecialchars(preg_replace('/#([^ #]+)/i',$replacement, htmlspecialchars_decode($message)));
+                $message = htmlspecialchars(preg_replace('/#([^ #]+)/i',$replacement, htmlspecialchars_decode($res['message_text'])));
                // $message = htmlspecialchars($message);
 
                 $contenuHtml .=<<<HTML
