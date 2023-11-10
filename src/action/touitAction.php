@@ -87,6 +87,7 @@ class TouitAction extends Action {
 
                         $data->execute([$tag]);
                         $resExist = $data->fetch();
+                        var_dump($resExist);
 
                         if ($resExist === false) {
 
