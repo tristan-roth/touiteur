@@ -4,16 +4,24 @@ namespace iutnc\touiteur\action;
 
 use iutnc\touiteur\connection\ConnectionFactory;
 
-class AfficheTouiteTag extends Action{
+class AfficheTouiteTag extends Action {
 
     public function execute(): string {
-        $tag = $_GET['tag'];
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-        $data = $connexion->query("select touits.id_touit, message_text, images.image_path as image from touits 
-                                   left join images on touits.id_image = images.id_image
-                                   inner join tagstouits on touits.id_touit = tagstouits.id_touit
-                                   where tagstouits.id_tag = $tag");
+
+        $tag = $_GET['tag'];
+        $data = $connexion->query(<<<SQL
+            SELECT Touits.id_touit,
+                    message_text,
+                    Images.image_path as image
+                FROM Touits
+                LEFT JOIN Images ON Touits.id_image = Images.id_image
+                INNER JOIN TagsTouits ON Touits.id_touit = TagsTouits.id_touit
+                WHERE TagsTouits.id_tag = $tag
+                ORDER BY Touits.id_touit DESC
+            SQL);
+            
         $html = "";
         while ($res=$data->fetch()){
             $message = htmlspecialchars($res['message_text']);
