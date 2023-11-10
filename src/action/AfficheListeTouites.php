@@ -85,12 +85,6 @@ class AfficheListeTouites extends Action
         }
         $precedent = -1;
         $requete = $connexion->query($data);
-        while ($res = $requete->fetch()) {
-            $message = htmlspecialchars($res["message_text"]);
-            $id = $res["id_touit"];
-            $user = $res["id_user"];
-            var_dump($user);
-            $tag = $res["id_tag"];
 
         while ($res=$requete->fetch()) {
             //$message = htmlspecialchars($res['message_text']);
@@ -99,12 +93,12 @@ class AfficheListeTouites extends Action
             $tag = $res['id_tag'];
             if ($precedent!==$id){
                 $replacement = <<<HTML
-                <a href="?action=tag&tag=$tag">$0</a><a href="?action=detail&id=$id&user=$user">
+                <a href="?action=tag&tag=$tag">$0</a>
                 HTML;
 
 
-                //$message = htmlspecialchars_decode($message);
-                $message = htmlspecialchars(preg_replace('/#([^ #]+)/i',$replacement, htmlspecialchars_decode($res['message_text'])));
+                $message = htmlspecialchars_decode($res['message_text']);
+                $message = preg_replace('/#([^ #]+)/i',$replacement, $message);
                 //$message = htmlspecialchars($message);
 
                 $contenuHtml .= <<<HTML
@@ -192,5 +186,4 @@ HTML;
         unset($connexion);
         return $contenuHtml;
     }
-}
 }
