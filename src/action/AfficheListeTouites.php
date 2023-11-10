@@ -11,16 +11,19 @@ class AfficheListeTouites extends Action {
         $contenuHtml = '';
         ConnectionFactory::setConfig("config.ini");
         $connexion = ConnectionFactory::makeConnection();
-
+        // On détermine sur quelle page on se trouve
         if(isset($_GET['page']) && !empty($_GET['page'])){
             $currentPage = (int) strip_tags($_GET['page']);
         }else{
             $currentPage = 1;
         }
+
+        // On détermine le nombre total de touits
         $query = $connexion->prepare("SELECT COUNT(*) AS nb_touits FROM `touits`;");
         $query->execute();
         $result = $query->fetch();
         $nbTouits = (int) $result['nb_touits'];
+
         //nb d'article par page
         $parPage = 15;
         //pages totales
@@ -43,7 +46,7 @@ class AfficheListeTouites extends Action {
             SQL;
 
 
-        if ($connecte) {  //de la
+        if ($connecte) {
 
             $utilisateur = $_SESSION["login"];
             $recherche = $connexion->query("select count(id_utilisateur_suivi) as nombre from utilisateursuivi
@@ -70,7 +73,7 @@ class AfficheListeTouites extends Action {
         }
         else{
             $utilisateur = "";
-        } // a la ça sert a quoi ? (on duplique juste)
+        }
         $precedent =-1;
         $requete = $connexion->query($data);
         while ($res=$requete->fetch()) {
@@ -84,7 +87,10 @@ class AfficheListeTouites extends Action {
             HTML;
 
 
-                $message = preg_replace('/#([^ #]+)/i',$replacement, $message);
+                //$message = htmlspecialchars_decode($message);
+                $message = htmlspecialchars(preg_replace('/#([^ #]+)/i',$replacement, htmlspecialchars_decode($message)));
+               // $message = htmlspecialchars($message);
+
                 $contenuHtml .=<<<HTML
                     <div class="touit-box">
                         <a href="?action=detail&id=$id&user=$user">
@@ -108,24 +114,25 @@ class AfficheListeTouites extends Action {
                 }
                 if ($memeuti){
                     $contenuHtml.=<<<HTML
-                    <div class="Delete">
-                        <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
-                            <input type="hidden" name="id" value="$id">
-                            <input type="submit" value="Supprimer" name="button">
-                        </form>
-                    </div>
+                <div class="Delete">
+                    <form action="?action=supprimer&id=$id" class="supprimer" method="POST">
+                        <input type="hidden" name="id" value="$id">
+                        <input type="submit" value="Supprimer" name="button">
+                    </form>
+                </div>
                 HTML;
                 }
                 else{
                     $contenuHtml.=<<<HTML
-                    <div class="Follow">
-                        <form action="?action=follow" class="suivre" method="POST">
-                            <input type="hidden" name="user" value="$user">
-                            <input type="submit" value="Suivre" name="mybutton">
-                        </form>
-                    </div>
+                <div class="Follow">
+                    <form action="?action=follow" class="suivre" method="POST">
+                        <input type="hidden" name="user" value="$user">
+                        <input type="submit" value="Suivre" name="mybutton">
+                    </form>
+                </div>
                 HTML;
                 }
+
 
                 if ($res['image'] !== null) {
                     $element = explode(".",$res['image']);
@@ -133,17 +140,17 @@ class AfficheListeTouites extends Action {
                     switch($element[count($element)-1]) {
                         case "mp4" :
                             $contenuHtml .= <<<HTML
-                            <video controls width="250">
-                                <source src="upload/$res[image]" type="video/mp4" />
-                                <a href="upload/$res[image]"></a>
-                            </video>
-                            HTML;
+                        <video controls width="250">
+                            <source src="upload/$res[image]" type="video/mp4" />
+                            <a href="upload/$res[image]"></a>
+                        </video>
+                        HTML;
                             break;
 
                         default :
                             $contenuHtml .= <<<HTML
-                                <img src="upload/$res[image]" width="300px" ><br>
-                            HTML;
+                            <img src="upload/$res[image]" width="300px" ><br>
+                        HTML;
                             break;
                     }
                 }
@@ -151,10 +158,10 @@ class AfficheListeTouites extends Action {
                 </div>
             </div>
             HTML;
-
                 $precedent = $id;
             }
         }
+
         unset($connexion);
         return $contenuHtml;
     }

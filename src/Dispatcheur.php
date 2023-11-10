@@ -172,7 +172,7 @@ class Dispatcheur {
                     <div class="touits-container">
                         $this->contenuHtml
                     </div>
-                    $this->contenuHtml = $pagination;
+                    $pagination
                 </div>
                 
                 
@@ -219,22 +219,28 @@ class Dispatcheur {
         $contenuHtml = <<<HTML
         <nav>
             <ul class="pagination">
-            <li class="page-item disabled">
+        HTML;
+        if ($currentPage > 1) {
+            $contenuHtml .= <<<HTML
+            <li class="page-item">
                 <a href="?page=$precedent" class="page-link">Précédente</a>
             </li>
-        HTML;
+            HTML;
+        }
         for($page = 1; $page <= $pages; $page++){
             $contenuHtml .= <<<HTML
             <li class="page-item"><a href="?page=$page" class="page-link">$page</a></li>
             HTML;
         }
-        $contenuHtml .= <<<HTML
-            <li class="page-item">
-                <a href="?page=$suivant" class="page-link">Suivante</a>
-            </li>
-            </ul>
-        </nav>
+        if ($currentPage <= $pages-1) {
+            $contenuHtml .= <<<HTML
+                <li class="page-item">
+                    <a href="?page=$suivant" class="page-link">Suivante</a>
+                </li>
+                </ul>
+            </nav>
         HTML;
+        }
         return $contenuHtml;
     }
 }
