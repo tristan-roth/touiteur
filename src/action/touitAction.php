@@ -62,6 +62,8 @@ class TouitAction extends Action {
                             INSERT INTO Images(image_path) VALUES (?)
                         SQL);
                         $data->execute([$file]);
+                        $id_image = $connexion->lastInsertId();
+                        
                     }
                     $data = $connexion->prepare(<<<SQL
                         INSERT INTO Touits(message_text, rating, id_image) VALUES (?, 0, ?)

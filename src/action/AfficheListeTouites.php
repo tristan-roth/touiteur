@@ -54,7 +54,6 @@ class AfficheListeTouites extends Action
         if ($connecte) {
             $utilisateur = $_SESSION["login"];
             $id_connecte = RequetesBd::RecupererId($utilisateur);
-            var_dump($id_connecte);
             $recherche = $connexion->query(
                 <<<SQL
             SELECT count(id_utilisateur_suivi) as nombre FROM UtilisateurSuivi
@@ -102,8 +101,9 @@ class AfficheListeTouites extends Action
                 //$message = htmlspecialchars($message);
 
                 $contenuHtml .= <<<HTML
-                                <div class="touit-box">
                                 <a href="?action=detail&id=$id&user=$user">
+                                <div class="touit-box">
+                                
                                 <p>$message</p>
                                 <div class="touit-actions">
                                     <div class="rating">
@@ -118,7 +118,6 @@ class AfficheListeTouites extends Action
                     $memeuti = false;
                 } else {
                     $id_connecte = RequetesBd::RecupererId($utilisateur);
-                    var_dump($id_connecte);
                     $memeuti = $user === $id_connecte;
                 }
                 if ($connecte) {
@@ -131,19 +130,8 @@ class AfficheListeTouites extends Action
     </form>
 </div>
 HTML;
-                } else if (!RequetesBd::followDeja($id_connecte,$user)){
+                } else if (RequetesBd::followDeja($id_connecte,$user)){
                     $contenuHtml .= <<<HTML
-<div class="Follow">
-<form action="?action=follow" class="suivre" method="POST">
-    <input type="hidden" name="user" value="$user">
-    <input type="submit" value="Suivre" name="mybutton">
-</form>
-</div>
-HTML;
-                }
-                    
-                    else{
-                        $contenuHtml .= <<<HTML
 <div class="Follow">
     <form action="?action=delete" class="suivre" method="POST">
         <input type="hidden" name="user" value="$user">
@@ -151,9 +139,28 @@ HTML;
     </form>
 </div>
 HTML;
-                    }
-
                 }
+                else{
+                    $contenuHtml .= <<<HTML
+                    <div class="Follow">
+                        <form action="?action=follow" class="suivre" method="POST">
+                            <input type="hidden" name="user" value="$user">
+                            <input type="submit" value="suivre" name="mybutton">
+                        </form>
+                    </div>
+                    HTML;
+                }
+            }
+            else{
+                        $contenuHtml .= <<<HTML
+<div class="Follow">
+    <form action="?action=follow" class="suivre" method="POST">
+        <input type="hidden" name="user" value="$user">
+        <input type="submit" value="suivre" name="mybutton">
+    </form>
+</div>
+HTML;
+            }
 
                 if ($res["image"] !== null) {
                     $element = explode(".", $res["image"]);
@@ -177,8 +184,8 @@ HTML;
                 }
                 $contenuHtml .= <<<HTML
                                     </div>
-                                </a>
                             </div>
+                            </a>
                             HTML;
                 $precedent = $id;
             }

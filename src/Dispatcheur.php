@@ -19,6 +19,7 @@ use iutnc\touiteur\action\FollowAction;
 use iutnc\touiteur\action\LikeDislikeAction;
 use iutnc\touiteur\action\AlertAction;
 use iutnc\touiteur\connection\ConnectionFactory;
+use iutnc\touiteur\action\UnfollowAction;
 
 class Dispatcheur {
 
@@ -87,6 +88,10 @@ class Dispatcheur {
 
             case 'like' :
                 $this->contenuHtml.=(new LikeDislikeAction())->execute();
+                break;
+            
+            case "delete" : 
+                $this->contenuHtml.=(new UnfollowAction)->execute();
 
             default :
                 $this->contenuHtml .= (new Accueil())->execute();

@@ -22,17 +22,17 @@ class UnfollowAction extends Action {
             $idsuivre = $_POST["user"] + 0;
             $idsuit = RequetesBd::recupererId($_SESSION["login"]);
             
-            if (RequetesBd::followDeja($idsuit, $idsuivre)) {
+            if (!RequetesBd::followDeja($idsuit, $idsuivre)) {
                 $contenuHtml.="<h2>Vous suivez déjà cet utilisateur.</h2>";
                 
             } else {
                 $data = $connexion->query(<<<SQL
-                    DELETE from UtilisateurSuivi VALUES ($idsuit, $idsuivre)
+                    DELETE from UtilisateurSuivi where id_utilisateur_suit = $idsuit and id_utilisateur_suivi = $idsuivre
                     SQL);
-            $contenuHtml.="<h2>Vous ne pouvez pas supprimer un utilisateur que vous ne suivez pas $idsuivre.</h2>";
+            $contenuHtml.="<h2>Vous avez supprimé $idsuivre de vos abonnements</h2>";
             }
         } else {
-            $contenuHtml.= "<p>Connectez vous pour suivre un utilisateur.</p>";
+            $contenuHtml.= "<p>Vous ne pouvez pas vous désabonner sans compte</p>";
             $contenuHtml.= (new SigninAction)->execute();
         }
         return $contenuHtml;
